@@ -1,0 +1,85 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as AutocompLiteStories from "./AutocompLite.stories";
+
+<Meta of={AutocompLiteStories} />
+
+## useAutocomplete
+
+We need data, given an Array of `T` (any shape) we can use a mapper function to build the `full` search query .
+
+```ts
+const PLACES = [
+  {
+    id: "paris",
+    city: "Paris",
+    state: "Île-de-France",
+    country: "France",
+    continent: "Europe",
+  },
+  //...
+];
+
+const mapper = (p: (typeof demoPlaces)[number]): AutocompLiteOption => ({
+  id: p.id,
+  city: p.city,
+  state: p.state || "",
+  country: p.country,
+  continent: p.continent,
+  full: `${p.city}${p.state ? `, ${p.state}` : ""}, ${p.country}`,
+});
+
+const {
+  selected,
+  liveMessage,
+  filteredOptions,
+  toggleOption,
+  query,
+  setQuery,
+  showPopover,
+  setPopover,
+} = useAutocomplete({
+  thing: PLACES,
+  mapper,
+  initialQuery: "",
+  multi: true,
+});
+```
+
+## AutocompLite
+
+```tsx
+<AutocompLite
+  debug
+  placeholder="Search destinations"
+  id="destinations-autcompLite"
+  toggleOption={toggleOption}
+  options={filteredOptions}
+  query={query}
+  setQuery={setQuery}
+  selected={selected}
+  onToggle={() => setPopover((prev) => !prev)}
+  showPopover={showPopover}
+>
+  {({ input }) => {
+    return (
+      <Group
+        start={<label htmlFor="destinations-autcompLite">Go</label>}
+        startWidth={"80px"}
+        endWidth={"40px"}
+        end={
+          showPopover ? (
+            <IconChevronUp size={28} />
+          ) : (
+            <IconChevronDown size={28} />
+          )
+        }
+      >
+        {input}
+      </Group>
+    );
+  }}
+</AutocompLite>
+```
+
+<Canvas of={AutocompLiteStories.Destinations} />

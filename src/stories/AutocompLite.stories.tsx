@@ -1,0 +1,279 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import {
+  GoChevronDown as IconChevronDown,
+  GoChevronUp as IconChevronUp,
+} from "react-icons/go";
+import AutocompLite from "../Inspired/AutocompLite";
+import type { AutocompLiteOption } from "../Inspired/AutocompLite/interfaces";
+import useAutocomplete from "../Inspired/AutocompLite/useAutocomplite";
+import Group from "../Dumb/Group";
+import Chips from "../Inspired/AutocompLite/Chips";
+
+const demoPlaces = [
+  {
+    id: "paris",
+    city: "Paris",
+    state: "Île-de-France",
+    country: "France",
+    continent: "Europe",
+  },
+  {
+    id: "london",
+    city: "London",
+    state: "England",
+    country: "United Kingdom",
+    continent: "Europe",
+  },
+  {
+    id: "newyork",
+    city: "New York",
+    state: "New York",
+    country: "United States",
+    continent: "North America",
+  },
+  {
+    id: "tokyo",
+    city: "Tokyo",
+    state: "Tokyo",
+    country: "Japan",
+    continent: "Asia",
+  },
+  {
+    id: "rome",
+    city: "Rome",
+    state: "Lazio",
+    country: "Italy",
+    continent: "Europe",
+  },
+  {
+    id: "barcelona",
+    city: "Barcelona",
+    state: "Catalonia",
+    country: "Spain",
+    continent: "Europe",
+  },
+  {
+    id: "istanbul",
+    city: "Istanbul",
+    state: "Istanbul",
+    country: "Turkey",
+    continent: "Europe/Asia",
+  },
+  {
+    id: "dubai",
+    city: "Dubai",
+    state: "Dubai",
+    country: "United Arab Emirates",
+    continent: "Asia",
+  },
+  {
+    id: "bali",
+    city: "Denpasar",
+    state: "Bali",
+    country: "Indonesia",
+    continent: "Asia",
+  },
+  {
+    id: "singapore",
+    city: "Singapore",
+    state: "",
+    country: "Singapore",
+    continent: "Asia",
+  },
+  {
+    id: "sydney",
+    city: "Sydney",
+    state: "New South Wales",
+    country: "Australia",
+    continent: "Oceania",
+  },
+  {
+    id: "amsterdam",
+    city: "Amsterdam",
+    state: "North Holland",
+    country: "Netherlands",
+    continent: "Europe",
+  },
+  {
+    id: "losangeles",
+    city: "Los Angeles",
+    state: "California",
+    country: "United States",
+    continent: "North America",
+  },
+  {
+    id: "bangkok",
+    city: "Bangkok",
+    state: "",
+    country: "Thailand",
+    continent: "Asia",
+  },
+  {
+    id: "hongkong",
+    city: "Hong Kong",
+    state: "",
+    country: "China SAR",
+    continent: "Asia",
+  },
+  {
+    id: "sanfrancisco",
+    city: "San Francisco",
+    state: "California",
+    country: "United States",
+    continent: "North America",
+  },
+  {
+    id: "lisbon",
+    city: "Lisbon",
+    state: "",
+    country: "Portugal",
+    continent: "Europe",
+  },
+  {
+    id: "prague",
+    city: "Prague",
+    state: "",
+    country: "Czech Republic",
+    continent: "Europe",
+  },
+  {
+    id: "vienna",
+    city: "Vienna",
+    state: "",
+    country: "Austria",
+    continent: "Europe",
+  },
+  {
+    id: "capetown",
+    city: "Cape Town",
+    state: "Western Cape",
+    country: "South Africa",
+    continent: "Africa",
+  },
+  {
+    id: "marrakech",
+    city: "Marrakech",
+    state: "",
+    country: "Morocco",
+    continent: "Africa",
+  },
+  {
+    id: "rio",
+    city: "Rio de Janeiro",
+    state: "Rio de Janeiro",
+    country: "Brazil",
+    continent: "South America",
+  },
+  {
+    id: "delhi",
+    city: "Delhi",
+    state: "",
+    country: "India",
+    continent: "Asia",
+  },
+  {
+    id: "seoul",
+    city: "Seoul",
+    state: "",
+    country: "South Korea",
+    continent: "Asia",
+  },
+  {
+    id: "mexicocity",
+    city: "Mexico City",
+    state: "",
+    country: "Mexico",
+    continent: "North America",
+  },
+];
+
+// Example mapper for the demo shape (T = typeof demoPlaces[number])
+const mapper = (p: (typeof demoPlaces)[number]): AutocompLiteOption => ({
+  id: p.id,
+  city: p.city,
+  state: p.state || "",
+  country: p.country,
+  continent: p.continent,
+  full: `${p.city}${p.state ? `, ${p.state}` : ""}, ${p.country}`,
+});
+
+const meta = {
+  title: "Dumb/AutocompLite",
+  parameters: {
+    layout: "centered",
+  },
+} satisfies Meta<typeof AutocompLite>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Destinations: Story = {
+  render: function Render() {
+    const {
+      selected,
+      liveMessage,
+      filteredOptions,
+      toggleOption,
+      query,
+      setQuery,
+      showPopover,
+      setPopover,
+    } = useAutocomplete({
+      thing: demoPlaces,
+      mapper,
+      initialQuery: "",
+      multi: true,
+    });
+
+    console.log({ selected });
+    return (
+      <>
+        {(liveMessage ?? "").trim().length > 0 && (
+          <div className="offscreen">{liveMessage}</div>
+        )}
+        <Chips
+          label="city"
+          selected={selected}
+          onRemove={(option) => toggleOption(option)}
+          limit={2}
+        />
+        <br />
+        <AutocompLite
+          placeholder="Search destinations"
+          id="destinations-autcompLite"
+          toggleOption={toggleOption}
+          options={filteredOptions}
+          query={query}
+          setQuery={setQuery}
+          selected={selected}
+          onToggle={() => setPopover((prev) => !prev)}
+          showPopover={showPopover}
+        >
+          {({ input }) => {
+            return (
+              <Group
+                start={<label htmlFor="destinations-autcompLite">Go</label>}
+                startWidth={"80px"}
+                endWidth={"40px"}
+                end={
+                  showPopover ? (
+                    <IconChevronUp size={28} />
+                  ) : (
+                    <IconChevronDown size={28} />
+                  )
+                }
+              >
+                {input}
+              </Group>
+            );
+          }}
+        </AutocompLite>
+        {filteredOptions.length === 0 ? (
+          <div>
+            <p>No destinations match</p>
+          </div>
+        ) : null}
+      </>
+    );
+  },
+};

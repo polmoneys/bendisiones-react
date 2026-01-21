@@ -1,0 +1,13 @@
+.textInput {
+    /* iOS */
+    --input-font-size: max(16px, 1em);
+    font-size: --input-font-size;
+    padding: 0 var(--gap-2);
+    height: var(--min-height);
+    border: var(--border);
+}
+
+/*::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
+}*/

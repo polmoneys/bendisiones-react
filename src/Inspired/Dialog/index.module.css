@@ -1,0 +1,99 @@
+.dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: var(--border-radius);
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    width: min(750px, 80vw);
+    min-height: min(400px, 60vh);
+}
+
+.overlay {
+    background-color: var(--tappable-overlay-bg);
+    backdrop-filter: var(--tappable-overlay-backdrop);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: var(--overlay-z);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+.tray {
+    --tray-min-height: 200px;
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    width: min(750px, calc(100% - 1em));
+    height: var(--tray-min-height);
+    max-height: min(var(--tray-min-height), 80vh);
+    /*max-height trumps height, but not min-height */
+    padding-bottom: env(safe-area-inset-bottom);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transform: translateY(var(--tray-min-height));
+    outline: none;
+    overflow: auto;
+    /* https://caniuse.com/css-overscroll-behavior */
+    overscroll-behavior: contain;
+}
+
+.tray.isOpen {
+    transform: translateY(0);
+}
+
+.sheet {
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+
+    display: grid;
+    grid-template-rows: 100vh auto auto;
+    gap: var(--gap-3);
+    padding: min(200px, 10vw);
+    position: fixed;
+    inset: 0;
+    max-block-size: 100vh;
+    scrollbar-width: none;
+    z-index: var(--z-max);
+}
+
+.sheet:not([data-open='true']) {
+    pointer-events: none;
+}
+
+.sheet::-webkit-scrollbar {
+    display: none;
+}
+
+.sheet > menu {
+    grid-row: 2;
+    display: grid;
+    gap: calc(var(--gap-1) / 4);
+    padding: 0;
+
+    & button {
+        width: 100%;
+    }
+}
+
+.sentinel {
+    scroll-snap-align: start;
+}
+
+.sheet > menu:last-of-type {
+    grid-row: 3;
+    scroll-snap-align: end;
+    scroll-margin-block-end: var(--gap-3);
+}

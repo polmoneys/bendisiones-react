@@ -1,0 +1,497 @@
+:where(html) {
+    --zero: 0 !important;
+    --none: none !important;
+    --transparent: transparent !important;
+
+    --font-size: calc(22 / 16 * 1rem);
+    --font-xs: 0.7rem;
+    --font-sm: 0.9rem;
+    --font-md: 1.1rem;
+    --font-lg: 1.333rem;
+    --font-xl: 1.8rem;
+
+    --font-weight: 400;
+    --font-bold: 600;
+
+    --font-line-height: 1.4;
+    --font-line-height-sm: 1;
+    --shout: uppercase !important;
+
+    --min-height: max(44px, 2em);
+    --min-width: 10ch;
+    --ratio-square: 1;
+    --ratio-portrait: 9/16;
+    --ratio-landscape: 16/9;
+    --ratio-ultrawide: 18/5;
+
+    /* if we were brave we'd use more em*/
+    --gap-1: 0.4rem;
+    --gap-2: 0.8rem;
+    --gap-3: 1.2rem;
+    --gap-4: 1.8rem;
+    --gap-5: 2rem;
+
+    --px: 0 var(--gap-3);
+    --pxy: var(--gap-3);
+
+    --shadow: 0 1px 3px hsla(0, 0%, 0%, 0.12), 0 1px 2px hsla(0, 0%, 0%, 0.24);
+    --border-radius: 0.2rem;
+
+    --border-width: 2px;
+    --border: var(--border-width) solid currentColor;
+    --ring-color: var(--black);
+    --ringKeyboard-color: var(--positive);
+    --ios-notch: env(safe-area-inset-top) env(safe-area-inset-right)
+        env(safe-area-inset-bottom) env(safe-area-inset-left);
+
+    --scrollbar-size: min(8px, 0.8em);
+    --opacity-disabled: 0.6;
+    --bg-disabled: var(--neutral);
+    --animation-duration: 0.3s;
+
+    --z-0: -1;
+    --z-1: 1;
+    --z-2: 2;
+    --z-3: 3;
+    --z-4: 4;
+    --z-max: 999;
+
+    --white: #f4f4f4;
+    --black: #212121;
+    --positive: #23d160;
+    --neutral: #bdbdbd;
+    --negative: #ff3860;
+    --info: #ffff4b;
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box;
+    color: currentColor;
+}
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+html {
+    -moz-tab-size: 4;
+    tab-size: 4;
+    color-scheme: light;
+    font-family: system-ui;
+
+    overflow-y: scroll;
+
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+
+    /* sync bgcolor with *-scrollbar-track */
+    background-color: #f9f9f9;
+    color: var(--black);
+    /*accent-color: var(--positive);*/
+
+    &::-webkit-scrollbar {
+        width: var(--scrollbar-size);
+        height: var(--scrollbar-size);
+    }
+    & *::-webkit-scrollbar {
+        width: var(--scrollbar-size);
+        height: var(--scrollbar-size);
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--neutral);
+    }
+    & *::-webkit-scrollbar-track {
+        background-color: var(--neutral);
+    }
+
+    &::-webkit-scrollbar-corner {
+        background-color: var(--neutral);
+    }
+    & *::-webkit-scrollbar-corner {
+        background-color: var(--neutral);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--neutral);
+        outline: 1px solid var(--transparent);
+    }
+
+    & *::-webkit-scrollbar-thumb {
+        background-color: var(--neutral);
+        outline: 1px solid var(--transparent);
+    }
+
+    & *::selection {
+        color: var(--neutral);
+        text-shadow: 0 0.1px 0px rgba(0, 0, 0, 1);
+    }
+
+    @supports (scrollbar-gutter: stable) {
+        & {
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+            /* scrollbar-gutter: stable both-edges; */
+        }
+    }
+}
+
+body {
+    -webkit-tap-highlight-color: transparent;
+
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-synthesis: none;
+    font-family: system-ui, sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
+    line-height: var(--font-line-height);
+
+    width: 100%;
+    height: 100%;
+    block-size: 100%;
+    inline-size: 100%;
+
+    & form * {
+        accent-color: var(--info);
+    }
+}
+
+.nunito-regular {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.nunito-bold {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+:is(h1, h2, h3) {
+    word-wrap: break-word;
+    /* text-wrap: balance; */
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+    font-size: 44px;
+    font-weight: var(--font-bold);
+    line-height: var(--font-line-height-sm, 1.15);
+}
+
+:is(p) {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/font-size-adjust */
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+
+    /* no orphans */
+    text-wrap: pretty;
+
+    &::selection {
+        font-weight: bolder;
+        /* text-decoration: underline; */
+    }
+}
+
+h1:has(span, b),
+p:has(span, b) {
+    font-size: inherit;
+}
+
+:is(b, strong) {
+    font-weight: var(--font-bold);
+}
+
+img {
+    border: 0;
+    border-style: none;
+    max-width: 100%;
+    height: auto;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    object-fit: cover;
+    shape-margin: 0.75rem;
+}
+
+a:is(:not([class])) {
+    hyphens: none;
+    text-decoration: underline;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.09em;
+    outline: none;
+    color: currentColor;
+    width: fit-content;
+
+    &:is(:visited, :hover) {
+        color: var(--neutral);
+        text-shadow: none;
+        touch-action: manipulation;
+    }
+}
+
+:is(a, button) {
+    text-transform: none;
+    &:focus {
+        outline: 1px solid transparent;
+    }
+}
+
+:where(
+    button,
+    input[type="text"],
+    input[type="date"],
+    input[type="email"],
+    input[type="checkbox"],
+    input[type="radio"],
+    select
+) {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    font: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    border-style: solid;
+    border: none;
+    padding: 0;
+    color: currentColor;
+    cursor: pointer;
+    /* Not removed via appearance */
+    margin: 0;
+    &:focus {
+        outline: none;
+    }
+}
+
+select {
+    padding: 0 44px 0 var(--gap-2);
+    min-height: var(--button-hit-area);
+
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+fieldset {
+    border-color: var(--transparent);
+}
+
+legend {
+    padding: 0;
+}
+
+@media (orientation: landscape) {
+    .hide-portrait {
+        display: none !important;
+    }
+}
+
+@media (orientation: portrait) {
+    .hide-landscape {
+        display: none !important;
+    }
+}
+
+.positive {
+    background-color: var(--positive) !important;
+    color: currentColor;
+}
+.negative {
+    background-color: var(--negative) !important;
+    color: currentColor;
+}
+
+.info {
+    background-color: var(--info) !important;
+    color: currentColor;
+}
+
+.neutral {
+    background-color: var(--neutral) !important;
+}
+
+/* <Ring>  */
+/*.ringless {
+}*/
+.ring {
+    border: var(--border) !important;
+    border-color: var(--ring-color) !important;
+}
+.ringKeyboard {
+    border: var(--border) !important;
+    border-color: var(--ringKeyboard-color) !important;
+}
+
+.react-aria-DatePicker {
+    &[data-invalid] {
+    }
+
+    &[data-open] {
+    }
+
+    & .react-aria-Label {
+    }
+    .react-aria-Group {
+        display: flex;
+        width: fit-content;
+        align-items: center;
+    }
+
+    .react-aria-Button {
+        background: var(--neutral);
+        color: currentColor;
+        forced-color-adjust: none;
+        border: none;
+
+        &[data-pressed] {
+            box-shadow: none;
+            background: var(--positive);
+        }
+
+        &[data-focus-visible] {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+        }
+    }
+
+    .react-aria-DateInput {
+        padding: var(--gap-1) 2.5rem var(--gap-1) var(--gap-2);
+        background-color: var(--white);
+    }
+}
+
+.react-aria-Popover {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+
+    &[data-trigger="DatePicker"] {
+        max-width: unset;
+    }
+    & * {
+        font-size: var(--font-size-0);
+    }
+}
+
+.react-aria-CalendarCell {
+    &[data-today] {
+    }
+
+    &[data-unavailable] {
+    }
+
+    &[data-selected] {
+        background-color: var(--positive) !important;
+    }
+    &[data-hovered] {
+    }
+    &[data-pressed] {
+    }
+
+    &[data-focused]:not([data-selected]) {
+        outline-color: var(--positive);
+        color: var(--positive);
+    }
+    &[data-isFocusVisible] {
+        outline-color: var(--positive);
+    }
+}
+.react-aria-Dialog {
+}
+
+.react-aria-Calendar {
+}
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+    height: auto;
+}
+
+.offscreen {
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.center {
+    display: grid;
+    place-content: center;
+}
+
+.unset {
+    border: unset;
+    padding: unset;
+    margin: unset;
+}
+
+.fit {
+    width: fit-content;
+}
+
+.cover {
+    inset: 0;
+}
+
+.icon-align-text {
+    height: 1lh;
+}
+
+.mt-a {
+    margin-top: auto !important;
+}
+.mb-a {
+    margin-bottom: auto !important;
+}
+.ml-a {
+    margin-left: auto !important;
+}
+.mr-a {
+    margin-right: auto !important;
+}
+
+@media (width < 600px) {
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+    * {
+        animation-delay: -1ms;
+        animation-duration: 1ms;
+        animation-iteration-count: 1;
+        background-attachment: initial;
+        scroll-behavior: auto;
+        transition-delay: 0s;
+        transition-duration: 0s;
+    }
+
+    @view-transition {
+        navigation: none;
+    }
+}

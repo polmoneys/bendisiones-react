@@ -1,0 +1,129 @@
+import {
+  Fragment,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+  useMemo,
+} from "react";
+
+import {
+  findDividersIndexOf,
+  findMatchesIndexOf,
+  isIndexInMatches,
+} from "./utils";
+import { clsx } from "../../utils";
+import styles from "./index.module.css";
+
+import type { SplitMatchProps } from "./interfaces";
+
+// credits to https://github.com/tomsouthall/split-match
+
+export default function SplitMatch({
+  children,
+  searchText = "",
+  separator = ",",
+  caseSensitive = false,
+  global = false,
+  includeSeparator = false,
+}: SplitMatchProps) {
+  if (typeof children !== "string")
+    console.warn("Provide a string as children");
+  const text = typeof children === "string" ? children : "";
+
+  const matches = useMemo(
+    () => findMatchesIndexOf(text, searchText, global, caseSensitive),
+    [text, searchText, global, caseSensitive],
+  );
+
+  const dividers = useMemo(
+    () => findDividersIndexOf(text, separator),
+    [text, separator],
+  );
+
+  if (!text) return null;
+
+  const parts = dividers.map((dividerIndex, i) => {
+    const prevIndex = dividers[i - 1] || 0;
+    const segment = text.slice(prevIndex, dividerIndex);
+
+    // Does this split contain any match?
+    const isSplitMatch = matches.some(
+      (m) => m[0] < dividerIndex && m[1] > prevIndex,
+    );
+
+    // Build nodes inside the split with <strong> for matched ranges
+    const nodes: Array<ReactNode> = [];
+    let buf = "";
+    let bufIsMatch: boolean | undefined = undefined;
+
+    for (let j = 0; j < segment.length; j++) {
+      const globalIndex = prevIndex + j;
+      const ch = segment[j];
+      const chIsMatch = isIndexInMatches(globalIndex, matches);
+
+      if (bufIsMatch === undefined) {
+        bufIsMatch = chIsMatch;
+        buf = ch;
+        continue;
+      }
+
+      if (chIsMatch === bufIsMatch) {
+        buf += ch;
+        continue;
+      }
+
+      const key = `part-${i}-${nodes.length}`;
+      if (bufIsMatch) nodes.push(<strong key={key}>{buf}</strong>);
+      else nodes.push(<Fragment key={key}>{buf}</Fragment>);
+
+      buf = ch;
+      bufIsMatch = chIsMatch;
+    }
+
+    if (buf.length) {
+      const key = `part-${i}-${nodes.length}`;
+      if (bufIsMatch) nodes.push(<strong key={key}>{buf}</strong>);
+      else nodes.push(<Fragment key={key}>{buf}</Fragment>);
+    }
+
+    if (!includeSeparator && separator && nodes.length) {
+      const lastIdx = nodes.length - 1;
+      const last = nodes[lastIdx];
+
+      if (typeof last === "string") {
+        if (last.endsWith(separator)) {
+          nodes[lastIdx] = last.slice(0, -separator.length);
+        }
+      } else if (isValidElement(last)) {
+        const el = last as ReactElement<{ children?: ReactNode }>;
+        if (typeof el.props.children === "string") {
+          const t = el.props.children as string;
+          if (t.endsWith(separator)) {
+            nodes[lastIdx] = (
+              <Fragment key={`trim-${i}-${lastIdx}`}>
+                {t.slice(0, -separator.length)}
+              </Fragment>
+            );
+          }
+        }
+      }
+    }
+
+    return (
+      <p
+        key={`split-${i}`}
+        className={clsx(
+          styles.split,
+          styles[`split-${i}`],
+          isSplitMatch && styles.match,
+        )}
+        // use [data-index="1"] for CSS styling
+        data-index={i}
+      >
+        {nodes}
+      </p>
+    );
+  });
+
+  return <div className={styles.splits}>{parts}</div>;
+}

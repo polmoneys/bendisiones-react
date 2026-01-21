@@ -1,0 +1,9 @@
+.docblock-icongallery *:has(svg) {
+    width: 64px;
+    height: 64px;
+}
+
+.docblock-icongallery {
+    grid-auto-rows: 64px !important;
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)) !important;
+}
