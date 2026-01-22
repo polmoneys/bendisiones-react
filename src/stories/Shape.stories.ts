@@ -10,7 +10,7 @@ const meta = {
   },
   argTypes: {
     stroke: {
-      control: "color",
+      fill: "color",
       description: "Stroke color, need stroke-width",
     },
   },
@@ -24,7 +24,7 @@ export const StoryA: Story = {
   args: {
     size: 199,
     sides: 3,
-    color: "var(--positive)",
+    fill: "var(--positive)",
     stroke: "transparent",
   },
 };

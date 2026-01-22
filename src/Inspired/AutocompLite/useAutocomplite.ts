@@ -1,12 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 
-import { buildLookupById, createOptions, filterOptions } from "./utils";
-
 import type {
   AutocompLiteOption,
   UseAutocompleteParams,
   UseAutocompleteReturn,
 } from "./interfaces";
+import { buildLookupById, createOptions, filterOptions } from "./utils";
 
 export default function useAutocomplete<T extends { id: string }>(
   params: UseAutocompleteParams<T>,

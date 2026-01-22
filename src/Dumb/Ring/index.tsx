@@ -1,5 +1,5 @@
-import type { ReactElement } from "react";
 import { FocusRing } from "@react-aria/focus";
+import type { ReactElement } from "react";
 
 export interface RingProps {
   children: ReactElement;

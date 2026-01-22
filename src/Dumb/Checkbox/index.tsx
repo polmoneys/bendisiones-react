@@ -1,15 +1,15 @@
 import {
   type ChangeEventHandler,
+  forwardRef,
   type InputHTMLAttributes,
-  type ReactNode,
   useEffect,
   useImperativeHandle,
   useRef,
-  forwardRef,
 } from "react";
 
+import { clsx } from "../../utils";
 import Ring from "../Ring";
-import { clsx, has } from "../../utils";
+
 import styles from "./index.module.css";
 
 /*

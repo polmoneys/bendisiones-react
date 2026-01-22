@@ -1,8 +1,8 @@
 import {
+  cloneElement,
   type ComponentProps,
   type ReactElement,
   type SVGProps,
-  cloneElement,
   useEffect,
   useRef,
 } from "react";

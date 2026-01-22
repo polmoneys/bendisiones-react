@@ -1,0 +1,1 @@
+function e(e){return e!==void 0}const t=(...e)=>e.filter(Boolean).join(` `);export{e as n,t};

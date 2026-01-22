@@ -1,15 +1,16 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Suspense, useEffect, useState } from "react";
 
-import Button from "../Dumb/Button";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { GoInfinity as IconLoadingBar } from "react-icons/go";
+
+import Button from "../Dumb/Button";
+import Checkbox from "../Dumb/Checkbox";
+import Group from "../Dumb/Group";
+import DatePicker from "../Inspired/DatePicker";
 import type { Period } from "../Inspired/DatePicker/interfaces";
 import Periods from "../Inspired/DatePicker/Periods";
 import Range from "../Inspired/DatePicker/Range";
 import useDates from "../Inspired/DatePicker/useDates";
-import Checkbox from "../Dumb/Checkbox";
-import DatePicker from "../Inspired/DatePicker";
-import Group from "../Dumb/Group";
 
 const periods: Period[] = [
   { id: "oneDay", label: "1D" },
@@ -28,7 +29,7 @@ const periods: Period[] = [
 ];
 
 const meta = {
-  title: "Dumb/DatePicker",
+  title: "Inspired/DatePicker",
   component: DatePicker,
   parameters: {
     layout: "centered",
@@ -39,10 +40,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Secondary: Story = {
-  args: {},
-
   render: function Render() {
-    // args
     const inceptionDates = ["2020-03-15", "2021-06-01"];
     const {
       oldestInceptionDate,

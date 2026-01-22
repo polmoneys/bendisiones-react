@@ -1,0 +1,222 @@
+.ringless {
+    border-color: var(--transparent) !important;
+}
+
+.ring {
+    border: var(--border) !important;
+    border-color: var(--ring-color) !important;
+}
+.ringKeyboard {
+    border: var(--border) !important;
+    border-color: var(--ringKeyboard-color) !important;
+}
+
+.react-aria-DatePicker {
+    /*&[data-invalid] {
+    }
+
+    &[data-open] {
+    }
+
+    & .react-aria-Label {
+    }*/
+    .react-aria-Group {
+        display: flex;
+        width: fit-content;
+        align-items: stretch;
+    }
+
+    .react-aria-Button {
+        background-color: var(--white);
+
+        color: currentColor;
+        forced-color-adjust: none;
+        border: none;
+        &[data-pressed] {
+            box-shadow: none;
+        }
+
+        &[data-focus-visible] {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+        }
+    }
+
+    .react-aria-DateInput {
+        padding: var(--gap-1) 2.5rem var(--gap-1) var(--gap-2);
+        background-color: var(--white);
+
+        .react-aria-DateSegment {
+            &:focus {
+                outline: none;
+                color: var(--positive);
+            }
+        }
+    }
+}
+
+.react-aria-Popover {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+
+    &[data-trigger="DatePicker"] {
+        max-width: unset;
+    }
+    & *:not(.react-aria-Heading) {
+        font-size: var(--font-size);
+    }
+    .react-aria-Heading {
+        font-size: var(--font-xl);
+        padding: var(--px);
+    }
+}
+.react-aria-CalendarCell {
+    /*&[data-today] {
+    }
+
+    &[data-unavailable] {
+    }*/
+
+    &[data-selected] {
+        background-color: var(--positive) !important;
+    }
+    &[data-hovered] {
+        background-color: var(--neutral);
+    }
+    /*&[data-pressed] {
+    }*/
+
+    &[data-focused]:not([data-selected]) {
+        outline-color: var(--positive);
+        color: var(--positive);
+    }
+    &[data-isFocusVisible] {
+        outline-color: var(--positive);
+    }
+}
+/*.react-aria-Dialog {
+}
+
+.react-aria-Calendar {
+}*/
+
+@media (orientation: landscape) {
+    .hide-portrait {
+        display: none !important;
+    }
+}
+
+@media (orientation: portrait) {
+    .hide-landscape {
+        display: none !important;
+    }
+}
+
+.row,
+.col,
+.colRow {
+    display: flex;
+}
+.col {
+    flex-direction: column;
+}
+.colRow {
+    flex-direction: column;
+}
+
+@media (orientation: landscape) {
+    .colRow {
+        flex-direction: row;
+    }
+}
+
+.old-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--gap-1);
+}
+
+.old-grid-item {
+    display: grid;
+    place-items: center;
+    grid-column: span 6;
+}
+
+@media (orientation: landscape) {
+    .old-grid-item {
+        grid-column: span 4;
+    }
+}
+
+.old-grid-item._12 {
+    grid-column: span 12;
+}
+
+.old-grid-item._6 {
+    grid-column: span 6;
+}
+.old-grid-item._3 {
+    grid-column: span 3;
+}
+
+.old-grid-item._2 {
+    grid-column: span 2;
+}
+
+@media (min-width: 240px) and (max-width: 360px) {
+    .old-grid-item {
+        grid-column: span 12;
+    }
+}
+
+.offscreen {
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.center {
+    display: grid;
+    place-content: center;
+}
+
+.unset {
+    border: unset;
+    padding: unset;
+    margin: unset;
+}
+
+.fit {
+    width: fit-content;
+}
+
+.cover {
+    inset: 0;
+}
+
+.icon-align-text {
+    height: 1lh;
+}
+
+.mt-a {
+    margin-top: auto !important;
+}
+.mb-a {
+    margin-bottom: auto !important;
+}
+.ml-a {
+    margin-left: auto !important;
+}
+.mr-a {
+    margin-right: auto !important;
+}
+
+/*@media (width < 600px) {
+}*/

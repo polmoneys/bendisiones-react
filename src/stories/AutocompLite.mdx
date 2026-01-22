@@ -4,11 +4,13 @@ import * as AutocompLiteStories from "./AutocompLite.stories";
 
 <Meta of={AutocompLiteStories} />
 
-## useAutocomplete
+<div id="body">
+`AutocompLite` allows to find **multiple key values pretty fast** while presenting the user same multiple key values **highlighted** if them are the search query. User can then select one or many...
 
-We need data, given an Array of `T` (any shape) we can use a mapper function to build the `full` search query .
+We shall accept any shaped data, given an Array of `T` we'll use a **mapper function** to build the **full search option**, as in:
 
 ```ts
+
 const PLACES = [
   {
     id: "paris",
@@ -23,7 +25,7 @@ const PLACES = [
 const mapper = (p: (typeof demoPlaces)[number]): AutocompLiteOption => ({
   id: p.id,
   city: p.city,
-  state: p.state || "",
+  state: p?.state ?? "",
   country: p.country,
   continent: p.continent,
   full: `${p.city}${p.state ? `, ${p.state}` : ""}, ${p.country}`,
@@ -44,42 +46,57 @@ const {
   initialQuery: "",
   multi: true,
 });
+
+return (
+    <AutocompLite
+      debug
+      placeholder="Search destinations"
+      id="destinations-autcompLite"
+      toggleOption={toggleOption}
+      options={filteredOptions}
+      query={query}
+      setQuery={setQuery}
+      selected={selected}
+      onToggle={() => setPopover((prev) => !prev)}
+      showPopover={showPopover}
+    >
+      {({ input }) => {
+        return (
+          <Group
+            start={<label htmlFor="destinations-autcompLite">Go</label>}
+            startWidth={"80px"}
+            endWidth={"40px"}
+            end={
+              showPopover ? (
+                <IconChevronUp size={28} />
+              ) : (
+                <IconChevronDown size={28} />
+              )
+            }
+          >
+            {input}
+          </Group>
+        );
+      }}
+    </AutocompLite>
+    )
 ```
 
-## AutocompLite
+ps: `AutcompLite` gives a render function so that you can wrap the Input with whatever you need.
 
-```tsx
-<AutocompLite
-  debug
-  placeholder="Search destinations"
-  id="destinations-autcompLite"
-  toggleOption={toggleOption}
-  options={filteredOptions}
-  query={query}
-  setQuery={setQuery}
-  selected={selected}
-  onToggle={() => setPopover((prev) => !prev)}
-  showPopover={showPopover}
->
-  {({ input }) => {
-    return (
-      <Group
-        start={<label htmlFor="destinations-autcompLite">Go</label>}
-        startWidth={"80px"}
-        endWidth={"40px"}
-        end={
-          showPopover ? (
-            <IconChevronUp size={28} />
-          ) : (
-            <IconChevronDown size={28} />
-          )
-        }
-      >
-        {input}
-      </Group>
-    );
-  }}
-</AutocompLite>
-```
+</div>
 
-<Canvas of={AutocompLiteStories.Destinations} />
+<style>
+  {`
+  #body * {
+      font-size: var(--font-size);
+      font-weight: var(--font-weight);
+      line-height: var(--font-line-height);
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  `}
+</style>

@@ -1,10 +1,11 @@
 import { type KeyboardEvent, useMemo, useRef, useState } from "react";
 
-import AutocompLiteSplitOption from "./Option";
 import { clsx } from "../../utils";
-import styles from "./index.module.css";
 
 import type { AutocompLiteOptionsListProps } from "./interfaces";
+import AutocompLiteSplitOption from "./Option";
+
+import styles from "./index.module.css";
 
 export default function OptionsList({
   filteredOptions,

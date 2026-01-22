@@ -1,8 +1,7 @@
-import type { ComponentProps } from 'react';
+import type { ComponentProps } from "react";
+import { GoChevronDown as IconChevronDown } from "react-icons/go";
 
-import Group from '../Group';
-import { IconChevronDown } from '../Icon/Icons/Chevron';
-import Ring from '../Ring';
+import Ring from "../Ring";
 
 /*
 
@@ -18,38 +17,40 @@ import Ring from '../Ring';
 
 */
 
-interface SelectProps extends Omit<ComponentProps<'select'>, 'onChange'> {
-    onChange: (selected: string) => void;
-    placeholder: string;
+interface SelectProps extends Omit<ComponentProps<"select">, "onChange"> {
+  onChange: (selected: string) => void;
+  placeholder: string;
 }
 
 export default function Select({
-    value,
-    onChange,
-    children,
-    placeholder,
-    ...rest
+  value,
+  onChange,
+  children,
+  placeholder,
+  ...rest
 }: SelectProps) {
-    return (
-        <Group.Row component="label" alignItems="center">
-            <Ring>
-                <select
-                    value={value}
-                    onChange={(e) => onChange(e.target.value)}
-                    {...rest}
-                >
-                    <option value="">{placeholder}</option>
-                    {children}
-                </select>
-            </Ring>
+  return (
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <Ring>
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          {...rest}
+        >
+          <option value="">{placeholder}</option>
+          {children}
+        </select>
+      </Ring>
 
-            <div style={{ position: 'relative', zIndex: 99 }}>
-                <IconChevronDown
-                    size={33}
-                    circle={false}
-                    transform="translate(-44px,3px)"
-                />
-            </div>
-        </Group.Row>
-    );
+      <div style={{ position: "relative", zIndex: 99 }}>
+        <IconChevronDown size={33} transform="translate(-44px,3px)" />
+      </div>
+    </label>
+  );
 }

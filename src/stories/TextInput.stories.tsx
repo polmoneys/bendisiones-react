@@ -1,13 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 
-import { fn } from "storybook/test";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { GoHeartFill as IconHeart } from "react-icons/go";
 
+import Button from "../Dumb/Button";
 import Group from "../Dumb/Group";
 import TextInput from "../Dumb/InputText";
-import Button from "../Dumb/Button";
-
-import { GoHeartFill as IconHeart } from "react-icons/go";
 
 const meta = {
   title: "Dumb/TextInput",
@@ -15,14 +13,6 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-  tags: ["autodocs"],
-  argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
-    value: { control: "text" },
-    placeholder: { control: "text" },
-  },
-  args: { onClick: fn() },
 } satisfies Meta<typeof TextInput>;
 
 export default meta;
@@ -30,8 +20,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Secondary: Story = {
   args: {
-    id: "",
-    name: "",
+    id: "input-story",
+    name: "input",
     placeholder: "Type something",
     onChange: (value) => console.log({ value }),
   },

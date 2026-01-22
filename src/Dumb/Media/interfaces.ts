@@ -1,45 +1,45 @@
-import type { DetailedHTMLProps, VideoHTMLAttributes } from 'react';
+import type { DetailedHTMLProps, VideoHTMLAttributes } from "react";
 
-import type { RenderProp } from '../../interfaces';
+import type { RenderProp } from "../../interfaces";
 
 interface AspectRatio {
-    ratio?: 'portrait' | 'landscape';
+  ratio?: "portrait" | "landscape" | "square";
 }
 export interface MediaProps extends AspectRatio {
-    alt: string;
-    src: string;
-    height?: string;
-    sources?: Record<string, string>;
-    eager?: boolean;
-    objectPosition?: string;
-    priority?: 'low' | 'high';
+  alt: string;
+  src: string;
+  height?: string;
+  sources?: Record<string, string>;
+  eager?: boolean;
+  objectPosition?: string;
+  priority?: "low" | "high";
 }
 
 export interface PlayerProps
-    extends DetailedHTMLProps<
-            VideoHTMLAttributes<HTMLVideoElement>,
-            HTMLVideoElement
-        >,
-        AspectRatio {
-    sources: Record<string, string>;
-    onSeeked?: VideoHTMLAttributes<HTMLVideoElement>['onSeeked'];
-    subtitles?: string;
+  extends DetailedHTMLProps<
+      VideoHTMLAttributes<HTMLVideoElement>,
+      HTMLVideoElement
+    >,
+    AspectRatio {
+  sources: Record<string, string>;
+  onSeeked?: VideoHTMLAttributes<HTMLVideoElement>["onSeeked"];
+  subtitles?: string;
 }
 
 export interface VideoPlayerProps extends AspectRatio {
-    fitInParent?: boolean;
-    sources: Record<string, string>;
-    videoOptions?: DetailedHTMLProps<
-        VideoHTMLAttributes<HTMLVideoElement>,
-        HTMLVideoElement
-    >;
-    width: string;
-    height: string;
-    subtitles?: string;
-    title?: string;
-    iframeUrl?: string;
-    children?: RenderProp<{
-        onBlockMouseEnter: () => void;
-        onBlockMouseLeave: () => void;
-    }>;
+  fitInParent?: boolean;
+  sources: Record<string, string>;
+  videoOptions?: DetailedHTMLProps<
+    VideoHTMLAttributes<HTMLVideoElement>,
+    HTMLVideoElement
+  >;
+  width: string;
+  height: string;
+  subtitles?: string;
+  title?: string;
+  iframeUrl?: string;
+  children?: RenderProp<{
+    onBlockMouseEnter: () => void;
+    onBlockMouseLeave: () => void;
+  }>;
 }

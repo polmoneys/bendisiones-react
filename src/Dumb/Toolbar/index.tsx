@@ -1,7 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
-
 import { Toolbar as ToolbarReactAria } from "react-aria-components";
+
 import { clsx, has } from "../../utils";
+
 import styles from "./index.module.css";
 
 export interface ToolBarProps {

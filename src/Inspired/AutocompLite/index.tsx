@@ -1,13 +1,15 @@
 import { useCallback, useRef } from "react";
+
 import { useKeyboard } from "react-aria";
 
 import TextInput from "../../Dumb/InputText";
-import OptionsList from "./OptionsList";
-import { clsx } from "../../utils";
 import useClickContains from "../../utilities/useClickContains";
-import styles from "./index.module.css";
+import { clsx } from "../../utils";
 
 import type { AutcompLiteProps } from "./interfaces";
+import OptionsList from "./OptionsList";
+
+import styles from "./index.module.css";
 
 export default function AutocompLite(props: AutcompLiteProps) {
   const {

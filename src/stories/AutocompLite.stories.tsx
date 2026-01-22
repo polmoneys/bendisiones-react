@@ -3,11 +3,12 @@ import {
   GoChevronDown as IconChevronDown,
   GoChevronUp as IconChevronUp,
 } from "react-icons/go";
+
+import Group from "../Dumb/Group";
 import AutocompLite from "../Inspired/AutocompLite";
+import Chips from "../Inspired/AutocompLite/Chips";
 import type { AutocompLiteOption } from "../Inspired/AutocompLite/interfaces";
 import useAutocomplete from "../Inspired/AutocompLite/useAutocomplite";
-import Group from "../Dumb/Group";
-import Chips from "../Inspired/AutocompLite/Chips";
 
 const demoPlaces = [
   {
@@ -198,7 +199,7 @@ const mapper = (p: (typeof demoPlaces)[number]): AutocompLiteOption => ({
 });
 
 const meta = {
-  title: "Dumb/AutocompLite",
+  title: "Inspired/AutocompLite",
   parameters: {
     layout: "centered",
   },
@@ -225,7 +226,6 @@ export const Destinations: Story = {
       multi: true,
     });
 
-    console.log({ selected });
     return (
       <>
         {(liveMessage ?? "").trim().length > 0 && (
@@ -235,11 +235,11 @@ export const Destinations: Story = {
           label="city"
           selected={selected}
           onRemove={(option) => toggleOption(option)}
-          limit={2}
+          limit={3}
         />
         <br />
         <AutocompLite
-          placeholder="Search destinations"
+          placeholder="Destinations"
           id="destinations-autcompLite"
           toggleOption={toggleOption}
           options={filteredOptions}
@@ -252,8 +252,12 @@ export const Destinations: Story = {
           {({ input }) => {
             return (
               <Group
-                start={<label htmlFor="destinations-autcompLite">Go</label>}
-                startWidth={"80px"}
+                start={
+                  <label htmlFor="destinations-autcompLite">
+                    Where to, friend ?
+                  </label>
+                }
+                startWidth={"200px"}
                 endWidth={"40px"}
                 end={
                   showPopover ? (

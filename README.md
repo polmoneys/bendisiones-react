@@ -1,6 +1,6 @@
 **Work in progress** [Quick demo](https://polmoneys.github.io/bendisiones)
 
-### Benditos components`<T>`
+### Component`<T>` 🍀
 
 My work involves complex UI in React, this is how I roll for now.
 We have `Dumb (n)`, and `Inspired (7)`.

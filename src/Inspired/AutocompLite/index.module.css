@@ -62,7 +62,7 @@
     .split {
         opacity: 0.7;
         &.match {
-            font-weight: bold;
+            font-weight: var(--font-bold);
             text-decoration: underline;
             -webkit-text-decoration: currentColor solid underline;
             text-decoration: currentColor solid underline;

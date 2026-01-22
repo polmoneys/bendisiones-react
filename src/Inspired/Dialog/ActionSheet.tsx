@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef } from "react";
 
 import { useKeyboard } from "react-aria";
+
 import { clsx } from "../../utils";
-import styles from "./index.module.css";
 
 import type { ActionSheetProps } from "./interfaces";
+
+import styles from "./index.module.css";
 
 export default function ActionSheet({
   isOpen,

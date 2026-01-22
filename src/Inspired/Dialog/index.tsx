@@ -3,10 +3,12 @@ import { type CSSProperties, type ReactNode, useRef } from "react";
 import { FocusScope } from "@react-aria/focus";
 import { useKeyboard } from "react-aria";
 import ReactDOM from "react-dom";
+
 import { clsx, has } from "../../utils";
-import styles from "./index.module.css";
 
 import type { DialogProps } from "./interfaces";
+
+import styles from "./index.module.css";
 
 // eslint-disable-next-line react-refresh/only-export-components
 function Dialog({ onClose, children, isOpen, ...props }: DialogProps) {

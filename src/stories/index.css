@@ -7,3 +7,7 @@
     grid-auto-rows: 64px !important;
     grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)) !important;
 }
+
+#storybook-root:has(#destinations-autcompLite) {
+    min-width: min(750px, 80vw);
+}

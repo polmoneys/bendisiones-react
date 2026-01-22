@@ -1,9 +1,10 @@
-import Button from "../Button";
 import {
   GoChevronDown as IconChevronDown,
   GoChevronUp as IconChevron,
 } from "react-icons/go";
+
 import { clsx } from "../../utils";
+import Button from "../Button";
 
 import type { RecursiveProps } from "./interfaces";
 

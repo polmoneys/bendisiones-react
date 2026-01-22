@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-
-import { fn } from "storybook/test";
-import Button from "../Dumb/Button";
 import { GoNorthStar as IconNorthStar } from "react-icons/go";
+import { fn } from "storybook/test";
+
+import Button from "../Dumb/Button";
 
 const meta = {
   title: "Dumb/Button",

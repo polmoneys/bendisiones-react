@@ -1,8 +1,9 @@
-import SplitMatch from "./SplitMatch";
 import { clsx } from "../../utils";
-import styles from "./index.module.css";
 
 import type { AutocompLiteOptionProps } from "./interfaces";
+import SplitMatch from "./SplitMatch";
+
+import styles from "./index.module.css";
 
 export default function AutocompLiteSplitOption(
   props: AutocompLiteOptionProps,

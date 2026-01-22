@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { FocusScope } from "@react-aria/focus";
 import { useKeyboard } from "react-aria";
 import ReactDOM from "react-dom";
+
 import useViewportSize from "../../utilities/useViewportSize";
 import { clsx } from "../../utils";
-import styles from "./index.module.css";
 
 import type { DialogProps } from "./interfaces";
+
+import styles from "./index.module.css";
 
 export default function Tray({
   children,

@@ -1,8 +1,8 @@
-import RowHeader from "./Header";
-import Row from "./Row";
-
-import type { RowsProps } from "./interfaces";
 import type { SelectionAPI } from "../../Inspired/Thingie/interfaces";
+
+import RowHeader from "./Header";
+import type { RowsProps } from "./interfaces";
+import Row from "./Row";
 
 export default function Rows<T>({
   gridTemplateColumns,

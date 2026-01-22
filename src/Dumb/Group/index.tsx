@@ -1,9 +1,9 @@
-import type { ReactNode, ElementType, CSSProperties } from "react";
-
-import { clsx, has } from "../../utils";
-import styles from "./index.module.css";
+import type { CSSProperties, ElementType, ReactNode } from "react";
 
 import type { Unit } from "../../interfaces";
+import { clsx, has } from "../../utils";
+
+import styles from "./index.module.css";
 
 export type GroupProps = {
   start?: ReactNode;

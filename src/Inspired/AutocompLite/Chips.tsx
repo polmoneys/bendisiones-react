@@ -1,11 +1,13 @@
 import { useState } from "react";
 
+import { GoX as IconX } from "react-icons/go";
+
 import Button from "../../Dumb/Button";
 import ToolBar from "../../Dumb/Toolbar";
-import { GoX as IconX } from "react-icons/go";
-import styles from "./index.module.css";
 
 import type { ChipsProps } from "./interfaces";
+
+import styles from "./index.module.css";
 
 export default function Chips(props: ChipsProps) {
   const { selected, onRemove, limit, label } = props;

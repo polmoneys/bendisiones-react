@@ -19,10 +19,9 @@ import {
   Popover,
   Text,
 } from "react-aria-components";
-
 import {
-  GoChevronUp as IconChevron,
   GoChevronDown as IconChevronDown,
+  GoChevronUp as IconChevron,
 } from "react-icons/go";
 
 interface MyDatePickerProps<T extends DateValue> extends DatePickerProps<T> {

@@ -5,12 +5,12 @@
     height: 16px;
 }
 
-.range input[type='range'] {
+.range input[type="range"] {
     width: 128px;
     height: 16px;
     margin: 0;
     padding: 0;
-    color: var(--info);
+    color: var(--positive);
     accent-color: currentcolor;
     height: auto;
     width: 100%;
@@ -20,6 +20,10 @@
     appearance: none;
     background: transparent;
     pointer-events: none;
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .range input::-webkit-slider-thumb {
@@ -32,7 +36,7 @@
 
 .range input:before,
 .range input:after {
-    content: '';
+    content: "";
     box-sizing: border-box;
     position: absolute;
     height: 8px;
@@ -58,8 +62,7 @@
 }*/
 
 .range input:active:before {
-    background-color: #f5f5f5;
-    border-color: #c1c1c1;
+    background-color: var(--black);
     z-index: -1;
 }
 

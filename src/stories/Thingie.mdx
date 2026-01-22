@@ -1,0 +1,87 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as ThingieStories from "./Thingie.stories";
+
+<Meta of={ThingieStories} />
+
+<div id="body">
+
+A common pattern (for me) has been some sort of list / tabular data from the user can select some of them.
+
+The abstraction is a `Thingie`, specifically a factory that creates **ContextProvider** and **useSelection** to keep things friendly & tidy.
+
+```ts
+type Person = { id: number; name: string; email?: string; age?: number };
+
+const Thingie = createThingie<Person>("ThingiePeopleSelection");
+
+
+ function App() {
+   const { Thingie: TableProvider } = Thingie;
+   return (
+     <TableProvider
+       items={USERS}
+       keySelector={(s) => s.name}
+       initialSelectedKeys={["Pol"]}
+     >
+       <UsersTable />
+     </TableProvider>
+   );
+ }
+
+
+function UsersTable() {
+  const { useSelection } = Thingie;
+
+  const api = useSelection();
+  const selection = api.selectedKeys;
+  const count = api.selectedCount;
+  return (
+    <>
+      <div
+        style={{
+          display: "flex",
+          gap: "var(--gap-2)",
+          marginBottom: "var(--gap-3)",
+        }}
+      >
+        <p>{count}</p>
+        <p>{formatSelectedKeys(selection)}</p>
+      </div>
+
+      <Rows
+        columns={COLUMNS}
+        gridTemplateColumns="2fr 1fr .25fr"
+        rows={USERS}
+        label="users of imaginary app"
+        api={api}
+        selectedBackgroundColor="var(--positive)"
+        style={{
+          border: "var(--border)",
+          boxShadow: "var(--shadow)",
+          borderRadius: "var(--border-radius)",
+        }}
+        px="var(--gap-1)"
+      />
+    </>
+  );
+}
+
+```
+
+</div>
+
+<style>
+  {`
+  #body * {
+      font-size: var(--font-size);
+      font-weight: var(--font-weight);
+      line-height: var(--font-line-height);
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  `}
+</style>

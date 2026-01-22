@@ -21,16 +21,29 @@ export default function Periods({
     [11, 13],
   ]);
 
-  return groups.map((group) =>
-    group.map((p) => (
-      <Button
-        key={p.id}
-        onClick={() => setPeriod(p.id)}
-        disabled={!availablePeriods[p.id]}
-        isActive={selectedPeriod === p.id}
+  console.log({ groups });
+  return groups.map((group, pos) => {
+    return (
+      <div
+        key={`group-${pos}`}
+        style={{
+          display: "flex",
+          width: "100%",
+          gap: "var(--gap-3)",
+          flexWrap: "wrap",
+        }}
       >
-        {p.label}
-      </Button>
-    )),
-  );
+        {group.map((p) => (
+          <Button
+            key={p.id}
+            onClick={() => setPeriod(p.id)}
+            disabled={!availablePeriods[p.id]}
+            isActive={selectedPeriod === p.id}
+          >
+            {p.label}
+          </Button>
+        ))}
+      </div>
+    );
+  });
 }

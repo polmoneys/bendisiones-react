@@ -3,12 +3,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: var(--border-radius);
-    background-color: var(--white);
     display: flex;
     flex-direction: column;
     width: min(750px, 80vw);
     min-height: min(400px, 60vh);
+    border-radius: var(--border-radius);
+    background-color: var(--white);
+    box-shadow: var(--shadow);
 }
 
 .overlay {
@@ -69,7 +70,7 @@
     z-index: var(--z-max);
 }
 
-.sheet:not([data-open='true']) {
+.sheet:not([data-open="true"]) {
     pointer-events: none;
 }
 

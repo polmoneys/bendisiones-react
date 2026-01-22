@@ -1,17 +1,25 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
 
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+
+const NOT_NICE = ["ocurred", "hack", "magic"];
+
+const forbiddenSyntaxRules = NOT_NICE.map((w) => ({
+  selector: `Identifier[name="${w}"]`,
+  message: `NOT NICE using "${w}", try 1' for an alternative 🙏🏽.`,
+}));
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -22,5 +30,33 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "no-restricted-syntax": ["warn", ...forbiddenSyntaxRules],
+      "simple-import-sort/imports": [
+        "error",
+        {
+          groups: [
+            // 1) react first
+            ["^react$"],
+            // 2) external packages (node builtins and npm packages)
+            ["^@?\\w"],
+            // 3) absolute imports from src/ — matches `import foo from "src/..."`.
+            //    If you don't use absolute `src/` imports, remove or adjust this.
+            ["^src(/.*|$)"],
+            // 4) parent imports
+            ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+            // 5) sibling and index imports
+            ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+            // 6) CSS Modules LAST: any import whose specifier ends with `.module.css`
+            //    also tolerates an optional query string like `styles.module.css?inline`
+            ["^.*\\.module\\.css(?:\\?.*)?$"],
+          ],
+        },
+      ],
+      "simple-import-sort/exports": "error",
+    },
   },
-])
+]);

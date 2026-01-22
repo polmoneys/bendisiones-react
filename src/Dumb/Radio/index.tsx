@@ -4,11 +4,11 @@ import {
   type ReactElement,
 } from "react";
 
-import Ring from "../Ring";
-import { clsx } from "../../utils";
-import styles from "./index.module.css";
-
 import type { RenderProp } from "../../interfaces";
+import { clsx } from "../../utils";
+import Ring from "../Ring";
+
+import styles from "./index.module.css";
 
 export interface RadioProps extends Omit<ComponentProps<"input">, "children"> {
   id: string;

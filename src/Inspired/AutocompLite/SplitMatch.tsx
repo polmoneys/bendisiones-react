@@ -6,15 +6,16 @@ import {
   useMemo,
 } from "react";
 
+import { clsx } from "../../utils";
+
+import type { SplitMatchProps } from "./interfaces";
 import {
   findDividersIndexOf,
   findMatchesIndexOf,
   isIndexInMatches,
 } from "./utils";
-import { clsx } from "../../utils";
-import styles from "./index.module.css";
 
-import type { SplitMatchProps } from "./interfaces";
+import styles from "./index.module.css";
 
 // credits to https://github.com/tomsouthall/split-match
 

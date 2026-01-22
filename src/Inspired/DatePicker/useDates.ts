@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
 import dayjs, { Dayjs } from "dayjs";
+
+import type { PeriodId } from "./interfaces";
 import {
   asDay,
   clampToDay,
@@ -9,8 +11,6 @@ import {
   isPeriodEnabled,
   lastWorkingDayOfMonth,
 } from "./utils";
-
-import type { PeriodId } from "./interfaces";
 
 export type UseDatesOptions = {
   // YYYY-MM-DD

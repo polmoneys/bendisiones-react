@@ -1,12 +1,13 @@
 import {
-  type ForwardedRef,
   type ChangeEvent,
   type ComponentProps,
+  type ForwardedRef,
   forwardRef,
 } from "react";
 
-import Ring from "../Ring";
 import { clsx } from "../../utils";
+import Ring from "../Ring";
+
 import styles from "./index.module.css";
 
 export interface InputTextProps

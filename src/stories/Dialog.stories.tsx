@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-
-import Dialog from "../Inspired/Dialog";
-
 import { GoX as IconX } from "react-icons/go";
-import Shape from "../Dumb/Shape";
-import Tray from "../Inspired/Dialog/Tray";
-import ActionSheet from "../Inspired/Dialog/ActionSheet";
+
 // import useURLLite from "../Inspired/Dialog/useURLLite";
 // import { callAll } from "../utils";
 import Button from "../Dumb/Button";
+import Shape from "../Dumb/Shape";
+import Dialog from "../Inspired/Dialog";
+import ActionSheet from "../Inspired/Dialog/ActionSheet";
+import Tray from "../Inspired/Dialog/Tray";
 import useURL from "../utilities/useURL";
 
 const meta = {
@@ -28,7 +27,7 @@ export const StoryA: Story = {
     isOpen: false,
     onClose: () => ({}),
   },
-  name: "Few blocking",
+  name: "Dialog, Tray, ActionSheet",
   render: function Render() {
     const { onOpenTray, onOpenDialog, onOpenSheet, dialogs, onClose } =
       useURL();
@@ -86,7 +85,6 @@ export const StoryA: Story = {
             dangerous={{
               display: "flex",
               alignItems: "center",
-              borderBottom: "var(--border)",
               minHeight: "var(--min-height)",
               padding: "0 var(--gap-2) 0 var(--gap-3)",
             }}
@@ -110,7 +108,6 @@ export const StoryA: Story = {
             dangerous={{
               display: "flex",
               alignItems: "center",
-              borderTop: "var(--border)",
               minHeight: "var(--min-height)",
               justifyContent: "flex-end",
               padding: "var(--gap-2) var(--gap-4) var(--gap-2)",
@@ -130,7 +127,6 @@ export const StoryA: Story = {
             dangerous={{
               display: "flex",
               alignItems: "center",
-              borderBottom: "var(--border)",
               minHeight: "var(--min-height)",
               padding: "0 var(--gap-2) 0 var(--gap-3)",
             }}
@@ -152,12 +148,14 @@ export const StoryA: Story = {
             dangerous={{
               display: "flex",
               alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Button
-              stretch
+              isText
               onClick={onClose}
               // onClick={callAll(onClose, onClose2)}
+              end={<IconX />}
             >
               Close
             </Button>

@@ -4,6 +4,7 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 
 const queryClient = new QueryClient();
 import "../src/App.css";
+import "../src/Utils.css";
 import "../src/stories/index.css";
 
 const preview: Preview = {

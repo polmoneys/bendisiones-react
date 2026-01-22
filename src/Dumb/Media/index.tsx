@@ -1,10 +1,11 @@
 import { type ReactNode, useState } from "react";
 
-import { fallback } from "./utils";
 import { clsx, has } from "../../utils";
-import styles from "./index.module.css";
 
 import type { MediaProps } from "./interfaces";
+import { fallback } from "./utils";
+
+import styles from "./index.module.css";
 
 export default function Media(props: MediaProps) {
   const {

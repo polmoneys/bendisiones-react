@@ -2,15 +2,15 @@ import {
   type ComponentProps,
   type CSSProperties,
   type ForwardedRef,
-  type ReactNode,
   forwardRef,
+  type ReactNode,
 } from "react";
 
-import Ring from "../Ring";
-import { clsx, has } from "../../utils";
-import styles from "./index.module.css";
-
 import type { Mood } from "../../interfaces";
+import { clsx, has } from "../../utils";
+import Ring from "../Ring";
+
+import styles from "./index.module.css";
 
 export interface ButtonProps extends Omit<ComponentProps<"button">, "style"> {
   children: ReactNode;
