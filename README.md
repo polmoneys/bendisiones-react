@@ -1,4 +1,4 @@
-**Work in progress** [Quick demo](https://polmoneys.github.io/bendisiones)
+**Work in progress** [Quick demo](https://polmoneys.github.io/bendisiones-react/?path=/docs/code--docs)
 
 ### Component`<T>` 🍀
 
