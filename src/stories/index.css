@@ -8,6 +8,6 @@
     grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)) !important;
 }
 
-#storybook-root:has(#destinations-autcompLite) {
+#storybook-root:has(#destinations-autcompLite, #users-table) {
     min-width: min(750px, 80vw);
 }

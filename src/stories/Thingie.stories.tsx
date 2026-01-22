@@ -84,6 +84,7 @@ function UsersTable() {
   return (
     <>
       <div
+        id="users-table"
         style={{
           display: "flex",
           gap: "var(--gap-2)",
