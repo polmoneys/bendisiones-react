@@ -8,7 +8,7 @@ import PortalParticipationProvider, {
 } from "../Inspired/Portal";
 
 const meta = {
-  title: "Dumb/Portal",
+  title: "Inspired/Portal",
   subcomponents: { Participate, PortalParticipationProvider, PortalTarget },
   parameters: {
     layout: "centered",

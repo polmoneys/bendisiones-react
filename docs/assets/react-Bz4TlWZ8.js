@@ -1,1 +1,0 @@
-import{n as e,t}from"./lib-Ri_uf8DW.js";export{t as MDXProvider};
