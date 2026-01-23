@@ -1,8 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { CSSProperties, ReactNode } from "react";
+import type { ChangeEvent, CSSProperties, ReactNode } from "react";
 
+import Button from "../Dumb/Button";
+import type { TriState } from "../Dumb/Checkbox";
+import Checkbox from "../Dumb/Checkbox";
+import Group from "../Dumb/Group";
+import Mua from "../Dumb/Group/Kiss";
 import Rows from "../Dumb/Rows";
 import type { Column } from "../Dumb/Rows/interfaces";
+import Shape from "../Dumb/Shape";
 import createThingie from "../Inspired/Thingie";
 import { formatSelectedKeys } from "../utilities/intl";
 import { has } from "../utils";
@@ -126,6 +132,108 @@ export const StoryA: Story = {
       >
         <UsersTable />
       </TableProvider>
+    );
+  },
+};
+
+const TECH_STOCKS = [
+  { code: "AAPL", id: "0000" },
+  { code: "MSFT", id: "1111" },
+  { code: "GOOG", id: "2222" },
+  { code: "AMZN", id: "3333" },
+  { code: "TSLA", id: "4444" },
+  { code: "NVDA", id: "5555" },
+  { code: "META", id: "6666" },
+];
+
+interface Stock {
+  code: string;
+  id: string;
+}
+
+const Thingie2 = createThingie<Stock>("MyStockThingie");
+
+function StocksList() {
+  const { useSelection } = Thingie2;
+
+  const api = useSelection();
+  const formatted = formatSelectedKeys(api.selectedKeys);
+
+  const onChangeLeader = (event: ChangeEvent<HTMLInputElement>) => {
+    const el = event.currentTarget;
+
+    const value: TriState = el.indeterminate ? "mixed" : el.checked;
+    // 'mixed' | true | false
+    if (!value) api.clear();
+    if (value) api.items.map((item) => api.add(item));
+  };
+
+  return (
+    <div id="stock-list">
+      <br />
+
+      <Mua
+        component="label"
+        dangerous={{
+          width: "fit-content",
+        }}
+      >
+        <Checkbox
+          id="master-checkbox"
+          checked={api.selectedCount > 0 ? "mixed" : false}
+          onChange={onChangeLeader}
+        />
+        Has selections
+      </Mua>
+      <br />
+
+      <p>
+        Selected count:{" "}
+        <strong>
+          {api.selectedCount} {api.selectedCount > 0 ? "," : ""} {formatted}
+        </strong>
+      </p>
+      <br />
+      {api.items?.map((item, pos) => (
+        <Group
+          key={item.id}
+          gradient={`${!api.isSelected(item) ? "var(--transparent)" : "var(--positive)"} 0, ${!api.isSelected(item) ? "var(--transparent)" : "var(--positive)"} 60px, var(--neutral) 60px, var(--neutral) calc(100% - 132px), var(--white) calc(100% - 132px),var(--white) 100%`}
+          start={<Shape sides={api.isSelected(item) ? 4 : 22} size={22} />}
+          startWidth="60px"
+          end={
+            <Button isText onClick={() => api.toggle(item)}>
+              {api.isSelected(item) ? "Remove" : "Add"}
+            </Button>
+          }
+          endWidth="130px"
+          dangerous={{
+            border: "var(--border)",
+            marginBottom:
+              (api.items ?? []).length - 1 === pos ? 0 : "var(--gap-1)",
+          }}
+        >
+          <p className="clamp" onClick={() => api.toggle(item)}>
+            {item.code}
+          </p>
+        </Group>
+      ))}
+    </div>
+  );
+}
+
+export const StoryB: Story = {
+  args: {},
+  name: "List",
+  render: function Render() {
+    const { Thingie: TableProvider2 } = Thingie2;
+    return (
+      <TableProvider2
+        items={TECH_STOCKS}
+        keySelector={(s) => s.code}
+        initialSelectedKeys={["AAPL"]}
+      >
+        <StocksList />
+      </TableProvider2>
     );
   },
 };

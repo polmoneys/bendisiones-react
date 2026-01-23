@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import PortalParticipationProvider, {
   Participate,
   PortalTarget,
-} from "../Dumb/Portal";
+} from "../Inspired/Portal";
 
 const meta = {
   title: "Dumb/Portal",
@@ -41,7 +41,7 @@ function MetricsWidget({
         }}
       >
         <h4>{title}</h4>
-        <div style={{ fontSize: 24 }}>{value}</div>
+        <p style={{ fontSize: 24 }}>{value}</p>
       </div>
 
       <Participate target="details" when={expanded}>

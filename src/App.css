@@ -273,6 +273,11 @@ a:is(:not([class])) {
     }
 }
 
+input[type="password"] {
+    font-family: Verdana;
+    letter-spacing: 0.125em;
+}
+
 select {
     padding: 0 44px 0 var(--gap-2);
     min-height: var(--min-width);

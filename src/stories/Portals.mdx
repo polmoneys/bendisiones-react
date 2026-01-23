@@ -1,0 +1,84 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as PortalsStories from "./Portals.stories";
+
+<Meta of={PortalsStories} />
+
+<div id="body">
+
+`Portals` supports all sort of funky (aka. 🆒) adventures. I like to think about them as targets that receive contributions, where `Participants` are the ones to declare "I want to contribute UI here". Context to wire them up without prop drilling.
+
+```tsx
+function MetricsCard({
+  title,
+  value,
+  trend,
+}: {
+  title: string;
+  value: string;
+  trend: number;
+}) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <>
+      <div onClick={() => setExpanded(!expanded)}>
+        <h4>{title}</h4>
+        <p>{value}</p>
+      </div>
+
+      <Participate target="details" when={expanded}>
+        <div>
+          <h4>{title} - Detailed View</h4>
+          <p>Trend: ↗️ +{trend}%</p>
+          <p>Last updated: 2 minutes ago</p>
+          <button onClick={() => setExpanded(false)}>Close</button>
+        </div>
+      </Participate>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <PortalParticipationProvider>
+      <MetricsCard title="Revenue" value="$1.2M" trend={12} />
+      <MetricsCard title="Users" value="45K" trend={8} />
+
+      <PortalTarget
+        id="details"
+        style={{
+          border: "var(--border)",
+          padding: "var(--gap-3)",
+        }}
+      >
+        <p>Details</p>
+        {/* MetricsCard details will appear here */}
+      </PortalTarget>
+    </PortalParticipationProvider>
+  );
+}
+```
+
+ps: insight from `jjenzz`
+
+> When passing a component through a Portal
+> it will not replace the children in the node you provide,
+> it will append to it.
+
+</div>
+
+<style>
+  {`
+  #body * {
+      font-size: var(--font-size);
+      font-weight: var(--font-weight);
+      line-height: var(--font-line-height);
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  `}
+</style>

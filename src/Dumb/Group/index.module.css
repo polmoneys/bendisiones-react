@@ -59,6 +59,9 @@
         grid-template-columns: 1fr !important;
         background-image: none !important;
 
+        & .main {
+            padding-left: var(--gap-3);
+        }
         &.hasStart > *:first-child {
             display: none !important;
         }
