@@ -1,128 +1,110 @@
 import {
-    createContext,
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+  createContext,
+  type ElementType,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
-import { createPortal as reactCreatePortal } from 'react-dom';
+import { createPortal } from "react-dom";
 
 import type {
-    PortalContextValue,
-    PortalProps,
-    PortalProviderProps,
-} from './interfaces';
+  ParticipateProps,
+  PortalContextValue,
+  PortalParticipationProviderProps,
+  PortalTargetProps,
+} from "./interfaces";
 
-export default function createPortal(displayName?: string) {
-    const Ctx = createContext<PortalContextValue | undefined>(undefined);
-    Ctx.displayName = displayName ?? 'Portal';
+const PortalContext = createContext<PortalContextValue | null>(null);
 
-    function PortalProvider({
-        children,
-        fallbackPortalId = 'fallback-portal-target',
-    }: PortalProviderProps) {
-        const fallbackRef = useRef<HTMLElement | null>(null);
-        const [portalTarget, setPortalTargetState] =
-            useState<HTMLElement | null>(null);
+export default function PortalParticipationProvider({
+  children,
+}: PortalParticipationProviderProps) {
+  const [targets, setTargets] = useState<Map<string, HTMLElement>>(new Map());
 
-        const removeFallback = useCallback(() => {
-            if (
-                fallbackRef.current &&
-                typeof document !== 'undefined' &&
-                document.body.contains(fallbackRef.current)
-            ) {
-                document.body.removeChild(fallbackRef.current);
-            }
-            fallbackRef.current = null;
-        }, []);
+  const registerTarget = useCallback((id: string, element: HTMLElement) => {
+    setTargets((prev) => new Map(prev).set(id, element));
+  }, []);
 
-        const setPortalTarget = useCallback(
-            (target: HTMLElement | string | null) => {
-                // SSR guard
-                if (typeof document === 'undefined') return;
+  const unregisterTarget = useCallback((id: string) => {
+    setTargets((prev) => {
+      const next = new Map(prev);
+      next.delete(id);
+      return next;
+    });
+  }, []);
 
-                if (target === null) {
-                    removeFallback();
-                    setPortalTargetState(null);
-                    return;
-                }
+  return (
+    <PortalContext.Provider
+      value={{ targets, registerTarget, unregisterTarget }}
+    >
+      {children}
+    </PortalContext.Provider>
+  );
+}
 
-                if (target instanceof HTMLElement) {
-                    removeFallback();
-                    setPortalTargetState(target);
-                    return;
-                }
+function usePortalContext() {
+  const context = useContext(PortalContext);
+  if (!context) {
+    throw new Error(
+      "Portal components must be used within PortalParticipationProvider",
+    );
+  }
+  return context;
+}
 
-                const el = document.getElementById(target);
-                if (el) {
-                    removeFallback();
-                    setPortalTargetState(el);
-                    return;
-                }
+function usePortalTarget(targetId: string) {
+  const { registerTarget, unregisterTarget } = usePortalContext();
+  const [element, setElement] = useState<HTMLElement | null>(null);
 
-                if (!fallbackRef.current) {
-                    const el = document.createElement('div');
-                    el.id = fallbackPortalId;
-                    el.setAttribute('data-portal-fallback', 'true');
-                    el.setAttribute('aria-hidden', 'true');
-                    el.setAttribute('role', 'presentation');
-                    document.body.appendChild(el);
-                    fallbackRef.current = el;
-                }
-
-                setPortalTargetState(fallbackRef.current);
-            },
-            [fallbackPortalId, removeFallback],
-        );
-
-        useEffect(() => {
-            return () => {
-                removeFallback();
-            };
-        }, [removeFallback]);
-
-        const value = useMemo(
-            () => ({ portalTarget, setPortalTarget }),
-            [portalTarget, setPortalTarget],
-        );
-
-        return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+  useEffect(() => {
+    if (element) {
+      registerTarget(targetId, element);
+      return () => unregisterTarget(targetId);
     }
+  }, [targetId, element, registerTarget, unregisterTarget]);
 
-    function usePortal() {
-        const ctx = useContext(Ctx);
-        if (!ctx)
-            throw new Error(
-                `${Ctx.displayName} hook must be used inside its provider`,
-            );
-        return ctx;
-    }
+  return setElement;
+}
 
-    function Portal({ children, onMount, onUnmount }: PortalProps) {
-        const { portalTarget } = usePortal();
-        const mountedTargetRef = useRef<HTMLElement | null>(null);
+export function PortalTarget<T extends ElementType = "div">({
+  id,
+  children,
+  as,
+  ...props
+}: PortalTargetProps<T> &
+  Omit<React.ComponentPropsWithoutRef<T>, keyof PortalTargetProps<T>>) {
+  const ref = usePortalTarget(id);
+  const Component = (as || "div") as ElementType;
 
-        useEffect(() => {
-            if (portalTarget) {
-                onMount?.(portalTarget);
-                mountedTargetRef.current = portalTarget;
-            }
+  return (
+    <Component ref={ref} {...props}>
+      {children}
+    </Component>
+  );
+}
 
-            return () => {
-                const mounted = mountedTargetRef.current;
-                if (mounted) {
-                    onUnmount?.(mounted);
-                }
-                mountedTargetRef.current = null;
-            };
-        }, [portalTarget, onMount, onUnmount]);
+function useParticipate(
+  targetId: string,
+  content: ReactNode,
+  condition: boolean = true,
+): ReturnType<typeof createPortal> | null {
+  const { targets } = usePortalContext();
+  const target = targets.get(targetId);
 
-        if (!portalTarget) return null;
-        return reactCreatePortal(children, portalTarget);
-    }
+  if (!condition || !target) return null;
 
-    return { PortalProvider, usePortal, Portal } as const;
+  return createPortal(content, target);
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function Participate({
+  target,
+  when = true,
+  children,
+}: ParticipateProps) {
+  const portal = useParticipate(target, children, when);
+  return portal;
 }

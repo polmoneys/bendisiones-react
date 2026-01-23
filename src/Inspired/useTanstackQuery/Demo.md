@@ -102,7 +102,7 @@ Canonical TODO example
 
 const state = todoHelpers.getQueryState<Todo[], CustomError>();
 
-   const todoHelpers = useQueryHelper({
+   const todoHelpers = useTanstackQuery({
      queryKey: ['todos']
    });
 

@@ -1,17 +1,24 @@
-import type { ReactNode } from 'react';
+import type { ElementType, ReactNode } from "react";
 
-export type PortalContextValue = {
-    setPortalTarget: (target: HTMLElement | string | null) => void;
-    portalTarget: HTMLElement | null;
-};
-
-export interface PortalProviderProps {
-    children: ReactNode;
-    fallbackPortalId?: string; // renamed prop
+export interface PortalContextValue {
+  targets: Map<string, HTMLElement>;
+  registerTarget: (id: string, element: HTMLElement) => void;
+  unregisterTarget: (id: string) => void;
 }
 
-export interface PortalProps {
-    children: ReactNode;
-    onMount?: (target: HTMLElement) => void;
-    onUnmount?: (target: HTMLElement) => void;
+export interface PortalParticipationProviderProps {
+  children: ReactNode;
+}
+
+export interface PortalTargetProps<T extends ElementType = "div"> {
+  id: string;
+  children?: ReactNode;
+  as?: T;
+}
+
+export interface ParticipateProps {
+  target: string;
+  when?: boolean;
+  children: ReactNode;
+  priority?: number;
 }
