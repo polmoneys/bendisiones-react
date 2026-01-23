@@ -40,6 +40,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Secondary: Story = {
+  name: "Dates mgmt",
   render: function Render() {
     const inceptionDates = ["2020-03-15", "2021-06-01"];
     const {
