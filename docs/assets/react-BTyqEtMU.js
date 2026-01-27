@@ -1,1 +1,0 @@
-import{n as e,t}from"./lib-50MQl97J.js";export{t as MDXProvider};

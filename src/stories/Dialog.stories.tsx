@@ -177,15 +177,16 @@ export const StoryC: Story = {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                marginBottom: "var(--gap-2)",
               }}
             >
               <Button
+                isIcon
                 isText
                 onClick={onClose}
                 // onClick={callAll(onClose, onClose2)}
-                end={<IconX />}
               >
-                Close
+                <IconX size={64} />
               </Button>
             </Dialog.Actions>
           </Tray>

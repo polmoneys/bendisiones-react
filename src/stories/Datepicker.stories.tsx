@@ -28,21 +28,17 @@ const periods: Period[] = [
   { id: "custom", label: "Custom" },
 ];
 
+type DatePickerPropsAndCustomArgs = React.ComponentProps<typeof DatePicker> & {
+  inceptionDates: Array<string>;
+};
+
 const meta = {
   title: "Inspired/DatePicker",
   component: DatePicker,
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof DatePicker>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Secondary: Story = {
-  name: "Dates mgmt",
-  render: function Render() {
-    const inceptionDates = ["2020-03-15", "2021-06-01"];
+  render: function Render(args) {
     const {
       oldestInceptionDate,
       availablePeriods,
@@ -55,7 +51,7 @@ export const Secondary: Story = {
       toggleEndOfMonth,
       showUI,
     } = useDates({
-      inceptionDates,
+      inceptionDates: args.inceptionDates,
       defaultPeriod: "oneMonths",
       defaultEndOfMonth: false,
     });
@@ -149,5 +145,15 @@ export const Secondary: Story = {
         </div>
       </>
     );
+  },
+} satisfies Meta<DatePickerPropsAndCustomArgs>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Secondary: Story = {
+  name: "Dates mgmt",
+  args: {
+    inceptionDates: ["2020-03-15", "2021-06-01"],
   },
 };

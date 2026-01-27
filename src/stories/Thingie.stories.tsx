@@ -102,6 +102,7 @@ function UsersTable() {
       </div>
 
       <Rows
+        id="users-table-rows"
         columns={COLUMNS}
         gridTemplateColumns="2fr 1fr .25fr"
         rows={USERS}

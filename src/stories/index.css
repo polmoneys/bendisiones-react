@@ -11,3 +11,23 @@
 #storybook-root:has(#destinations-autcompLite, #users-table, #stock-list) {
     min-width: min(750px, 80vw);
 }
+
+#users-table-rows [role="rowgroup"] [role="row"]:hover,
+#users-table-rows [role="rowgroup"] [role="row"]:hover [role="cell"] {
+    background-color: var(--info) !important;
+}
+
+.tooltip {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    place-items: center;
+    z-index: var(--z-4);
+    &:has(*) {
+        padding: var(--pxy);
+        min-height: var(--min-height);
+        background-color: var(--positive);
+    }
+}
