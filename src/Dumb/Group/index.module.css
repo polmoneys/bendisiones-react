@@ -34,6 +34,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        padding: var(--px);
     }
 
     &.hasStart > *:first-child,
@@ -59,9 +60,6 @@
         grid-template-columns: 1fr !important;
         background-image: none !important;
 
-        & .main {
-            padding-left: var(--gap-3);
-        }
         &.hasStart > *:first-child {
             display: none !important;
         }

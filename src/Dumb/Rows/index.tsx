@@ -17,7 +17,7 @@ export default function Rows<T>({
   ...rest
 }: RowsProps<T> & { api: SelectionAPI<T> }) {
   return (
-    <div role="table" {...rest}>
+    <div role="table" {...rest} id={id}>
       <RowHeader
         gridTemplateColumns={gridTemplateColumns}
         columns={columns}
@@ -33,10 +33,10 @@ export default function Rows<T>({
               row={r}
               gridTemplateColumns={gridTemplateColumns}
               key={`${id}-${pos}`}
+              id={`${id}-${pos}`}
               columns={columns}
               label={label}
               rowIndex={pos}
-              id={id}
               selected={selected}
               onSelect={() => api.toggle(r)}
               selectedBackgroundColor={selectedBackgroundColor}

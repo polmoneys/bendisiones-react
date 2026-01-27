@@ -1,3 +1,26 @@
+.isEmpty {
+    /* no text nodes */
+    &:empty {
+        opacity: 0.1;
+        width: var(--min-width);
+    }
+    /* maybe text nodes */
+    &:not(:has(*)) {
+        background-color: var(--negative);
+    }
+}
+
+/*.hasOneChild:has(> :only-child) {
+}*/
+
+/* more than one child*/
+.hasOneChild:not(:has(> :only-child)) {
+    padding: var(--pxy);
+    & svg {
+        fill: var(--negative);
+    }
+}
+
 .ringless {
     border-color: var(--transparent) !important;
 }
@@ -330,6 +353,12 @@
 
 .icon-align-text {
     height: 1lh;
+}
+
+.circle {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    justify-content: center !important;
 }
 
 .child-will-not-overflow-parent {
