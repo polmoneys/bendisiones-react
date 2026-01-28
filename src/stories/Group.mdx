@@ -1,0 +1,84 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as GroupStories from "./Group.stories";
+
+<Meta of={GroupStories} />
+
+<div id="body">
+
+`UI is the art of group`-ing
+
+Let's start with `Group` component, it gives us the power to wrap `children` with `start` or `end` slots...
+
+<Canvas of={GroupStories.StoryB} />
+
+<Canvas of={GroupStories.StoryAA} />
+
+Power up with the whole trinity in use:
+
+<Canvas of={GroupStories.StoryC} />
+
+Another kind of group-ing inspired by `MUI sx prop` is `Container` component. It allows consumer to declare advanced styles inline to any HTML element by replacing `&` with a proper target selector.
+
+```tsx
+const cardSXLandscape = `
+  & {
+      width:min(690px, 66vw);
+      aspect-ratio: 16/9;
+  }
+
+  &:not(:has(img)) {
+      display:flex;
+      flex-direction:column;
+      gap:var(--gap-3);
+      padding:var(--pxy);
+
+  }
+  &:has(img) {
+      display: grid;
+      grid-template-areas: stack;
+  }
+  &:has(img) > * {
+      grid-area: stack;
+  }
+  &:has(img) > *:first-child {
+      position: relative;
+      z-index:var(--z-2);
+      padding:var(--pxy);
+
+  }
+
+  & > .card-summary {
+      margin-top:auto;
+  }
+
+  &:hover {
+      background: var(--neutral);
+  }
+
+  &:hover > button {
+      transform: scale(1.02);
+  }
+`;
+```
+
+<Canvas of={GroupStories.StoryF} />
+
+<Canvas of={GroupStories.StoryG} />
+
+</div>
+
+<style>
+  {`
+      #body *:not(pre *) {
+          font-size: var(--font-size);
+          font-weight: var(--font-weight);
+          line-height: var(--font-line-height);
+      }
+
+  img {
+    object-fit: cover;
+  }
+
+  `}
+</style>

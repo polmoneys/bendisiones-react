@@ -5,13 +5,13 @@ import { GoX as IconX } from "react-icons/go";
 // import { callAll } from "../utils";
 import Button from "../Dumb/Button";
 import Shape from "../Dumb/Shape";
-import Dialog from "../Inspired/Dialog";
-import ActionSheet from "../Inspired/Dialog/ActionSheet";
-import Tray from "../Inspired/Dialog/Tray";
+import Dialog from "../Smart-ish/Dialog";
+import ActionSheet from "../Smart-ish/Dialog/ActionSheet";
+import Tray from "../Smart-ish/Dialog/Tray";
 import useURL from "../utilities/useURL";
 
 const meta = {
-  title: "Dumb/Intrusive",
+  title: "Smart-ish/Intrusive",
   component: Dialog,
   parameters: {
     layout: "centered",

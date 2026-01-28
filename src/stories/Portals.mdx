@@ -6,10 +6,12 @@ import * as PortalsStories from "./Portals.stories";
 
 <div id="body">
 
-`Portals` supports all sort of funky (aka. 🆒) adventures. I like to think about them as targets that receive contributions, where `Participants` are the ones to declare "I want to contribute UI here". No central registry knowing about the relationships of them all & no prop drilling.
+I like to think about `Portals` as targets that receive contributions, where `Participants` are the ones to declare `I want to contribute UI here`. No central registry knowing about the relationships of them all & no prop drilling.
+
+As side bonus `1 component can become 1 content` in terms of declaring all the interface variations it owns.
 
 ```tsx
-function MetricsCard({
+function MetricsWidget({
   title,
   value,
   trend,
@@ -18,63 +20,95 @@ function MetricsCard({
   value: string;
   trend: number;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [state, setState] = useState<{
+    details: boolean;
+    sidebar: boolean;
+    tooltip: boolean;
+  }>({
+    details: false,
+    sidebar: false,
+    tooltip: false,
+  });
 
+  const { hoverProps, isHovered } = useHover({
+    onHoverStart: () => setState((prev) => ({ ...prev, tooltip: true })),
+    onHoverEnd: () => setState((prev) => ({ ...prev, tooltip: false })),
+  });
   return (
     <>
-      <div onClick={() => setExpanded(!expanded)}>
+      <div
+        {...hoverProps}
+        onClick={() =>
+          setState((prev) => ({
+            ...prev,
+            details: !prev.details,
+            sidebar: true,
+          }))
+        }
+        style={{
+          border: "var(--border)",
+          padding: "var(--gap-3)",
+          cursor: "pointer",
+          background: state.details ? "var(--neutral)" : "var(--white)",
+        }}
+      >
         <h4>{title}</h4>
-        <p>{value}</p>
+        <p style={{ fontSize: 24 }}>{value}</p>
       </div>
 
-      <Participate target="details" when={expanded}>
+      <Participate target="details" when={state.details}>
         <div>
-          <h4>{title} - Detailed View</h4>
+          <div className="row place-items-center">
+            <h4>{title} - Detailed View</h4>
+            <Button
+              isIcon
+              onClick={() =>
+                setState((prev) => ({
+                  ...prev,
+                  details: false,
+                }))
+              }
+              className="ml-a"
+            >
+              <TrashIcon />
+            </Button>
+          </div>
           <p>Trend: ↗️ +{trend}%</p>
           <p>Last updated: 2 minutes ago</p>
-          <button onClick={() => setExpanded(false)}>Close</button>
         </div>
+      </Participate>
+
+      <Participate target="sidebar" when={state.sidebar}>
+        <Button
+          isText
+          onClick={() =>
+            setState((prev) => ({
+              ...prev,
+              sidebar: !prev.sidebar,
+            }))
+          }
+        >
+          {title} ↗️ +{trend}%
+        </Button>
+      </Participate>
+
+      <Participate target="tooltip" when={isHovered}>
+        <p>↗️ +{trend}%</p>
       </Participate>
     </>
   );
 }
-
-function App() {
-  return (
-    <PortalParticipationProvider>
-      <MetricsCard title="Revenue" value="$1.2M" trend={12} />
-      <MetricsCard title="Users" value="45K" trend={8} />
-
-      <PortalTarget
-        id="details"
-        style={{
-          border: "var(--border)",
-          padding: "var(--gap-3)",
-        }}
-      >
-        <p>Details</p>
-        {/* MetricsCard details will appear here */}
-      </PortalTarget>
-    </PortalParticipationProvider>
-  );
-}
 ```
-
-ps: insight from `jjenzz`
-
-> When passing a component through a Portal
-> it will not replace the children in the node you provide,
-> it will append to it.
 
 </div>
 
 <style>
   {`
-  #body * {
-      font-size: var(--font-size);
-      font-weight: var(--font-weight);
-      line-height: var(--font-line-height);
-  }
+      #body *:not(pre *) {
+          font-size: var(--font-size);
+          font-weight: var(--font-weight);
+          line-height: var(--font-line-height);
+      }
 
   img {
     object-fit: cover;

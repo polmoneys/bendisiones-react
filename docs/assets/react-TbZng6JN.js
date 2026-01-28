@@ -1,0 +1,1 @@
+import{n as e,t}from"./lib-CXlfH5bl.js";export{t as MDXProvider};

@@ -2,7 +2,10 @@ import { useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useHover } from "react-aria";
-import { GoHeartFill as IconHeartFill, GoX as IconX } from "react-icons/go";
+import {
+  GoHeartFill as IconHeartFill,
+  GoTrash as TrashIcon,
+} from "react-icons/go";
 
 import Button from "../Dumb/Button";
 import PortalParticipationProvider, {
@@ -78,9 +81,9 @@ function MetricsWidget({
                   details: false,
                 }))
               }
-              className="ml-a circle"
+              className="ml-a"
             >
-              <IconX />
+              <TrashIcon />
             </Button>
           </div>
           <p>Trend: ↗️ +{trend}%</p>

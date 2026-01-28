@@ -6,21 +6,25 @@ import * as ThingieStories from "./Thingie.stories";
 
 <div id="body">
 
-A common pattern (for me) has been some sort of list / tabular data where users can select one or many.
+A common pattern (for me) has been some sort of list / tabular data where users can `select one or many`.
 
 The abstraction is a `Thingie`, specifically a factory that creates `ContextProvider` and `useSelection` to keep things friendly & tidy.
 
 We can build any list or table with it.
 
+<Canvas of={ThingieStories.StoryA} />
+
+<Canvas of={ThingieStories.StoryB} />
+
 </div>
 
 <style>
   {`
-  #body * {
-      font-size: var(--font-size);
-      font-weight: var(--font-weight);
-      line-height: var(--font-line-height);
-  }
+    #body *:not(pre *) {
+        font-size: var(--font-size);
+        font-weight: var(--font-weight);
+        line-height: var(--font-line-height);
+    }
 
   img {
     object-fit: cover;

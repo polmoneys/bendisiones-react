@@ -24,7 +24,7 @@ export const StoryA: Story = {
   args: {
     size: 199,
     sides: 3,
-    fill: "var(--positive)",
+    fill: "var(--negative)",
     stroke: "transparent",
   },
 };
