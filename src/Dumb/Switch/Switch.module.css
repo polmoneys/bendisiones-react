@@ -1,0 +1,42 @@
+.group {
+    width: fit-content;
+    display: flex;
+    gap: var(--gap-2);
+    align-items: center;
+}
+
+.group input {
+    height: var(--min-height);
+    width: calc(var(--min-width) / 2);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    position: relative;
+    background: var(--neutral);
+    transition:
+        background 0.3s,
+        border-color 0.3s,
+        box-shadow 0.2s;
+}
+
+.group input:after {
+    border-radius: var(--border-radius);
+    width: calc(var(--min-width) / 4);
+    height: calc(var(--min-height) - 6px);
+    content: "";
+    display: block;
+    position: absolute;
+    transition: transform 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+    left: 1px;
+    top: 1px;
+    background: var(--positive);
+    transform: translateX(var(--x, 1px));
+}
+.group input:checked {
+    --b: var(--negative);
+    --bc: var(--negative);
+    --x: calc(var(--min-width) / 5);
+}
+.group input:disabled:not(:checked):after {
+    opacity: 0.6;
+}

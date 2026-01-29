@@ -58,7 +58,7 @@ function MetricsWidget({
 
       <Participate target="details" when={state.details}>
         <div>
-          <div className="row place-items-center">
+          <Row className=" place-items-center">
             <h4>{title} - Detailed View</h4>
             <Button
               isIcon
@@ -72,7 +72,7 @@ function MetricsWidget({
             >
               <TrashIcon />
             </Button>
-          </div>
+          </Row>
           <p>Trend: ↗️ +{trend}%</p>
           <p>Last updated: 2 minutes ago</p>
         </div>
@@ -93,10 +93,14 @@ function MetricsWidget({
       </Participate>
 
       <Participate target="tooltip" when={isHovered}>
-        <p>↗️ +{trend}%</p>
+        <MetricsTooltip>↗️ +{trend}%</MetricsTooltip>
       </Participate>
     </>
   );
+}
+
+function MetricsTooltip({ children }: { children: ReactNode }) {
+  return <p>{children}</p>;
 }
 ```
 

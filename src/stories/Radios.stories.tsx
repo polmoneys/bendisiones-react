@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
 import Group from "../Dumb/Group";
+import { Col } from "../Dumb/Group/Flex";
 import Radio from "../Dumb/Radio";
 import Shape from "../Dumb/Shape";
 
@@ -42,10 +43,8 @@ export const Story: Story = {
     );
 
     return (
-      <div
+      <Col
         style={{
-          display: "flex",
-          flexDirection: "column",
           gap: "var(--gap-1)",
         }}
       >
@@ -172,7 +171,7 @@ export const Story: Story = {
             );
           }}
         </Radio>
-      </div>
+      </Col>
     );
   },
 };

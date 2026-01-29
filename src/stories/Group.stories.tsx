@@ -9,6 +9,7 @@ import Button from "../Dumb/Button";
 import Checkbox from "../Dumb/Checkbox";
 import Group from "../Dumb/Group";
 import Container from "../Dumb/Group/Container";
+import Grid from "../Dumb/Group/Grid2068";
 import Kiss from "../Dumb/Group/Kiss";
 import TextInput from "../Dumb/InputText";
 import Media from "../Dumb/Media";
@@ -20,7 +21,7 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-  subcomponents: { Kiss, Container },
+  subcomponents: { Kiss, Container, Grid },
 } satisfies Meta<typeof Group>;
 
 export default meta;
@@ -290,6 +291,60 @@ export const StoryG: Story = {
             src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           />
         </Container>
+      </>
+    );
+  },
+  decorators: [
+    (Story) => (
+      <div className="group">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const StoryH: Story = {
+  name: "Advanced Grid",
+  parameters: {
+    layout: "padded",
+  },
+  render: function Render() {
+    return (
+      <>
+        <Grid
+          padding={{ xs: 0, sm: "var(--gap-2)" }}
+          gap={{ xs: "var(--gap-1)", md: "var(--gap-4)" }}
+          gridTemplateColumns={{
+            xs: "1fr",
+            md: "1fr 1fr",
+            xl: "1fr 1fr 1fr 1fr",
+          }}
+          className="cover-center"
+        >
+          <Media
+            ratio="landscape"
+            alt="Plant Landscape"
+            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+
+          <Media
+            ratio="landscape"
+            alt="Plant Landscape"
+            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+
+          <Media
+            ratio="landscape"
+            alt="Plant Landscape"
+            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+
+          <Media
+            ratio="landscape"
+            alt="Plant Landscape"
+            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+        </Grid>
       </>
     );
   },

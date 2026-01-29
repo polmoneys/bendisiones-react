@@ -1,0 +1,13 @@
+.root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate3d(0, 0, 0); /* initial */
+    will-change: transform;
+    visibility: hidden; /* hidden until moved */
+    pointer-events: none;
+    z-index: var(--z-4);
+    /* optional: center the element on the pointer:
+     transform: translate3d(calc(var(--x) - 50%), calc(var(--y) - 50%), 0);
+     but we update coordinates in JS above already */
+}

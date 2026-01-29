@@ -4,6 +4,7 @@ import { GoX as IconX } from "react-icons/go";
 // import useURLLite from "../Inspired/Dialog/useURLLite";
 // import { callAll } from "../utils";
 import Button from "../Dumb/Button";
+import { Row } from "../Dumb/Group/Flex";
 import Shape from "../Dumb/Shape";
 import Dialog from "../Smart-ish/Dialog";
 import ActionSheet from "../Smart-ish/Dialog/ActionSheet";
@@ -34,9 +35,7 @@ export const StoryA: Story = {
 
     return (
       <>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--gap-1)" }}>
-          <Button onClick={() => onOpenDialog()}>Dialog </Button>
-        </div>
+        <Button onClick={() => onOpenDialog()}>Dialog </Button>
 
         <Dialog isOpen={isDialogOpen} onClose={() => onClose()}>
           <Dialog.Title
@@ -92,7 +91,7 @@ export const StoryB: Story = {
 
     return (
       <>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--gap-1)" }}>
+        <Row style={{ flexWrap: "wrap", gap: "var(--gap-1)" }}>
           <ActionSheet
             trigger={({ isOpen }) => {
               return (
@@ -125,7 +124,7 @@ export const StoryB: Story = {
               Action 3
             </Button>
           </ActionSheet>
-        </div>
+        </Row>
       </>
     );
   },
@@ -143,54 +142,52 @@ export const StoryC: Story = {
 
     return (
       <>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--gap-1)" }}>
-          <Button onClick={() => onOpenTray()}>Tray </Button>
-          <Tray
-            isOpen={isTrayOpen}
-            onClose={onClose}
-            // isOpen={isTrayOpen || isTrayOpen2}
-            // onClose={callAll(onClose, onClose2)}
+        <Button onClick={() => onOpenTray()}>Tray </Button>
+        <Tray
+          isOpen={isTrayOpen}
+          onClose={onClose}
+          // isOpen={isTrayOpen || isTrayOpen2}
+          // onClose={callAll(onClose, onClose2)}
+        >
+          <Dialog.Title
+            dangerous={{
+              display: "flex",
+              alignItems: "center",
+              minHeight: "var(--min-height)",
+              padding: "0 var(--gap-2) 0 var(--gap-3)",
+            }}
           >
-            <Dialog.Title
-              dangerous={{
-                display: "flex",
-                alignItems: "center",
-                minHeight: "var(--min-height)",
-                padding: "0 var(--gap-2) 0 var(--gap-3)",
-              }}
-            >
-              <p>Lorem ipsun dolor</p>
-            </Dialog.Title>
+            <p>Lorem ipsun dolor</p>
+          </Dialog.Title>
 
-            <Dialog.Content
-              dangerous={{
-                placeContent: "center",
-                textAlign: "center",
-              }}
-            >
-              <Shape.Square size={50} />
-            </Dialog.Content>
+          <Dialog.Content
+            dangerous={{
+              placeContent: "center",
+              textAlign: "center",
+            }}
+          >
+            <Shape.Square size={50} />
+          </Dialog.Content>
 
-            <Dialog.Actions
-              className="mt-a"
-              dangerous={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "var(--gap-2)",
-              }}
+          <Dialog.Actions
+            className="mt-a"
+            dangerous={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "var(--gap-2)",
+            }}
+          >
+            <Button
+              isIcon
+              isText
+              onClick={onClose}
+              // onClick={callAll(onClose, onClose2)}
             >
-              <Button
-                isIcon
-                isText
-                onClick={onClose}
-                // onClick={callAll(onClose, onClose2)}
-              >
-                <IconX size={64} />
-              </Button>
-            </Dialog.Actions>
-          </Tray>
-        </div>
+              <IconX size={64} />
+            </Button>
+          </Dialog.Actions>
+        </Tray>
       </>
     );
   },

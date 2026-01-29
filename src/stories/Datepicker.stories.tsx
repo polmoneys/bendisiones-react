@@ -6,6 +6,7 @@ import { GoInfinity as IconLoadingBar } from "react-icons/go";
 import Button from "../Dumb/Button";
 import Checkbox from "../Dumb/Checkbox";
 import Group from "../Dumb/Group";
+import { Col, Row } from "../Dumb/Group/Flex";
 import DatePicker from "../Smart-ish/DatePicker";
 import type { Period } from "../Smart-ish/DatePicker/interfaces";
 import Periods from "../Smart-ish/DatePicker/Periods";
@@ -66,16 +67,13 @@ const meta = {
 
     return (
       <>
-        <div
+        <Col
           style={{
-            display: "flex",
-            flexDirection: "column",
             gap: "var(--gap-3)",
           }}
         >
-          <div
+          <Row
             style={{
-              display: "flex",
               gap: "var(--gap-1)",
               flexWrap: "wrap",
             }}
@@ -86,7 +84,7 @@ const meta = {
               setPeriod={setPeriod}
               selectedPeriod={selectedPeriod}
             />
-          </div>
+          </Row>
 
           <div
             style={{
@@ -142,7 +140,7 @@ const meta = {
               </Range>
             </Suspense>
           )}
-        </div>
+        </Col>
       </>
     );
   },

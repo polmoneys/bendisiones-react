@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useHover } from "react-aria";
@@ -8,6 +8,8 @@ import {
 } from "react-icons/go";
 
 import Button from "../Dumb/Button";
+import { Row } from "../Dumb/Group/Flex";
+import PointerTracker from "../Dumb/PointerTracker";
 import PortalParticipationProvider, {
   Participate,
   PortalTarget,
@@ -71,7 +73,7 @@ function MetricsWidget({
 
       <Participate target="details" when={state.details}>
         <div>
-          <div className="row place-items-center">
+          <Row className="place-items-center">
             <h4>{title} - Detailed View</h4>
             <Button
               isIcon
@@ -85,7 +87,7 @@ function MetricsWidget({
             >
               <TrashIcon />
             </Button>
-          </div>
+          </Row>
           <p>Trend: ↗️ +{trend}%</p>
           <p>Last updated: 2 minutes ago</p>
         </div>
@@ -106,11 +108,28 @@ function MetricsWidget({
       </Participate>
 
       <Participate target="tooltip" when={isHovered}>
-        <p>↗️ +{trend}%</p>
+        <MetricsTooltip>↗️ +{trend}%</MetricsTooltip>
       </Participate>
     </>
   );
 }
+
+function MetricsTooltip({ children }: { children: ReactNode }) {
+  return (
+    <PointerTracker
+      style={{
+        backgroundColor: "var(--positive)",
+        padding: "var(--pxy)",
+        borderRadius: "var(--border-radius)",
+        boxShadow: "var(--shadow)",
+      }}
+      offset={{ x: 20, y: 20 }}
+    >
+      {children}
+    </PointerTracker>
+  );
+}
+
 export const StoryA: Story = {
   name: "Portals <3",
   render: function Render() {
@@ -159,12 +178,12 @@ export const StoryA: Story = {
               placeItems: "center",
               minHeight: "var(--min-height)",
             }}
-            className="hasOneChild"
+            className="has-one-child"
           >
             <IconHeartFill />
           </PortalTarget>
 
-          <PortalTarget id="tooltip" className="tooltip"></PortalTarget>
+          <PortalTarget id="tooltip"></PortalTarget>
         </PortalParticipationProvider>
       </>
     );

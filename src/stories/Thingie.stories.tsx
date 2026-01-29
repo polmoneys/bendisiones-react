@@ -5,6 +5,7 @@ import Button from "../Dumb/Button";
 import type { TriState } from "../Dumb/Checkbox";
 import Checkbox from "../Dumb/Checkbox";
 import Group from "../Dumb/Group";
+import { Row } from "../Dumb/Group/Flex";
 import Mua from "../Dumb/Group/Kiss";
 import Rows from "../Dumb/Rows";
 import type { Column } from "../Dumb/Rows/interfaces";
@@ -89,17 +90,16 @@ function UsersTable() {
 
   return (
     <>
-      <div
+      <Row
         id="users-table"
         style={{
-          display: "flex",
           gap: "var(--gap-2)",
           marginBottom: "var(--gap-3)",
         }}
       >
         <strong>{count}</strong>
         <p>{formatSelectedKeys(selection)}</p>
-      </div>
+      </Row>
 
       <Rows
         id="users-table-rows"

@@ -39,7 +39,3 @@
     filter: brightness(var(--background-img-intensity))
         saturate(var(--background-img-saturate));
 }
-
-.media img {
-    object-fit: cover;
-}

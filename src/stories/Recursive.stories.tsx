@@ -6,6 +6,7 @@ import {
   GoFileDirectory as IconFolder,
 } from "react-icons/go";
 
+import { Col, Row } from "../Dumb/Group/Flex";
 import Recursive from "../Dumb/Recursive";
 import type { RecursiveItem } from "../Dumb/Recursive/interfaces";
 import { findNodeById } from "../Dumb/Recursive/utils";
@@ -149,9 +150,8 @@ export const Secondary: Story = {
     return (
       <>
         {(selectionHasFolders || selectionHasFiles) && (
-          <div
+          <Row
             style={{
-              display: "flex",
               flexWrap: "wrap",
               gap: "var(--gap-2)",
             }}
@@ -159,14 +159,12 @@ export const Secondary: Story = {
             {selectionHasFolders && <IconFolder size={28} />}
             {selectionHasFiles && <IconFile size={28} />}
             <b> {selectionFormatted}</b>
-          </div>
+          </Row>
         )}
         <br />
-        <div
+        <Col
           style={{
-            display: "flex",
             gap: "var(--gap-1)",
-            flexDirection: "column",
           }}
         >
           <Recursive
@@ -179,7 +177,7 @@ export const Secondary: Story = {
             renderItem={renderRecursiveItem}
             indentSize={24}
           />
-        </div>
+        </Col>
       </>
     );
   },
