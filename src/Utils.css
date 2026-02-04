@@ -172,6 +172,7 @@
 .clamp {
     --clamp-lines: 2;
     display: -webkit-box;
+    line-clamp: var(--clamp-lines);
     -webkit-line-clamp: var(--clamp-lines);
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -438,4 +439,36 @@ clip-path: url("#star");
     & svg {
         fill: var(--negative);
     }
+}
+
+.font-xs {
+    font-size: var(--font-xs);
+}
+.font-sm {
+    font-size: var(--font-sm);
+}
+.font-md {
+    font-size: var(--font-md);
+}
+.font-lg {
+    font-size: var(--font-lg);
+}
+.font-xl {
+    font-size: var(--font-xl);
+}
+
+:is(.font-xl, .font-lg) {
+    line-height: 1;
+    overflow-wrap: break-word;
+}
+
+:is(.font-xl, .font-lg)::first-letter {
+    text-transform: var(--shout);
+}
+
+.font-xl:has(b),
+.font-lg:has(b),
+.font-md:has(b),
+.font-sm:has(b) {
+    font-size: inherit;
 }

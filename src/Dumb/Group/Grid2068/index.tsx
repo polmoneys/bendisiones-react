@@ -11,7 +11,6 @@ import styles from "./index.module.css";
 /*
 
 <Grid
-    display={{ xs: 'grid' }}
     padding={{ xs: 0 }}
     gap={{ xs: 'var(--gap-2)', md: 'var(--gap-3)' }}
     gridTemplateColumns={{

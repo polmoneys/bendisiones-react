@@ -20,9 +20,7 @@ import { reducer } from "./utils";
 export default function useBasket<T extends ItemBase>(
   initialCollections?: Collections<T>,
 ) {
-  // index: id -> IndexedItem
   const indexRef = useRef<Map<Id, IndexedItem<T>>>(new Map());
-  // groups: group -> ids
   const groupsRef = useRef<Map<GroupKey, Ids>>(new Map());
   const [optionsVersion, bumpOptionsVersion] = useState(0);
 
@@ -43,7 +41,7 @@ export default function useBasket<T extends ItemBase>(
     selectedSetRef.current = new Set(state.selected);
   }, [state.selected]);
 
-  function addOptionsInternal(group: GroupKey, items: Array<T>) {
+  const addOptionsInternal = useCallback((group: GroupKey, items: Array<T>) => {
     const groups = groupsRef.current;
     const index = indexRef.current;
 
@@ -55,12 +53,14 @@ export default function useBasket<T extends ItemBase>(
     }
     groups.set(group, ids);
     bumpOptionsVersion((v) => v + 1);
-  }
-
-  const addOptions = useCallback((group: GroupKey, items: Array<T>) => {
-    addOptionsInternal(group, items);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const addOptions = useCallback(
+    (group: GroupKey, items: Array<T>) => {
+      addOptionsInternal(group, items);
+    },
+    [addOptionsInternal],
+  );
 
   const getItem = useCallback((id: Id) => indexRef.current.get(id)?.item, []);
 
@@ -127,7 +127,7 @@ export default function useBasket<T extends ItemBase>(
             : ({
                 id: (rec as IndexedItem<T>).item.id,
                 group: (rec as IndexedItem<T>).group,
-              } as any),
+              } as R),
         );
     },
     [state.selected],

@@ -1,0 +1,51 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as BasketStories from "./Basket.stories";
+
+<Meta of={BasketStories} />
+
+<div id="body">
+
+Select items from different collections and export the selection with `useBasket`.
+
+```tsx
+const basket = useBasket();
+
+const {
+  api: { add, remove, toggle, set, clear, addOptions },
+  views: {
+    flattened,
+    grouped,
+    countsByGroup,
+    selectedIds
+  },
+  helpers: {
+    getItem,
+    availableGroups,
+    availableItemsInGroup,
+    isSelected,
+    export
+  },
+};
+} = basket;
+
+```
+
+<Canvas of={BasketStories.StoryA} />
+
+</div>
+
+<style>
+  {`
+      #body *:not(pre *) {
+          font-size: var(--font-size);
+          font-weight: var(--font-weight);
+          line-height: var(--font-line-height);
+      }
+
+  img {
+    object-fit: cover;
+  }
+
+  `}
+</style>
