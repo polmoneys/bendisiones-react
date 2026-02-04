@@ -1,0 +1,1 @@
+import{n as e,t}from"./lib-DsAOW5oo.js";export{t as MDXProvider};

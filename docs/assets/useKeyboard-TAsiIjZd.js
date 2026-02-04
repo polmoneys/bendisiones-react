@@ -1,0 +1,1 @@
+function e(e){if(!e)return;let t=!0;return n=>{e({...n,preventDefault(){n.preventDefault()},isDefaultPrevented(){return n.isDefaultPrevented()},stopPropagation(){t=!0},continuePropagation(){t=!1},isPropagationStopped(){return t}}),t&&n.stopPropagation()}}function t(t){return{keyboardProps:t.isDisabled?{}:{onKeyDown:e(t.onKeyDown),onKeyUp:e(t.onKeyUp)}}}export{t};

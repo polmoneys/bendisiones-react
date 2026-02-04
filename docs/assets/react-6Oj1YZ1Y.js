@@ -1,1 +1,0 @@
-import{n as e,t}from"./lib-CuzoSzv1.js";export{t as MDXProvider};
