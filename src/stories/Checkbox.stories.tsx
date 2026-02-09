@@ -26,9 +26,11 @@ export const StoryA: Story = {
         alignItems: "center",
       }}
       startWidth={"var(--min-height)"}
-      start={<Checkbox {...args} />}
+      start={<Checkbox {...args} id="agree" />}
     >
-      <label>{args.checked ? "I Agree" : "I do not Agree"}</label>
+      <label htmlFor="agree">
+        {args.checked ? "I Agree" : "I do not Agree"}
+      </label>
     </Group>
   ),
 };
@@ -45,9 +47,9 @@ export const StoryB: Story = {
         alignItems: "center",
       }}
       startWidth={"var(--min-height)"}
-      start={<Checkbox {...args} />}
+      start={<Checkbox {...args} id="intermediate-checkbox" />}
     >
-      <label>Might Agree</label>
+      <label htmlFor="intermediate-checkbox">Might Agree</label>
     </Group>
   ),
 };

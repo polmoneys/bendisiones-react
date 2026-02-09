@@ -66,7 +66,6 @@ export default function AutocompLite(props: AutcompLiteProps) {
               onChange={(v) => setQuery(v)}
               autoComplete="off"
               aria-autocomplete="list"
-              aria-expanded="true"
               aria-haspopup="listbox"
             />
           ),
@@ -77,7 +76,7 @@ export default function AutocompLite(props: AutcompLiteProps) {
             filteredOptions={options}
             selected={selected}
             toggleOption={toggleOption}
-            idPrefix="dest"
+            idPrefix={id}
           />
         ) : null}
       </div>

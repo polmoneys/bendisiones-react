@@ -11,6 +11,7 @@ import Group from "../Dumb/Group";
 import Container from "../Dumb/Group/Container";
 import Grid from "../Dumb/Group/Grid2068";
 import Kiss from "../Dumb/Group/Kiss";
+import ContainerSize from "../Dumb/Group/Size";
 import TextInput from "../Dumb/InputText";
 import Media from "../Dumb/Media";
 import Shape from "../Dumb/Shape";
@@ -345,6 +346,42 @@ export const StoryH: Story = {
             src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           />
         </Grid>
+      </>
+    );
+  },
+  decorators: [
+    (Story) => (
+      <div className="group">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const StoryI: Story = {
+  name: "Container size aware",
+  parameters: {
+    layout: "padded",
+  },
+  render: function Render() {
+    return (
+      <>
+        <ContainerSize>
+          {({ w }) => (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: w < 600 ? "column" : "row",
+                placeContent: "center",
+                placeItems: "center",
+                padding: "var(--pxy)",
+              }}
+            >
+              <p className="font-xl"> Triangle </p>
+              <Shape />
+            </div>
+          )}
+        </ContainerSize>
       </>
     );
   },

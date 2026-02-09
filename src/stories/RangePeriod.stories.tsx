@@ -28,6 +28,9 @@ export const StoryA: Story = {
   render: function Render(args) {
     return (
       <>
+        <label className="offscreen" htmlFor={`${args.id}-min`}>
+          Select min
+        </label>
         <div
           style={{
             height: "10px",
@@ -39,6 +42,9 @@ export const StoryA: Story = {
           }}
         />
         <RangePeriod {...args} />
+        <label className="offscreen" htmlFor={`${args.id}-max`}>
+          Select max
+        </label>
       </>
     );
   },

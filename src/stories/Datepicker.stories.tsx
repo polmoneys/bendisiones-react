@@ -95,11 +95,12 @@ const meta = {
               alignItems: "center",
             }}
           >
-            <p>
+            <label htmlFor="eom">
               Last working day <b>(EOM)</b>
-            </p>
+            </label>
 
             <Checkbox
+              id="eom"
               checked={endOfMonth}
               onChange={(event) => toggleEndOfMonth(event.target.checked)}
             />

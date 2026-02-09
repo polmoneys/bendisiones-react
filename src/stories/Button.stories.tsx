@@ -52,6 +52,7 @@ export const StoryD: Story = {
 export const StoryE: Story = {
   name: "An IconButton",
   args: {
+    "aria-label": "Search",
     children: <IconNorthStar />,
     isIcon: true,
   },

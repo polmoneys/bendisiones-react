@@ -1,3 +1,12 @@
+/*
+    React-aria deps
+    .group
+    Flex/Grid
+    1LOC
+    Font
+    Artwork
+*/
+
 .ringless {
     border-color: var(--transparent) !important;
 }
@@ -167,20 +176,6 @@
 
 .intrinsic-flex > * {
     flex: 1 1 var(--min-content-width);
-}
-
-.clamp {
-    --clamp-lines: 2;
-    display: -webkit-box;
-    line-clamp: var(--clamp-lines);
-    -webkit-line-clamp: var(--clamp-lines);
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.number {
-    font-variant-numeric: tabular-nums;
 }
 
 .columns {
@@ -359,6 +354,75 @@
 /*@media (width < 600px) {
 }*/
 
+.is-empty {
+    /* no text nodes */
+    &:empty {
+        opacity: 0.1;
+        width: var(--min-width);
+    }
+    /* maybe text nodes */
+    &:not(:has(*)) {
+        background-color: var(--negative);
+    }
+}
+
+/*.has-one-child:has(> :only-child) {
+}*/
+
+/* more than one child*/
+.has-one-child:not(:has(> :only-child)) {
+    padding: var(--pxy);
+    & svg {
+        fill: var(--negative);
+    }
+}
+
+.font-xs {
+    font-size: var(--font-xs);
+}
+.font-sm {
+    font-size: var(--font-sm);
+}
+.font-md {
+    font-size: var(--font-md);
+}
+.font-lg {
+    font-size: var(--font-lg);
+}
+.font-xl {
+    font-size: var(--font-xl);
+}
+
+:is(.font-xl, .font-lg) {
+    line-height: 1;
+    overflow-wrap: break-word;
+}
+
+:is(.font-xl, .font-lg)::first-letter {
+    text-transform: var(--shout);
+}
+
+.font-xl:has(b),
+.font-lg:has(b),
+.font-md:has(b),
+.font-sm:has(b) {
+    font-size: inherit;
+}
+
+.clamp {
+    --clamp-lines: 2;
+    display: -webkit-box;
+    line-clamp: var(--clamp-lines);
+    -webkit-line-clamp: var(--clamp-lines);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.number {
+    font-variant-numeric: tabular-nums;
+}
+
 .border-shadow {
     --border-shadow-color: currentColor;
     &.outer {
@@ -416,59 +480,4 @@ clip-path: url("#star");
     &.left {
         clip-path: inset(0px 0px 0px 50%);
     }
-}
-
-.is-empty {
-    /* no text nodes */
-    &:empty {
-        opacity: 0.1;
-        width: var(--min-width);
-    }
-    /* maybe text nodes */
-    &:not(:has(*)) {
-        background-color: var(--negative);
-    }
-}
-
-/*.has-one-child:has(> :only-child) {
-}*/
-
-/* more than one child*/
-.has-one-child:not(:has(> :only-child)) {
-    padding: var(--pxy);
-    & svg {
-        fill: var(--negative);
-    }
-}
-
-.font-xs {
-    font-size: var(--font-xs);
-}
-.font-sm {
-    font-size: var(--font-sm);
-}
-.font-md {
-    font-size: var(--font-md);
-}
-.font-lg {
-    font-size: var(--font-lg);
-}
-.font-xl {
-    font-size: var(--font-xl);
-}
-
-:is(.font-xl, .font-lg) {
-    line-height: 1;
-    overflow-wrap: break-word;
-}
-
-:is(.font-xl, .font-lg)::first-letter {
-    text-transform: var(--shout);
-}
-
-.font-xl:has(b),
-.font-lg:has(b),
-.font-md:has(b),
-.font-sm:has(b) {
-    font-size: inherit;
 }

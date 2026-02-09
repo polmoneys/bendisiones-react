@@ -76,7 +76,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 export default Button;
 
-// const Unset = ({ unset, ...rest }: ButtonProps) => <Button {...rest} unset />;
 // const Text = ({ isText, ...rest }: ButtonProps) => <Button {...rest} isText />;
 // const Icon = ({ isIcon, ...rest }: ButtonProps) => <Button {...rest} isIcon />;
 // const Positive = ({ mood, ...rest }: ButtonProps) => (
@@ -85,7 +84,6 @@ export default Button;
 // const Negative = ({ mood, ...rest }: ButtonProps) => (
 //   <Button {...rest} mood="negative" />
 // );
-
 // const Transparent = ({
 //   dangerous,
 //   border = true,
@@ -100,13 +98,12 @@ export default Button;
 //     }}
 //   />
 // );
-
+//
 // export default Object.assign(Button, {
 //   Text,
 //   Icon,
-//   Group,
 //   Positive,
 //   Negative,
-//   Unset,
 //   Transparent,
 // });
+//

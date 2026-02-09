@@ -105,6 +105,7 @@ export default function OptionsList({
       tabIndex={0}
       onKeyDown={handleKeyDown}
       className={clsx(styles.results, containerClassName)}
+      aria-label={`${query} options`}
     >
       {filteredOptions.map((opt, idx) => {
         const selectedState = selectedIds.has(opt.id);

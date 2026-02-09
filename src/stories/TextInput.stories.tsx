@@ -36,7 +36,11 @@ export const Secondary: Story = {
           startWidth="100px"
           endWidth="40px"
           end={
-            <Button isIcon dangerous={{ paddingLeft: "11px" }}>
+            <Button
+              isIcon
+              aria-label="Save search"
+              dangerous={{ paddingLeft: "11px" }}
+            >
               <IconHeart size={18} />
             </Button>
           }
