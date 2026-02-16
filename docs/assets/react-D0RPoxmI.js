@@ -1,1 +1,0 @@
-import{n as e,t}from"./lib-c7Ipttye.js";export{t as MDXProvider};

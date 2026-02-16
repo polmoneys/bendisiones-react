@@ -1,0 +1,1 @@
+var e={type:`conjunction`,style:`long`},t=`en`;function n(n,r=e,i=t){return new Intl.ListFormat(i,r).format([...n].map(e=>e.toString()))}function r(e,t,n){return e==null?`-`:new Intl.DateTimeFormat(t,n??{year:`numeric`,month:`short`,day:`numeric`}).format(typeof e==`number`?new Date(e):e)}export{n,r as t};
