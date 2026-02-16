@@ -58,6 +58,7 @@
 
     --white: #f4f4f4;
     --black: #212121;
+    --grey: #eee;
     --positive: #23d160;
     --neutral: #bdbdbd;
     --negative: #ff3860;
@@ -352,7 +353,7 @@ table:not(.react-aria-Calendar *),
         top: 0;
         border-top: 0;
         background-clip: padding-box;
-        background-color: var(--neutral);
+        background-color: var(--grey);
     }
 
     & tbody td {
@@ -367,11 +368,11 @@ table:not(.react-aria-Calendar *),
     & thead tr th:first-of-type,
     & tbody tr td:first-of-type {
         position: sticky;
-        background-color: var(--positive);
+        background-color: var(--neutral);
         left: 0;
     }
     & thead tr th:first-of-type {
-        background-color: var(--positive);
+        background-color: var(--neutral);
     }
     & thead tr th:first-of-type {
         z-index: var(--z-max);

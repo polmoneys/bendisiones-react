@@ -45,7 +45,8 @@ export default function PortalParticipationProvider({
   );
 }
 
-function usePortalContext() {
+// eslint-disable-next-line react-refresh/only-export-components
+export function usePortalContext() {
   const context = useContext(PortalContext);
   if (!context) {
     throw new Error(

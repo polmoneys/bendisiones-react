@@ -14,7 +14,6 @@ imperativeStyles('#app')
 // get
 const currentColor = imperativeStyles('#app').color();
 
-
 */
 
 type ScopedProps = "color" | "backgroundColor" | "filter";

@@ -12,7 +12,7 @@ import Tray from "../Smart-ish/Dialog/Tray";
 import useURL from "../utilities/useURL";
 
 const meta = {
-  title: "Smart-ish/Intrusive",
+  title: "Smart-ish/Windows",
   component: Dialog,
   parameters: {
     layout: "centered",

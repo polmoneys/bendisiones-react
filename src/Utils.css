@@ -110,8 +110,16 @@
 .react-aria-Calendar {
 }*/
 
+.px {
+    padding: var(--px);
+}
+
 .pxy {
     padding: var(--pxy);
+}
+
+.mxy {
+    margin: var(--pxy);
 }
 
 .group {

@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useCallback, useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useHover } from "react-aria";
@@ -9,11 +9,13 @@ import {
 
 import Button from "../Dumb/Button";
 import { Row } from "../Dumb/Group/Flex";
+import TextInput from "../Dumb/InputText";
 import PointerTracker from "../Dumb/PointerTracker";
 import PortalParticipationProvider, {
   Participate,
   PortalTarget,
 } from "../Inspired/Portal";
+import PortalWindow from "../Inspired/Portal/Window";
 
 const meta = {
   title: "Inspired/Portal",
@@ -186,6 +188,129 @@ export const StoryA: Story = {
           <PortalTarget id="tooltip"></PortalTarget>
         </PortalParticipationProvider>
       </>
+    );
+  },
+};
+
+type Metric = {
+  title: string;
+  value: string;
+  trend: number;
+};
+function MetricsWidget2({
+  metric,
+  onOpen,
+}: {
+  metric: Metric;
+  onOpen: () => void;
+}) {
+  return (
+    <div
+      onClick={onOpen}
+      style={{
+        border: "var(--border)",
+        padding: "var(--gap-3)",
+        cursor: "pointer",
+        background: "var(--white)",
+      }}
+    >
+      <h4>{metric.title}</h4>
+      <p style={{ fontSize: 24 }}>{metric.value}</p>
+    </div>
+  );
+}
+
+export const StoryB: Story = {
+  name: "Detachable",
+  render: function Render() {
+    const [activeMetric, setActiveMetric] = useState<Metric | null>(null);
+    const [detached, setDetached] = useState(false);
+
+    const [q, setq] = useState("");
+
+    const metrics: Metric[] = [
+      { title: "Revenue", value: "$1.2M", trend: 12 },
+      { title: "Users", value: "45K", trend: 8 },
+      { title: "LOC", value: "500.200K", trend: 20 },
+    ];
+    const onClose = useCallback(() => setDetached(false), [setDetached]);
+
+    return (
+      <PortalParticipationProvider>
+        <div
+          style={{
+            display: "grid",
+            gap: "var(--gap-3)",
+            gridTemplateColumns: "repeat(3, 1fr)",
+          }}
+        >
+          {metrics.map((m) => (
+            <MetricsWidget2
+              key={m.title}
+              metric={m}
+              onOpen={() => {
+                setActiveMetric(m);
+                setDetached(false);
+              }}
+            />
+          ))}
+        </div>
+
+        {!detached && (
+          <PortalTarget
+            id="details"
+            style={{
+              marginTop: "var(--gap-4)",
+              border: "var(--border)",
+              padding: "var(--gap-3)",
+              minHeight: 120,
+            }}
+          >
+            {!activeMetric && <p>Select a metric to see details</p>}
+          </PortalTarget>
+        )}
+
+        {detached && activeMetric && (
+          <PortalWindow
+            id="details"
+            title={`${activeMetric.title} — Details`}
+            features="width=480,height=320,left=300,top=200"
+            onClose={onClose}
+          />
+        )}
+
+        <Participate target="details" when={!!activeMetric}>
+          {activeMetric && (
+            <div>
+              <Row className="place-items-center">
+                <h4>{activeMetric.title} — Detailed View</h4>
+
+                <Button
+                  isText
+                  className="ml-a"
+                  onClick={() => setDetached((d) => !d)}
+                >
+                  {detached ? "Attach back" : "Detach"}
+                </Button>
+
+                <Button
+                  isText
+                  onClick={() => {
+                    setActiveMetric(null);
+                    setDetached(false);
+                  }}
+                >
+                  Close
+                </Button>
+              </Row>
+
+              <TextInput id="grrr" value={q} onChange={(v) => setq(v)} />
+              <p style={{ marginTop: 12 }}>Trend: ↗️ +{activeMetric.trend}%</p>
+              <p>Last updated: 2 minutes ago</p>
+            </div>
+          )}
+        </Participate>
+      </PortalParticipationProvider>
     );
   },
 };

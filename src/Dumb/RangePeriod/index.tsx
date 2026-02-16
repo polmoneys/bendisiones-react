@@ -1,78 +1,136 @@
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, useEffect, useState } from "react";
 
-import styles from './index.module.css';
+import { clampBoundary, newMaxOr } from "../../utilities/clamp";
+import { repeatGradient } from "../../utilities/gradients";
+
+import styles from "./index.module.css";
 
 interface RangeMultiProps {
-    min: number;
-    max: number;
-    initialMin: number;
-    initialMax: number;
-    onChange?: (min: number, max: number) => void;
-    id: string;
+  min: number;
+  max: number;
+  showRuler?: boolean;
+  initialMin?: number;
+  initialMax?: number;
+  valueMin?: number;
+  valueMax?: number;
+
+  onChange?: (min: number, max: number) => void;
+  id: string;
 }
 
 /*
-<RangeMulti
-    id="test-range-multi"
-    onChange={(min, max) => console.log({ min, max })}
-    min={0}
-    max={100}
-    initialMin={12}
-    initialMax={66}
-/>
-*/
+  Controlled if both valueMin & valueMax are provided.
+  Otherwise uncontrolled and uses initialMin/initialMax (or min/max fallbacks).
+ */
+
 export default function RangeMulti({
-    min,
-    max,
-    initialMin,
-    initialMax,
-    onChange,
-    id,
+  min,
+  max,
+  initialMin,
+  initialMax,
+  valueMin,
+  valueMax,
+  onChange,
+  id,
+  showRuler = false,
 }: RangeMultiProps) {
-    const [minVal, setMinVal] = useState(initialMin);
-    const [maxVal, setMaxVal] = useState(initialMax);
+  const isControlled = valueMin !== undefined && valueMax !== undefined;
 
-    const updateMinVal = (event: ChangeEvent<HTMLInputElement>): void => {
-        const val = parseInt(event.target.value, 10);
-        setMinVal(val < maxVal ? val : maxVal);
-    };
+  // internal state 4 uncontrolled
+  const [internalMin, setInternalMin] = useState<number>(() =>
+    clampBoundary(initialMin ?? min, min, max),
+  );
+  const [internalMax, setInternalMax] = useState<number>(() =>
+    clampBoundary(initialMax ?? max, min, max),
+  );
 
-    const updateMaxVal = (event: ChangeEvent<HTMLInputElement>): void => {
-        const val = parseInt(event.target.value, 10);
-        setMaxVal(val > minVal ? val : minVal);
-    };
+  // If parent changes initialMin/initialMax for uncontrolled mode, sync them silently (no onChange)
+  useEffect(() => {
+    if (isControlled) return;
+    setInternalMin(clampBoundary(initialMin ?? min, min, max));
+    setInternalMax(clampBoundary(initialMax ?? max, min, max));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialMin, initialMax, min, max]); // sync inputs only
 
-    useEffect(() => {
-        if (onChange == null) return;
-        onChange?.(minVal, maxVal);
-    }, [minVal, maxVal, onChange]);
+  const curMin = isControlled
+    ? clampBoundary(valueMin as number, min, max)
+    : internalMin;
+  const curMax = isControlled
+    ? clampBoundary(valueMax as number, min, max)
+    : internalMax;
 
-    const css: Record<string, string | number> = {
-        '--minVal': minVal,
-        '--maxVal': maxVal,
-        '--minLimit': min,
-        '--maxLimit': max,
-    };
-    return (
-        <div className={styles.range} style={css}>
-            <input
-                type="range"
-                id={`${id}-min`}
-                min={min}
-                max={max}
-                step="1"
-                value={minVal}
-                onChange={updateMinVal}
-            />
-            <input
-                type="range"
-                id={`${id}-max`}
-                min={min}
-                max={max}
-                step="1"
-                value={maxVal}
-                onChange={updateMaxVal}
-            />
-        </div>
-    );
+  function onChangeMin(event: ChangeEvent<HTMLInputElement>) {
+    const raw = parseInt(event.target.value, 10);
+    const newMin = Number.isNaN(raw) ? min : clampBoundary(raw, min, max);
+
+    // ensure ordering: min < max; preserve max if needed
+    const adjustedMin = newMin < curMax ? newMin : curMax;
+
+    if (!isControlled) {
+      setInternalMin(adjustedMin);
+    }
+
+    // emit the change to parent (parent will update controlled values if it uses controlled mode)
+    onChange?.(adjustedMin, curMax);
+  }
+
+  function onChangeMax(event: ChangeEvent<HTMLInputElement>) {
+    const raw = parseInt(event.target.value, 10);
+    const newMax = Number.isNaN(raw)
+      ? max
+      : clampBoundary(newMaxOr(raw, min, max), min, max);
+
+    // ensure ordering: max > min
+    const adjustedMax = newMax > curMin ? newMax : curMin;
+
+    if (!isControlled) {
+      setInternalMax(adjustedMax);
+    }
+
+    onChange?.(curMin, adjustedMax);
+  }
+
+  const css: Record<string, string | number> = {
+    "--minVal": curMin,
+    "--maxVal": curMax,
+    "--minLimit": min,
+    "--maxLimit": max,
+  };
+
+  return (
+    <>
+      {showRuler ? (
+        <div
+          style={{
+            height: "10px",
+            background: repeatGradient(
+              { start: "transparent", end: "currentColor" },
+              "2%",
+              "x",
+            ),
+          }}
+        />
+      ) : null}
+      <div className={styles.range} style={css}>
+        <input
+          type="range"
+          id={`${id}-min`}
+          min={min}
+          max={max}
+          step={1}
+          value={curMin}
+          onChange={onChangeMin}
+        />
+        <input
+          type="range"
+          id={`${id}-max`}
+          min={min}
+          max={max}
+          step={1}
+          value={curMax}
+          onChange={onChangeMax}
+        />
+      </div>
+    </>
+  );
 }

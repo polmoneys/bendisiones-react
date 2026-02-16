@@ -26,6 +26,12 @@ export type ParseError<Input, E> = {
     { index: 3, input: "",   error: "empty" },
     { index: 4, input: "7.5", error: "not-integer" }
   ]
+
+
+  const cart = [ { item: "apple", qty: 3 }, { item: "banana", qty: 2 } ];
+  const itemList = cart.flatMap(({ item, qty }) => Array(qty).fill(item) );
+  // ["apple", "apple", "apple", "banana", "banana"]
+
 */
 
 export function parseFlatMap<Input, Value, Err>(
@@ -91,23 +97,12 @@ export function splitArray<T>(items: T[], fn: (el: T) => boolean): [T[], T[]] {
   return [match, dispose];
 }
 
-export const nest = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  items: Array<Record<string, any>>,
-  id: number | null = null,
-  link = "parent_id",
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Array<Record<string, any>> =>
-  items
-    .filter((item) => item[link] === id)
-    .map((item) => ({ ...item, children: nest(items, item.id, link) }));
+const moveMutate = <T>(arr: Array<T>, from: number, to: number) => {
+  arr.splice(to < 0 ? arr.length + to : to, 0, arr.splice(from, 1)[0]);
+};
 
-/*
-  🆒
-
-  const byAge = users.toSorted((a, b) => a.age - b.age);
-
-  const opts = [a,b,c]
-  const optsChanged = !opts.every( (item, i) => prevOpts.current[i] === item)
-
-*/
+export const arrayMove = <T>(arr: Array<T>, from: number, to: number) => {
+  arr = arr.slice();
+  moveMutate(arr, from, to);
+  return arr;
+};

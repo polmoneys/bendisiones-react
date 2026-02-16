@@ -1,12 +1,12 @@
 .range {
     display: inline-block;
     position: relative;
-    width: 128px;
+    min-width: 128px;
+    width: 100%;
     height: 16px;
 }
 
 .range input[type="range"] {
-    width: 128px;
     height: 16px;
     margin: 0;
     padding: 0;

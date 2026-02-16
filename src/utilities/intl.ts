@@ -73,3 +73,21 @@ export function formatNumber(
 
   return numberFormat.format(value);
 }
+
+export function formatDate(
+  ts?: number | Date,
+  locale?: string,
+  options?: Intl.DateTimeFormatOptions,
+) {
+  if (ts == null) return "-";
+
+  const defaultOptions: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
+
+  return new Intl.DateTimeFormat(locale, options ?? defaultOptions).format(
+    typeof ts === "number" ? new Date(ts) : ts,
+  );
+}

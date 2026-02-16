@@ -58,6 +58,7 @@ const sampleData: RecursiveItem<FileData>[] = [
 ];
 
 export const Secondary: Story = {
+  name: "File system",
   render: function Render() {
     const [expandedIds, setExpandedIds] = useState<Set<string | number>>(
       new Set(),
