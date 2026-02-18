@@ -1,1 +1,0 @@
-import{n as e,t}from"./lib-BSVI8wxW.js";export{t as MDXProvider};

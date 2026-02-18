@@ -1,0 +1,1 @@
+var e={type:`conjunction`,style:`long`},t=`en`;function n(n,r=e,i=t){return new Intl.ListFormat(i,r).format([...n].map(e=>e.toString()))}export{n as t};
