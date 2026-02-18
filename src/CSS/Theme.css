@@ -1,0 +1,36 @@
+:where(html) {
+    --zero: 0 !important;
+    --none: none !important;
+    --transparent: transparent !important;
+
+    --white: #f4f4f4;
+    --black: #212121;
+    --grey: #eee;
+    --positive: #23d160;
+    --neutral: #bdbdbd;
+    --negative: #ff3860;
+    --info: #ffff4b;
+}
+
+.positive {
+    background-color: var(--positive) !important;
+    color: currentColor;
+}
+
+.negative {
+    background-color: var(--negative) !important;
+    color: currentColor;
+}
+
+.info {
+    background-color: var(--info) !important;
+    color: currentColor;
+}
+
+.neutral {
+    background-color: var(--neutral) !important;
+}
+
+.transparent {
+    color: var(--transparent);
+}

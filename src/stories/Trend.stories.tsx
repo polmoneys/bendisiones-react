@@ -1,7 +1,10 @@
+import { useState } from "react";
+
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+// import Button from "../Dumb/Button";
 import Trend from "../Dumb/Trend";
-import TrendNavigator from "../Dumb/Trend/Navigator";
+import SlidingWindow from "../Dumb/Trend/Navigator";
 
 const meta = {
   title: "Dumb/Trend",
@@ -34,7 +37,7 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-type StoryNavigator = StoryObj<typeof TrendNavigator>;
+type StoryNavigator = StoryObj<typeof SlidingWindow>;
 
 export const EmptyState: Story = {
   name: "Empty State",
@@ -56,7 +59,7 @@ export const EmptyState: Story = {
 };
 
 export const DefaultState: Story = {
-  name: "Default State",
+  name: "Trend",
   args: {
     data: [
       50,
@@ -86,18 +89,17 @@ export const DefaultState: Story = {
     </div>
   ),
 };
-
 export const DefaultState2: Story = {
-  name: "Default State2",
+  name: "Trends",
   args: {
     series: [
       {
         id: "aapl",
         label: "AAPL",
-        data: Array.from(
-          { length: 30 },
-          (_, i) => 150 + Math.sin(i / 5) * 15 + Math.random() * 8,
-        ),
+        data: Array.from({ length: 30 }, (_, i) => {
+          const v = 150 + Math.sin(i / 5) * 15 + Math.random() * 8;
+          return { value: Number(v.toFixed(2)), label: v.toFixed(2) };
+        }),
         color: "#a855f7",
         showArea: false,
         strokeWidth: 2,
@@ -105,10 +107,10 @@ export const DefaultState2: Story = {
       {
         id: "googl",
         label: "GOOGL",
-        data: Array.from(
-          { length: 30 },
-          (_, i) => 140 + Math.cos(i / 6) * 12 + Math.random() * 6,
-        ),
+        data: Array.from({ length: 30 }, (_, i) => {
+          const v = 140 + Math.cos(i / 6) * 12 + Math.random() * 6;
+          return { value: Number(v.toFixed(2)), label: v.toFixed(2) };
+        }),
         color: "#3b82f6",
         showArea: false,
         strokeWidth: 2,
@@ -116,8 +118,11 @@ export const DefaultState2: Story = {
     ],
     width: 300,
     height: 60,
-    pointMode: "extrema",
+    // show markers for all points so labels align with visible dots
+    pointMode: "all",
     trendMode: "none",
+    // show labels for every point that has a label (we've added labels for all)
+    showPointLabels: "extrema",
   },
   render: (args) => (
     <div style={{ padding: "20px" }}>
@@ -238,44 +243,6 @@ export const CompactInline: Story = {
       <span style={{ fontSize: "14px", color: "#666" }}>Revenue:</span>
       <Trend {...args} />
       <span style={{ fontSize: "16px", fontWeight: "bold" }}>$1.2M</span>
-    </div>
-  ),
-};
-
-export const ComplexLabeled: Story = {
-  name: "Complex with Labels",
-  args: {
-    data: [
-      { value: 45, label: "Jan" },
-      { value: 52 },
-      { value: 48 },
-      { value: 61, label: "Apr" },
-      { value: 58 },
-      { value: 65 },
-      { value: 71, label: "Jul" },
-      { value: 68 },
-      { value: 75 },
-      { value: 82, label: "Oct" },
-      { value: 79 },
-      { value: 88, label: "Dec" },
-    ],
-    width: 500,
-    height: 100,
-    color: "#8b5cf6",
-    fillColor: "rgba(139, 92, 246, 0.15)",
-    // highlight extrema only
-    pointMode: "extrema",
-    trendMode: "segments",
-  },
-  render: (args) => (
-    <div style={{ padding: "20px" }}>
-      <h3 style={{ marginBottom: "10px", fontSize: "14px", color: "#666" }}>
-        Monthly Performance with Labels
-      </h3>
-      <Trend {...args} />
-      <div style={{ marginTop: "15px", fontSize: "11px", color: "#999" }}>
-        Quarterly milestones highlighted • 96% year-over-year growth
-      </div>
     </div>
   ),
 };
@@ -425,61 +392,137 @@ export const StockPortfolio: Story = {
 const now = Date.now();
 const day = 24 * 60 * 60 * 1000;
 
-const seriesA = {
-  id: "a",
-  label: "Series A",
-  color: "#3b82f6",
-  data: [
-    { value: 10, timestamp: now - 9 * day },
-    { value: 12, timestamp: now - 8 * day },
-    { value: 11, timestamp: now - 7 * day },
-    { value: 15, timestamp: now - 6 * day },
-    { value: 14, timestamp: now - 5 * day },
-    { value: 18, timestamp: now - 4 * day },
-    { value: 20, timestamp: now - 3 * day },
-    { value: 19, timestamp: now - 2 * day },
-    { value: 22, timestamp: now - 1 * day },
-    { value: 24, timestamp: now },
-  ],
-};
-
-const seriesB = {
-  id: "b",
-  label: "Series B",
-  color: "#ef4444",
-  data: [
-    { value: 5, timestamp: now - 9 * day },
-    { value: 6, timestamp: now - 8 * day },
-    { value: 7, timestamp: now - 7 * day },
-    { value: 8, timestamp: now - 6 * day },
-    { value: 11, timestamp: now - 5 * day },
-    { value: 13, timestamp: now - 4 * day },
-    { value: 12, timestamp: now - 3 * day },
-    { value: 14, timestamp: now - 2 * day },
-    { value: 15, timestamp: now - 1 * day },
-    { value: 16, timestamp: now },
-  ],
-};
-
-export const NavigatorWithTimestamps: StoryNavigator = {
-  name: "Timestamped (multi-series)",
+export const PointLabels: Story = {
+  name: "Point Labels (extrema by default)",
   args: {
-    series: [seriesA, seriesB],
-    width: 600,
+    data: [
+      { value: 50 },
+      { value: 50 },
+      { value: 50, label: "flat" }, // plateau middle -> won't be center extremum
+      { value: 52, label: "small up" },
+      { value: 54, label: "rally" }, // will likely be a peak depending on neighbor values
+      { value: 54 },
+      { value: 54 },
+      { value: 53 },
+      { value: 53 },
+      { value: 55, label: "higher" },
+      { value: 55 },
+      { value: 55 },
+      { value: 53, label: "dip" },
+      { value: 50, label: "fall" },
+      { value: 48, label: "valley" }, // valley extremum
+    ],
+    width: 480,
     height: 100,
-    initialMin: 0,
-    initialMax: 100,
-    timeBased: true,
     pointMode: "all",
-    trendMode: "segments",
+    trendMode: "both",
+    showArea: false,
+    strokeWidth: 2,
+    dotRadius: 5,
+    // NOTE: default for showPointLabels is "extrema" — you'll see labels only at extrema
+    // You can change this in controls to "all" to show labels for any point that has a label.
+    showPointLabels: "all",
+    upColor: "var(--positive)",
+    downColor: "var(--negative)",
+    flatColor: "var(--neutral)",
+    peakColor: "yellow",
+    valleyColor: "black",
   },
-  render: function Render(args) {
+  render: (args) => (
+    <div style={{ padding: "20px" }}>
+      <h3 style={{ marginBottom: "10px", fontSize: "14px", color: "#666" }}>
+        Labels: extrema shown by default
+      </h3>
+      <Trend {...args} />
+      <p style={{ marginTop: 12, fontSize: 13, color: "#666" }}>
+        Toggle <code>showPointLabels</code> in controls to test{" "}
+        <code>"all"</code> or <code>"none"</code>.
+      </p>
+    </div>
+  ),
+};
+
+export const SlidingA: StoryNavigator = {
+  name: "Sliding",
+  render: function Render() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [stretch, setStretch] = useState(true);
+
+    const makeSeries = (
+      fn: (i: number) => number,
+      color: string,
+      id: string,
+    ) => ({
+      id,
+      label: id.toUpperCase(),
+      color,
+      data: Array.from({ length: 60 }, (_, i) => {
+        const val = fn(i);
+        return {
+          value: Number(val.toFixed(2)),
+          label: val.toFixed(2),
+          timestamp: now - (59 - i) * day,
+        };
+      }),
+      showArea: false,
+      strokeWidth: 2,
+    });
+
+    const seriesA = makeSeries(
+      (i) => 150 + Math.sin(i / 5) * 15 + Math.random() * 8,
+      "#a855f7",
+      "aapl",
+    );
+    const seriesB = makeSeries(
+      (i) => 140 + Math.cos(i / 6) * 12 + Math.random() * 6,
+      "#3b82f6",
+      "googl",
+    );
+
+    const domainMin = now - 59 * day;
+    const domainMax = now;
+
+    const [window, setWindow] = useState({
+      min: domainMin + 1 * day,
+      max: domainMax - 1 * day,
+    });
+
     return (
-      <div style={{ padding: 16 }} id="uuuu">
-        <h3 style={{ marginBottom: 8, fontSize: 14, color: "#666" }}>
-          Navigator — timestamped series
-        </h3>
-        <TrendNavigator {...args} />
+      <div style={{ padding: 20 }}>
+        <SlidingWindow
+          id="trend-range-multi"
+          min={domainMin}
+          max={domainMax}
+          valueMin={window.min}
+          valueMax={window.max}
+          onChange={(minVal, maxVal) => setWindow({ min: minVal, max: maxVal })}
+          showRuler={false}
+          series={[seriesA, seriesB]}
+          minPoints={6}
+          stretchToFit={stretch}
+        >
+          {({ stretchedSeries }) => (
+            <div style={{ background: "#fff", padding: 12, borderRadius: 8 }}>
+              <Trend
+                series={stretchedSeries ?? []}
+                width={700}
+                height={160}
+                pointMode="all"
+                trendMode="none"
+                showArea={false}
+                strokeWidth={2}
+                dotRadius={4}
+                visibleStartPercent={0}
+                visibleEndPercent={100}
+                showPointLabels="all"
+              />
+            </div>
+          )}
+        </SlidingWindow>
+        {/*<br/>
+        <Button isActive={stretch} onClick={() => setStretch((prev) => !prev)}>
+          Apply stretch
+        </Button>*/}
       </div>
     );
   },

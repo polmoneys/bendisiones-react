@@ -7,10 +7,10 @@
 }
 
 .range input[type="range"] {
+    accent-color: var(--neutral);
     height: 16px;
     margin: 0;
     padding: 0;
-    color: var(--positive);
     accent-color: currentcolor;
     height: auto;
     width: 100%;
@@ -62,7 +62,7 @@
 }*/
 
 .range input:active:before {
-    background-color: var(--black);
+    filter: brightness(0.9);
     z-index: -1;
 }
 

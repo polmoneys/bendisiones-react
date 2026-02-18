@@ -8,6 +8,8 @@ import {
 import type { Unit } from "../../interfaces";
 import { clsx } from "../../utils";
 
+import styles from "./index.module.css";
+
 interface GridProps extends AriaAttributes {
   children: ReactNode;
   component?: ElementType;
@@ -19,7 +21,9 @@ interface GridProps extends AriaAttributes {
 
 const Grid = (props: GridProps) => {
   const { className, component: Component = "div", ...rest } = props;
-  return <Component {...rest} className={clsx(className, "old-grid")} />;
+  return (
+    <Component {...rest} className={clsx(className, styles["old-grid"])} />
+  );
 };
 
 Grid.Item = (props: GridProps & { span?: 2 | 3 | 4 | 6 | 12 }) => {
@@ -27,7 +31,7 @@ Grid.Item = (props: GridProps & { span?: 2 | 3 | 4 | 6 | 12 }) => {
   return (
     <Component
       {...rest}
-      className={clsx(className, "old-grid-item", `_${span}`)}
+      className={clsx(className, styles["old-grid-item"], styles[`_${span}`])}
     />
   );
 };

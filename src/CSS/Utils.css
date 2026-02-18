@@ -1,0 +1,105 @@
+.attach-end {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: 0;
+    & > * {
+        display: grid;
+        grid-column: span 12;
+    }
+    & > * + * {
+        grid-column: 12/12;
+    }
+}
+
+.center {
+    display: grid;
+    place-content: center;
+}
+
+.fit {
+    width: fit-content;
+}
+
+.cover {
+    inset: 0;
+}
+
+.px {
+    padding: var(--px);
+}
+
+.pxy {
+    padding: var(--pxy);
+}
+
+.mxy {
+    margin: var(--pxy);
+}
+
+.mt-a {
+    margin-top: auto !important;
+}
+.mb-a {
+    margin-bottom: auto !important;
+}
+.ml-a {
+    margin-left: auto !important;
+}
+.mr-a {
+    margin-right: auto !important;
+}
+
+.is-empty {
+    /* no text nodes */
+    &:empty {
+        opacity: 0.1;
+        width: var(--min-width);
+    }
+    /* maybe text nodes */
+    &:not(:has(*)) {
+        background-color: var(--negative);
+    }
+}
+
+/*.has-one-child:has(> :only-child) {
+}*/
+
+/* more than one child*/
+.has-one-child:not(:has(> :only-child)) {
+    padding: var(--pxy);
+    & svg {
+        fill: var(--negative);
+    }
+}
+
+.offscreen {
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.unset {
+    border: unset;
+    padding: unset;
+    margin: unset;
+}
+
+.dead {
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.invisible {
+    pointer-events: none;
+    position: absolute;
+    visibility: hidden;
+}

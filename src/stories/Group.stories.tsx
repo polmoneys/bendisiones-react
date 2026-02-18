@@ -1,20 +1,27 @@
+import { useRef, useState } from "react";
+
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { CSSProperties } from "react";
 import {
   GoCalendar as CalendarIcon,
   GoNorthStar as NorthStarIcon,
+  GoStack as StackIcon,
 } from "react-icons/go";
 
 import Button from "../Dumb/Button";
 import Checkbox from "../Dumb/Checkbox";
 import Group from "../Dumb/Group";
 import Container from "../Dumb/Group/Container";
+import { Row } from "../Dumb/Group/Flex";
 import Grid from "../Dumb/Group/Grid2068";
+import HighlightedText from "../Dumb/Group/Highlight";
 import Kiss from "../Dumb/Group/Kiss";
 import ContainerSize from "../Dumb/Group/Size";
+import Stack from "../Dumb/Group/Stack";
 import TextInput from "../Dumb/InputText";
 import Media from "../Dumb/Media";
 import Shape from "../Dumb/Shape";
+import { parseOwnershipPatterns } from "../utilities/ownership";
+import { clsx } from "../utils";
 
 const meta = {
   title: "Dumb/Group",
@@ -22,7 +29,7 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-  subcomponents: { Kiss, Container, Grid },
+  subcomponents: { Kiss, Container, Grid, Stack },
 } satisfies Meta<typeof Group>;
 
 export default meta;
@@ -93,7 +100,7 @@ export const StoryC: Story = {
   ],
 };
 
-export const StoryAA: Story = {
+export const StoryD: Story = {
   name: "Another group with Start Slot",
   args: {
     dangerous: {
@@ -113,198 +120,198 @@ export const StoryAA: Story = {
   ],
 };
 
-const cardSX = `
-  & {
-      height:min(690px, 66vh);
-      aspect-ratio: 9/16;
-  }
+// const cardSX = `
+//   & {
+//       height:min(690px, 66vh);
+//       aspect-ratio: 9/16;
+//   }
 
-  &:not(:has(img)) {
-    display:flex;
-      flex-direction:column;
-      gap:var(--gap-3);
-      padding:var(--pxy);
+//   &:not(:has(img)) {
+//     display:flex;
+//       flex-direction:column;
+//       gap:var(--gap-3);
+//       padding:var(--pxy);
 
-  }
-  &:has(img) {
-      width: fit-content;
-      display: grid;
-      grid-template-areas: stack;
-  }
-  &:has(img) > * {
-      grid-area: stack;
-  }
-  &:has(img) > *:first-child {
-      position: relative;
-      z-index:var(--z-2);
-      padding:var(--pxy);
+//   }
+//   &:has(img) {
+//       width: fit-content;
+//       display: grid;
+//       grid-template-areas: stack;
+//   }
+//   &:has(img) > * {
+//       grid-area: stack;
+//   }
+//   &:has(img) > *:first-child {
+//       position: relative;
+//       z-index:var(--z-2);
+//       padding:var(--pxy);
 
-  }
+//   }
 
-  & > .card-summary {
-      margin-top:auto;
-  }
+//   & > .card-summary {
+//       margin-top:auto;
+//   }
 
-  &:hover {
-      background: var(--neutral);
-  }
+//   &:hover {
+//       background: var(--neutral);
+//   }
 
-  &:hover > button {
-      transform: scale(1.02);
-  }
-`;
-export const StoryD: Story = {
-  name: "An sx container as Card",
-  render: function Render() {
-    return (
-      <>
-        <Container sx={cardSX}>
-          <h3 className="clamp"> Card title </h3>
-          <div className="card-summary">
-            <p
-              className="clamp"
-              style={{ "--clamp-lines": 4 } as CSSProperties}
-            >
-              Card summary, lorem ipsun dolor sit amet indiscliplinctur whatever
-              pantecrator gloria at adstra et bellum parabus.{" "}
-            </p>
-          </div>
+//   &:hover > button {
+//       transform: scale(1.02);
+//   }
+// `;
+// export const StoryD: Story = {
+//   name: "An sx container as Card",
+//   render: function Render() {
+//     return (
+//       <>
+//         <Container sx={cardSX}>
+//           <h3 className="clamp"> Card title </h3>
+//           <div className="card-summary">
+//             <p
+//               className="clamp"
+//               style={{ "--clamp-lines": 4 } as CSSProperties}
+//             >
+//               Card summary, lorem ipsun dolor sit amet indiscliplinctur whatever
+//               pantecrator gloria at adstra et bellum parabus.{" "}
+//             </p>
+//           </div>
 
-          <Button end={<NorthStarIcon />}>Click me </Button>
-        </Container>
-      </>
-    );
-  },
-  decorators: [
-    (Story) => (
-      <div className="group">
-        <Story />
-      </div>
-    ),
-  ],
-};
+//           <Button end={<NorthStarIcon />}>Click me </Button>
+//         </Container>
+//       </>
+//     );
+//   },
+//   decorators: [
+//     (Story) => (
+//       <div className="group">
+//         <Story />
+//       </div>
+//     ),
+//   ],
+// };
+
+// export const StoryE: Story = {
+//   name: "An sx container as Media Card",
+//   render: function Render() {
+//     return (
+//       <>
+//         <Container sx={cardSX}>
+//           <h3 className="clamp"> Plant Portrait </h3>
+//           <Media
+//             ratio="portrait"
+//             alt="Plant portrait"
+//             src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+//           />
+//         </Container>
+//       </>
+//     );
+//   },
+//   decorators: [
+//     (Story) => (
+//       <div className="group">
+//         <Story />
+//       </div>
+//     ),
+//   ],
+// };
+
+// const cardSXLandscape = `
+//   & {
+//       width:min(690px, 66vw);
+//       aspect-ratio: 16/9;
+//   }
+
+//   &:not(:has(img)) {
+//     display:flex;
+//       flex-direction:column;
+//       gap:var(--gap-3);
+//       padding:var(--pxy);
+
+//   }
+//   &:has(img) {
+//       display: grid;
+//       grid-template-areas: stack;
+//   }
+//   &:has(img) > * {
+//       grid-area: stack;
+//   }
+//   &:has(img) > *:first-child {
+//       position: relative;
+//       z-index:var(--z-2);
+//       padding:var(--pxy);
+
+//   }
+
+//   & > .card-summary {
+//       margin-top:auto;
+//   }
+
+//   &:hover {
+//       background: var(--neutral);
+//   }
+
+//   &:hover > button {
+//       transform: scale(1.02);
+//   }
+// `;
+// export const StoryF: Story = {
+//   name: "An sx container as Card (landscape)",
+//   render: function Render() {
+//     return (
+//       <>
+//         <Container sx={cardSXLandscape}>
+//           <h3 className="clamp"> Card title </h3>
+//           <div className="card-summary">
+//             <p
+//               className="clamp"
+//               style={{ "--clamp-lines": 3 } as CSSProperties}
+//             >
+//               Card summary, lorem ipsun dolor sit amet indiscliplinctur whatever
+//               pantecrator gloria at adstra et bellum parabus.{" "}
+//             </p>
+//           </div>
+
+//           <Button end={<NorthStarIcon />}>Click me </Button>
+//         </Container>
+//       </>
+//     );
+//   },
+//   decorators: [
+//     (Story) => (
+//       <div className="group">
+//         <Story />
+//       </div>
+//     ),
+//   ],
+// };
+
+// export const StoryG: Story = {
+//   name: "An sx container as Media Card (landscape)",
+//   render: function Render() {
+//     return (
+//       <>
+//         <Container sx={cardSXLandscape}>
+//           <h3 className="clamp"> Plant Landscape </h3>
+//           <Media
+//             ratio="landscape"
+//             alt="Plant landscape"
+//             src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+//           />
+//         </Container>
+//       </>
+//     );
+//   },
+//   decorators: [
+//     (Story) => (
+//       <div className="group">
+//         <Story />
+//       </div>
+//     ),
+//   ],
+// };
 
 export const StoryE: Story = {
-  name: "An sx container as Media Card",
-  render: function Render() {
-    return (
-      <>
-        <Container sx={cardSX}>
-          <h3 className="clamp"> Plant Portrait </h3>
-          <Media
-            ratio="portrait"
-            alt="Plant portrait"
-            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          />
-        </Container>
-      </>
-    );
-  },
-  decorators: [
-    (Story) => (
-      <div className="group">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-const cardSXLandscape = `
-  & {
-      width:min(690px, 66vw);
-      aspect-ratio: 16/9;
-  }
-
-  &:not(:has(img)) {
-    display:flex;
-      flex-direction:column;
-      gap:var(--gap-3);
-      padding:var(--pxy);
-
-  }
-  &:has(img) {
-      display: grid;
-      grid-template-areas: stack;
-  }
-  &:has(img) > * {
-      grid-area: stack;
-  }
-  &:has(img) > *:first-child {
-      position: relative;
-      z-index:var(--z-2);
-      padding:var(--pxy);
-
-  }
-
-  & > .card-summary {
-      margin-top:auto;
-  }
-
-  &:hover {
-      background: var(--neutral);
-  }
-
-  &:hover > button {
-      transform: scale(1.02);
-  }
-`;
-export const StoryF: Story = {
-  name: "An sx container as Card (landscape)",
-  render: function Render() {
-    return (
-      <>
-        <Container sx={cardSXLandscape}>
-          <h3 className="clamp"> Card title </h3>
-          <div className="card-summary">
-            <p
-              className="clamp"
-              style={{ "--clamp-lines": 3 } as CSSProperties}
-            >
-              Card summary, lorem ipsun dolor sit amet indiscliplinctur whatever
-              pantecrator gloria at adstra et bellum parabus.{" "}
-            </p>
-          </div>
-
-          <Button end={<NorthStarIcon />}>Click me </Button>
-        </Container>
-      </>
-    );
-  },
-  decorators: [
-    (Story) => (
-      <div className="group">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-export const StoryG: Story = {
-  name: "An sx container as Media Card (landscape)",
-  render: function Render() {
-    return (
-      <>
-        <Container sx={cardSXLandscape}>
-          <h3 className="clamp"> Plant Landscape </h3>
-          <Media
-            ratio="landscape"
-            alt="Plant landscape"
-            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          />
-        </Container>
-      </>
-    );
-  },
-  decorators: [
-    (Story) => (
-      <div className="group">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-export const StoryH: Story = {
   name: "Advanced Grid",
   parameters: {
     layout: "padded",
@@ -358,7 +365,7 @@ export const StoryH: Story = {
   ],
 };
 
-export const StoryI: Story = {
+export const StoryF: Story = {
   name: "Container size aware",
   parameters: {
     layout: "padded",
@@ -392,4 +399,81 @@ export const StoryI: Story = {
       </div>
     ),
   ],
+};
+
+const tests = [
+  "bob:schedule",
+  "bob:meetings next week",
+  "bob's birthday",
+  "bob's and maryam's last reports",
+  "@bob adidas shoes",
+  "my adidas shoes",
+  "bob:schedule alice's report @charlie tasks my notes",
+];
+
+export const StoryG: Story = {
+  name: "Stack layers ",
+  parameters: {
+    layout: "padded",
+  },
+
+  render: function Render() {
+    const [input, onChange] = useState("");
+    const [showInput, setShow] = useState(false);
+
+    const prevLengthRef = useRef(0);
+    const isDeleting = input.length < prevLengthRef.current;
+
+    const parsed = isDeleting ? input : parseOwnershipPatterns(input);
+    console.log({ input, parsed });
+
+    return (
+      <>
+        <Stack
+          isInput
+          over={
+            <div
+              style={{
+                pointerEvents: "none",
+                color: "var(--negative)",
+                paddingLeft: "var(--gap-2)",
+              }}
+            >
+              <HighlightedText input={parsed.length > 0 ? parsed : input} />
+            </div>
+          }
+        >
+          <TextInput
+            placeholder="mention people and things"
+            className={clsx(!showInput && "transparent")}
+            id="test"
+            value={input}
+            onChange={(v) => onChange(v)}
+            clear
+          />
+        </Stack>
+
+        <Row wrap style={{ gap: "var(--gap-3)", margin: "var(--gap-4) 0" }}>
+          {tests.map((t, i) => (
+            <Button
+              key={i}
+              onClick={() => {
+                onChange(t);
+                prevLengthRef.current = input.length;
+              }}
+            >
+              {t}{" "}
+            </Button>
+          ))}
+        </Row>
+        <Button
+          start={<StackIcon />}
+          isActive={showInput}
+          onClick={() => setShow((prev) => !prev)}
+        >
+          Show input layer
+        </Button>
+      </>
+    );
+  },
 };

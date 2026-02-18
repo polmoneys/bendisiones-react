@@ -69,3 +69,99 @@
         }
     }
 }
+
+.row,
+.col,
+.colRow {
+    display: flex;
+}
+.col {
+    flex-direction: column;
+}
+.colRow {
+    flex-direction: column;
+}
+
+@media (orientation: landscape) {
+    .colRow {
+        flex-direction: row;
+    }
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.old-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--gap-1);
+
+    & .old-grid-item {
+        display: grid;
+        place-items: center;
+        grid-column: span 6;
+    }
+
+    & .old-grid-item._12 {
+        grid-column: span 12;
+    }
+
+    & .old-grid-item._6 {
+        grid-column: span 6;
+    }
+    & .old-grid-item._3 {
+        grid-column: span 3;
+    }
+
+    & .old-grid-item._2 {
+        grid-column: span 2;
+    }
+}
+
+@media (orientation: landscape) {
+    .old-grid .old-grid-item {
+        grid-column: span 4;
+    }
+}
+
+@media (min-width: 240px) and (max-width: 360px) {
+    .old-grid .old-grid-item {
+        grid-column: span 12;
+    }
+}
+
+.stack {
+    width: fit-content;
+    display: grid;
+    grid-template-areas: stack;
+    place-items: start;
+    &.input *:not(input, button) {
+        --input-font-size: max(16px, 1em);
+        font-size: var(--input-font-size) !important;
+        line-height: 2;
+    }
+}
+.stack > * {
+    grid-area: stack;
+    display: grid;
+}
+.stack > *:first-child {
+    position: relative;
+}
+.stack > *[aria-hidden="true"] {
+    visibility: hidden !important;
+}
+
+.tokens {
+    display: flex;
+}
+.token {
+    /* allow punctuation/space tokens to keep layout */
+    white-space: pre-wrap;
+    display: inline-flex;
+
+    & + .token {
+        margin-left: var(--gap-1);
+    }
+}

@@ -6,9 +6,11 @@
 
     text-decoration: none;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-content: center;
+    place-items: center;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    grid-template-rows: 0;
     /*align-self: start;*/
 
     line-height: 1.1;
@@ -34,19 +36,16 @@
 
     & .span {
         font: inherit;
-        display: inline-flex;
+        display: grid;
     }
 
-    &.start:not(.end) .span {
-        margin-left: var(--button-gap);
+    &.start.end {
+        grid-template-columns: repeat(3, max-content);
     }
 
-    &.end .span {
-        margin-right: var(--button-gap);
-    }
-
-    &.start.end .span {
-        margin: 0 var(--button-gap);
+    &.start:not(.end),
+    &.end:not(.start) {
+        grid-template-columns: repeat(2, minmax(0, max-content));
     }
 
     &:hover:not(:disabled, &.active) {
@@ -57,7 +56,6 @@
         transform: scale(0.97);
     }
     &:has(svg) {
-        justify-content: space-around;
         gap: var(--gap-1);
     }
     & svg {

@@ -2,20 +2,27 @@ import { type ComponentProps, type ElementType, type ReactNode } from "react";
 
 import { clsx } from "../../utils";
 
+import styles from "./index.module.css";
+
 interface RowProps extends ComponentProps<"div"> {
   disabled?: boolean;
   component?: ElementType;
   children: ReactNode;
+  wrap?: boolean;
 }
 
 export function Row({
   children,
   className,
   component: Component = "div",
+  wrap = false,
   ...rest
 }: RowProps) {
   return (
-    <Component {...rest} className={clsx(className, "row")}>
+    <Component
+      {...rest}
+      className={clsx(className, styles.row, wrap && styles.wrap)}
+    >
       {children}
     </Component>
   );
@@ -28,7 +35,7 @@ export function Col({
   ...rest
 }: RowProps) {
   return (
-    <Component {...rest} className={clsx(className, "col")}>
+    <Component {...rest} className={clsx(className, styles.col)}>
       {children}
     </Component>
   );
@@ -41,7 +48,7 @@ export function ColRow({
   ...rest
 }: RowProps) {
   return (
-    <Component {...rest} className={clsx(className, "ColRow")}>
+    <Component {...rest} className={clsx(className, styles.colROW)}>
       {children}
     </Component>
   );

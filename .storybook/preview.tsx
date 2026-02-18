@@ -3,8 +3,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NuqsAdapter } from "nuqs/adapters/react";
 
 const queryClient = new QueryClient();
+import "../src/CSS/Theme.css";
 import "../src/App.css";
-import "../src/Utils.css";
+import "../src/CSS/Utils.css";
+import "../src/CSS/UtilsGroup.css";
+import "../src/CSS/ReactAria.css";
 import "../src/stories/index.css";
 
 const preview: Preview = {
