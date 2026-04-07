@@ -20,6 +20,7 @@ export interface ButtonProps extends Omit<ComponentProps<"button">, "style"> {
   isText?: boolean;
   isActive?: boolean;
   isPending?: boolean;
+  isChip?: boolean;
   mood?: Mood;
   stretch?: boolean;
   unset?: boolean;
@@ -75,35 +76,3 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 export default Button;
-
-// const Text = ({ isText, ...rest }: ButtonProps) => <Button {...rest} isText />;
-// const Icon = ({ isIcon, ...rest }: ButtonProps) => <Button {...rest} isIcon />;
-// const Positive = ({ mood, ...rest }: ButtonProps) => (
-//   <Button {...rest} mood="positive" />
-// );
-// const Negative = ({ mood, ...rest }: ButtonProps) => (
-//   <Button {...rest} mood="negative" />
-// );
-// const Transparent = ({
-//   dangerous,
-//   border = true,
-//   ...rest
-// }: ButtonProps & { border?: boolean }) => (
-//   <Button
-//     {...rest}
-//     dangerous={{
-//       ...(has(dangerous) && { dangerous }),
-//       backgroundColor: "var(--transparent)",
-//       border: border ? "var(--border)" : "1px solid transparent",
-//     }}
-//   />
-// );
-//
-// export default Object.assign(Button, {
-//   Text,
-//   Icon,
-//   Positive,
-//   Negative,
-//   Transparent,
-// });
-//

@@ -119,3 +119,100 @@
 [type='submit'] {
     -webkit-appearance: button;
 }*/
+
+.hit {
+    position: relative;
+    isolation: isolate;
+}
+
+.hit::after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
+    pointer-events: auto; /* allow clicks/hovers on the expanded area */
+    background: transparent; /* invisible by default */
+    z-index: 999999;
+}
+
+.sizeDefault::after {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.sizeSmall::after {
+    top: -4px;
+    right: -4px;
+    bottom: -4px;
+    left: -4px;
+}
+.sizeMedium::after {
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
+}
+.sizeLarge::after {
+    top: -12px;
+    right: -12px;
+    bottom: -12px;
+    left: -12px;
+}
+.sizeXLarge::after {
+    top: -16px;
+    right: -16px;
+    bottom: -16px;
+    left: -16px;
+}
+
+/* directions (override specific sides to 0 so expansion happens only on desired side) */
+.dirCenter::after {
+    /* no override — center expansion */
+}
+
+.dirTop::after {
+    bottom: 0; /* cancel bottom expansion - keeps top negative */
+    left: 0;
+    right: 0;
+}
+.dirRight::after {
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+.dirBottom::after {
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.dirLeft::after {
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.dirTopRight::after {
+    bottom: 0;
+    left: 0;
+}
+.dirTopLeft::after {
+    bottom: 0;
+    right: 0;
+}
+.dirBottomRight::after {
+    top: 0;
+    left: 0;
+}
+.dirBottomLeft::after {
+    top: 0;
+    right: 0;
+}
+
+.debug:hover::after,
+.debug:focus-visible::after {
+    border: 2px solid rgba(59, 130, 246, 1); /* blue-500 */
+    background: rgba(59, 130, 246, 0.6);
+}

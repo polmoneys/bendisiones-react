@@ -1,13 +1,16 @@
 .attach-end {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: 0;
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-rows: 0 !important;
+    &.fit {
+        width: fit-content;
+    }
     & > * {
-        display: grid;
-        grid-column: span 12;
+        display: grid !important;
+        grid-column: span 12 !important;
     }
     & > * + * {
-        grid-column: 12/12;
+        grid-column: 12/12 !important;
     }
 }
 

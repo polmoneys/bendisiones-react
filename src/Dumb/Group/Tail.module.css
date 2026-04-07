@@ -1,0 +1,44 @@
+.container {
+    --cols: 6;
+    --min-width-slot: 60px;
+    --tail-count: 0;
+
+    display: grid;
+    grid-template-columns: repeat(
+        var(--cols),
+        minmax(0, var(--min-width-slot))
+    );
+    grid-template-rows: minmax(0, auto);
+    align-items: center;
+}
+
+.primary {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-width: 0;
+    width: 100%;
+    display: grid;
+    & > * {
+        padding-right: calc(
+            var(--min-width-slot) * var(--tail-count)
+        ) !important;
+    }
+}
+
+.slot {
+    grid-row: 1;
+    min-width: 0;
+    display: grid;
+    place-items: center;
+    align-self: stretch;
+}
+
+@media (min-width: 1220px) {
+    .container {
+        --cols: 12;
+    }
+}
+
+.fullWidth {
+    width: 100%;
+}
