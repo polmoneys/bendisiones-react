@@ -1,0 +1,1 @@
+import{n as e,t}from"./lib-osSM0wq-.js";export{t as MDXProvider};
