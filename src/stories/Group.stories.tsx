@@ -11,13 +11,16 @@ import Button from "../Dumb/Button";
 import Checkbox from "../Dumb/Checkbox";
 import Group from "../Dumb/Group";
 import Container from "../Dumb/Group/Container";
+// import Disclosure from "../Dumb/Group/Disclosure";
 import { Row } from "../Dumb/Group/Flex";
 import Grid from "../Dumb/Group/Grid2068";
 import HighlightedText from "../Dumb/Group/Highlight";
 import Kiss from "../Dumb/Group/Kiss";
 import ContainerSize from "../Dumb/Group/Size";
 import Stack from "../Dumb/Group/Stack";
+// import TailGroup from "../Dumb/Group/Tail";
 import TextInput from "../Dumb/InputText";
+// import TextInputUncontrolled from "../Dumb/InputText/Uncontrolled";
 import Media from "../Dumb/Media";
 import Shape from "../Dumb/Shape";
 import { parseOwnershipPatterns } from "../utilities/ownership";
@@ -119,6 +122,29 @@ export const StoryD: Story = {
     ),
   ],
 };
+
+// type StoryTailType = StoryObj<typeof TailGroup>;
+
+// export const StoryTail: StoryTailType = {
+//   name: "Tail",
+//   parameters: {
+//     layout: "padded",
+//   },
+//   render: function Render() {
+//     return (
+//       <div className="pxy">
+//         <TailGroup
+//           primary={<TextInputUncontrolled />}
+//           tail={[
+//             <Shape.Circle size={30} />,
+//             <Shape.Square size={40} />,
+//             <Shape.Triangle size={40} />,
+//           ]}
+//         />
+//       </div>
+//     );
+//   },
+// };
 
 // const cardSX = `
 //   & {
@@ -374,27 +400,25 @@ export const StoryF: Story = {
     return (
       <>
         <ContainerSize>
-          {({ w }) => (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: w < 600 ? "column" : "row",
-                placeContent: "center",
-                placeItems: "center",
-                padding: "var(--pxy)",
-              }}
-            >
-              <p className="font-xl"> Triangle </p>
-              <Shape />
-            </div>
-          )}
+          {({ w }) => {
+            console.log({ w });
+            return (
+              <div className="center" style={{ width: "min(750px, 80vw)" }}>
+                <Shape
+                  sides={w > 600 ? 5 : 4}
+                  size={w > 600 ? 100 : undefined}
+                  fill={w > 600 ? undefined : "var(--negative)"}
+                />
+              </div>
+            );
+          }}
         </ContainerSize>
       </>
     );
   },
   decorators: [
     (Story) => (
-      <div className="group">
+      <div className="group pxy center">
         <Story />
       </div>
     ),
