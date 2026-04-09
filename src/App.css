@@ -186,6 +186,7 @@ dialog,
     font-size: 44px;
     font-weight: var(--font-bold);
     line-height: var(--font-line-height-sm, 1.15);
+    text-box: trim-both cap alphabetic;
 }
 
 :is(p) {
@@ -213,6 +214,15 @@ p:has(span, b) {
 
 :is(b, strong) {
     font-weight: var(--font-bold);
+}
+
+:is(i, em) {
+    font-variation-settings: "ital" 1;
+    font-style: italic;
+}
+
+sup {
+    vertical-align: top;
 }
 
 .font-xs {
@@ -304,6 +314,8 @@ a:is(:not([class])) {
     button,
     input[type="text"],
     input[type="date"],
+    input[type="datetime-local"],
+    input[type="time"],
     input[type="email"],
     input[type="checkbox"],
     input[type="radio"],
@@ -332,7 +344,7 @@ input[type="password"] {
     letter-spacing: 0.125em;
 }
 
-select {
+select:not(.dates select) {
     padding: 0 44px 0 var(--gap-2);
     min-height: var(--min-width);
 

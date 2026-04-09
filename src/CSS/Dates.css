@@ -1,0 +1,214 @@
+.dates {
+    border: var(--border);
+    background-color: var(--grey);
+    isolation: isolate;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--gap-2);
+    padding: 20px;
+    display: flex;
+    position: relative;
+
+    & p {
+        flex-basis: 100%;
+    }
+
+    & input,
+    & select {
+        --multiplier: 48px;
+        --multiplier-half: 24px;
+
+        hanging-punctuation: none;
+        line-height: inherit;
+        text-align: start;
+        touch-action: manipulation;
+        border: var(--border);
+        background-color: var(--white);
+        font-size: var(--font-size);
+        line-height: var(--font-line-height);
+        min-block-size: calc(
+            var(--font-size) * var(--font-line-height) + var(--multiplier-half)
+        );
+        border-radius: var(--border-radius);
+        padding: 0 var(--gap-3);
+    }
+
+    & legend {
+        display: contents;
+    }
+
+    & fieldset {
+        flex-wrap: wrap;
+        flex-basis: 100%;
+        gap: 15px;
+        display: flex;
+    }
+
+    &:has(.dates-join) fieldset {
+        gap: var(--gap-1);
+    }
+
+    & input::placeholder,
+    & select::placeholder {
+        color: var(--neutral);
+        opacity: 1;
+    }
+
+    & input:focus-visible,
+    & select:focus-visible {
+        border-color: var(--positive);
+        outline: 2px solid var(--positive);
+        outline-offset: 2px;
+    }
+
+    & input:user-invalid,
+    & select:user-invalid {
+        border: 2px solid var(--negative);
+    }
+
+    & select {
+        --background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="none" stroke="rgb(38 44 64)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2 5 6 6 6-6"/></svg>');
+        background: var(--white);
+        background-image: var(--background-image);
+        field-sizing: content;
+        background-position: right 10px center;
+        background-repeat: no-repeat;
+        background-size: 15px;
+        padding-inline-end: 32px;
+        &:dir(rtl) {
+            background-position: 12px 50%;
+        }
+    }
+
+    & input:is([type="radio"], [type="checkbox"]) {
+        appearance: auto;
+    }
+
+    & input[type="time"] {
+        min-inline-size: calc(5ch + var(--multiplier));
+    }
+
+    & input[type="date"] {
+        min-inline-size: calc(10ch + var(--multiplier));
+    }
+
+    & input[type="datetime-local"] {
+        min-inline-size: calc(15ch + var(--multiplier));
+    }
+
+    & input[list][type="text"] {
+        inline-size: 100%;
+
+        &::-webkit-calendar-picker-indicator {
+            scale: 0.8;
+        }
+    }
+
+    & input {
+        &[maxlength="2"] {
+            max-inline-size: calc(2ch + var(--multiplier));
+        }
+
+        &[maxlength="4"] {
+            max-inline-size: calc(4ch + var(--multiplier));
+        }
+
+        &[maxlength="5"] {
+            max-inline-size: calc(5ch + var(--multiplier));
+        }
+
+        &[maxlength="10"] {
+            max-inline-size: calc(10ch + var(--multiplier));
+        }
+    }
+
+    & label {
+        font-size: var(--font-md);
+        font-weight: var(--font-bold);
+        line-height: var(--font-line-height-sm);
+
+        &:has([type="radio"], [type="checkbox"]) {
+            align-items: center;
+            gap: 10px;
+            display: flex;
+            position: relative;
+        }
+
+        &:has([type="radio"]) {
+            --size: 25px;
+        }
+
+        &:has([type="radio"]) input {
+            block-size: var(--size);
+            inline-size: var(--size);
+            opacity: 0.00001;
+            min-block-size: 0;
+            position: absolute;
+        }
+
+        &:has([type="radio"]):before {
+            aspect-ratio: 1;
+            border: var(--border);
+            background: var(--white);
+            content: "";
+            inline-size: var(--size);
+            vertical-align: baseline;
+            border-radius: 3.40282e38px;
+            display: inline-block;
+        }
+
+        &:has([type="radio"]):has(:focus-within):before {
+            outline: 2px solid var(--negative);
+            outline-offset: 2px;
+        }
+
+        &:has([type="radio"]):has(:checked):before {
+            background-image: radial-gradient(
+                rgb(0, 0, 0) 50%,
+                rgb(255, 255, 255) 50%
+            );
+        }
+    }
+
+    & .dates-item {
+        flex-direction: column;
+        align-items: start;
+        gap: var(--gap-2);
+        display: flex;
+    }
+}
+
+.dates-item:has([list][type="text"]) {
+    inline-size: 100%;
+}
+
+.dates-join {
+    gap: var(--gap-1) 0;
+
+    & span {
+        flex-basis: 100%;
+        display: block;
+    }
+
+    & input {
+        text-align: center;
+    }
+
+    & input:not(:first-of-type) {
+        border-inline-start: 0;
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+        padding-inline-start: 5px;
+    }
+
+    & input:not(:last-of-type) {
+        border-inline-end: 0;
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+        padding-inline-end: 7px;
+    }
+    & input:focus {
+        z-index: 1;
+    }
+}

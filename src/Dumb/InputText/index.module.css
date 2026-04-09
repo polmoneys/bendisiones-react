@@ -5,9 +5,55 @@
     padding: 0 var(--gap-2);
     height: var(--min-height);
     border: var(--border);
+
+    &::placeholder {
+        color: var(--neutral);
+    }
 }
 
 /*::-webkit-file-upload-button {
     -webkit-appearance: button;
     font: inherit;
 }*/
+
+/*
+
+
+.no-zoom {
+    font-size: 16px;
+    transform-origin: top left;
+    transform: scale(0.75);    //  12px / 16px
+
+    //  size up
+    width:  240px;             // 180px / 0.75
+    height: 32px;              //  24px / 0.75
+    padding      : 5.333333px; //   4px / 0.75
+    border-radius: 6.666667px; //   5px / 0.75
+    border-width : 1.333333px; //   1px / 0.75
+
+    //  size down
+    margin-right: -60px;       // 240px * 0.25
+    margin-bottom: -8px;       //  32px * 0.25
+
+
+
+}
+
+enlarge by 16/12 = 133.33%
+ scale down by 12/16 = 75%
+ remove extra white space
+
+input[type="text"] {
+    border-radius: 6.666666667px;
+    font-size: 16px;
+    line-height: 26.666666667px;
+    padding: 6.666666667px;
+    width: 133.333333333%;
+
+     transform: scale(0.75);
+     transform-origin: left top;
+
+     margin-bottom: -10px;
+      margin-right: -33.333333333%;
+}
+*/

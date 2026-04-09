@@ -48,7 +48,7 @@ export function ColRow({
   ...rest
 }: RowProps) {
   return (
-    <Component {...rest} className={clsx(className, styles.colROW)}>
+    <Component {...rest} className={clsx(className, styles.colRow)}>
       {children}
     </Component>
   );
