@@ -6,8 +6,8 @@ import DatePick from ".";
 interface RangeProps {
   children?: ReactNode;
   oldestInceptionDate: string | null;
-  start: string;
-  end: string;
+  start: any;
+  end: any;
   setStart: (value: string) => void;
   setEnd: (value: string) => void;
 }

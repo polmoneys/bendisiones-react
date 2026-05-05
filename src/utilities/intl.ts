@@ -91,3 +91,111 @@ export function formatDate(
     typeof ts === "number" ? new Date(ts) : ts,
   );
 }
+
+/*
+
+const formatter = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'long',
+  timeStyle: 'short',
+});
+
+formatter.formatToParts(new Date('2026-04-07T16:45:00Z'));
+// → [
+//     { type: 'month',     value: 'April' },
+//     { type: 'literal',   value: ' '     },
+//     { type: 'day',       value: '7'     },
+//     { type: 'literal',   value: ', '    },
+//     { type: 'year',      value: '2026'  },
+//     { type: 'literal',   value: ' at '  },
+//     { type: 'hour',      value: '4'     },
+//     { type: 'literal',   value: ':'     },
+//     { type: 'minute',    value: '45'    },
+//     { type: 'literal',   value: ' '     },
+//     { type: 'dayPeriod', value: 'PM'    },
+//   ]
+//
+//
+
+
+
+const date = new Date('2026-05-01T00:00:00Z');
+const diffInMs = date - new Date();
+const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24));
+
+const relative = new Intl.RelativeTimeFormat('en-US', { numeric: 'auto' });
+relative.format(diffInDays, 'day');
+// → "in 24 days" (or however far away May 1st is)
+//
+
+const relative = new Intl.RelativeTimeFormat('en-US', { numeric: 'always' });
+
+relative.formatToParts(-3, 'month');
+// → [
+//     { type: 'integer', value: '3', unit: 'month' },
+//     { type: 'literal', value: ' months ago' },
+//   ]
+
+
+const duration = new Intl.DurationFormat('en-US', {
+  style: 'long', // 'long' | 'short' | 'narrow' | 'digital'
+});
+
+duration.format({ hours: 2, minutes: 5, seconds: 30 });
+// → "2 hours, 5 minutes, 30 seconds"
+
+const clock = new Intl.DurationFormat('en-US', { style: 'digital' });
+clock.format({ hours: 2, minutes: 5, seconds: 30 });
+// → "2:05:30"
+
+
+const compact = new Intl.NumberFormat('en-US', {
+  notation: 'compact',
+  compactDisplay: 'short',
+});
+
+compact.format(1007800); // → "1M"
+compact.format(1534); // → "1.5K"
+
+// For a longer version, use 'long' instead of 'short'
+
+const compactLong = new Intl.NumberFormat('en-US', {
+  notation: 'compact',
+  compactDisplay: 'long',
+});
+
+compactLong.format(1007800); // → "1 million"
+compactLong.format(1534); // → "1.5 thousand"
+
+
+const formatter = new Intl.NumberFormat(undefined, {
+  style: "currency",
+  currency: "EUR",
+  currencyDisplay: "symbol"
+});
+formatter.format(123456.789);
+
+// formatToParts()
+
+
+
+// Works, but slow:
+items.sort((a, b) => a.localeCompare(b));
+
+// Better: creates the collator once and reuses it
+const collator = new Intl.Collator('en');
+items.sort(collator.compare);
+
+
+const files = ['chapter10.txt', 'chapter9.txt', 'chapter2.txt', 'chapter1.txt'];
+
+// Default sort per-character
+files.sort();
+// → ['chapter1.txt', 'chapter10.txt', 'chapter2.txt', 'chapter9.txt']  ✗
+
+// Numeric sort
+const collator = new Intl.Collator('en', { numeric: true });
+files.sort(collator.compare);
+// → ['chapter1.txt', 'chapter2.txt', 'chapter9.txt', 'chapter10.txt']  ✓
+//
+
+*/

@@ -1,13 +1,4 @@
 ```tsx
-import Alert from "../Dumb/Alert";
-import Button from "../Dumb/Button";
-import Font from "../Dumb/Font";
-import IconInfo from "../Dumb/Icon/Icons/Info";
-import IconLoadingBar from "../Dumb/Icon/Icons/LoadingBar";
-import ToolBar from "../Dumb/Toolbar";
-import GridTemplateColumns from "../Inspired/GridTemplateColumns";
-import useLifeboats from "../Inspired/useLifeboat";
-
 export default function DemoLifeboats() {
   const {
     // lifeboats,

@@ -11,7 +11,6 @@ type PortalWindowProps = {
 };
 
 function copyStylesToWindow(sourceDoc: Document, targetDoc: Document) {
-  // Try copying computed cssRules too (some stylesheets may be cross-origin and throw)
   try {
     // note: accessing document.styleSheets might throw on cross-origin sheets; this is why it's wrapped
     Array.from(sourceDoc.styleSheets).forEach((sheet) => {
@@ -55,9 +54,7 @@ export default function PortalWindow({
     }
     newWindowRef.current = newWindow;
 
-    // A small wrapper to ensure doc exists and body is present
     const doc = newWindow.document;
-    // set a sensible title early
     if (title) doc.title = title;
     // create container inside the new window's body
     const container = doc.createElement("div");
@@ -65,7 +62,6 @@ export default function PortalWindow({
     container.style.width = "100%";
     container.style.height = "100%";
     container.style.padding = "8px";
-    // optional: apply some minimal reset so body has no default margin
     // doc.body.style.margin = "0";
     doc.body.appendChild(container);
     containerRef.current = container;
@@ -80,7 +76,6 @@ export default function PortalWindow({
       }
     }
 
-    // register the container with your portal system
     registerTarget(id, container);
 
     // When the new window is closed by the user, unregister

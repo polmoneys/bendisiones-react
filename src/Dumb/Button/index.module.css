@@ -37,15 +37,26 @@
     & .span {
         font: inherit;
         display: grid;
+        justify-self: center;
+        min-width: 0;
+    }
+    &.start {
+        justify-self: start;
+    }
+    &.end {
+        justify-self: end;
     }
 
     &.start.end {
-        grid-template-columns: repeat(3, max-content);
+        grid-template-columns: max-content minmax(0, 1fr) max-content;
+        align-items: center;
     }
 
-    &.start:not(.end),
+    &.start:not(.end) {
+        grid-template-columns: max-content minmax(0, 1fr) max-content;
+    }
     &.end:not(.start) {
-        grid-template-columns: repeat(2, minmax(0, max-content));
+        grid-template-columns: minmax(0, 1fr) max-content max-content;
     }
 
     &:hover:not(:disabled, &.active) {
