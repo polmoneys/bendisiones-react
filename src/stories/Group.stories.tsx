@@ -11,16 +11,15 @@ import Button from "../Dumb/Button";
 import Checkbox from "../Dumb/Checkbox";
 import Group from "../Dumb/Group";
 import Container from "../Dumb/Group/Container";
-// import Disclosure from "../Dumb/Group/Disclosure";
 import { Row } from "../Dumb/Group/Flex";
 import Grid from "../Dumb/Group/Grid2068";
 import HighlightedText from "../Dumb/Group/Highlight";
 import Kiss from "../Dumb/Group/Kiss";
 import ContainerSize from "../Dumb/Group/Size";
 import Stack from "../Dumb/Group/Stack";
-// import TailGroup from "../Dumb/Group/Tail";
+import TailGroup from "../Dumb/Group/Tail";
 import TextInput from "../Dumb/InputText";
-// import TextInputUncontrolled from "../Dumb/InputText/Uncontrolled";
+import TextInputUncontrolled from "../Dumb/InputText/Uncontrolled";
 import Media from "../Dumb/Media";
 import Shape from "../Dumb/Shape";
 import { parseOwnershipPatterns } from "../utilities/ownership";
@@ -122,220 +121,6 @@ export const StoryD: Story = {
     ),
   ],
 };
-
-// type StoryTailType = StoryObj<typeof TailGroup>;
-
-// export const StoryTail: StoryTailType = {
-//   name: "Tail",
-//   parameters: {
-//     layout: "padded",
-//   },
-//   render: function Render() {
-//     return (
-//       <div className="pxy">
-//         <TailGroup
-//           primary={<TextInputUncontrolled />}
-//           tail={[
-//             <Shape.Circle size={30} />,
-//             <Shape.Square size={40} />,
-//             <Shape.Triangle size={40} />,
-//           ]}
-//         />
-//       </div>
-//     );
-//   },
-// };
-
-// const cardSX = `
-//   & {
-//       height:min(690px, 66vh);
-//       aspect-ratio: 9/16;
-//   }
-
-//   &:not(:has(img)) {
-//     display:flex;
-//       flex-direction:column;
-//       gap:var(--gap-3);
-//       padding:var(--pxy);
-
-//   }
-//   &:has(img) {
-//       width: fit-content;
-//       display: grid;
-//       grid-template-areas: stack;
-//   }
-//   &:has(img) > * {
-//       grid-area: stack;
-//   }
-//   &:has(img) > *:first-child {
-//       position: relative;
-//       z-index:var(--z-2);
-//       padding:var(--pxy);
-
-//   }
-
-//   & > .card-summary {
-//       margin-top:auto;
-//   }
-
-//   &:hover {
-//       background: var(--neutral);
-//   }
-
-//   &:hover > button {
-//       transform: scale(1.02);
-//   }
-// `;
-// export const StoryD: Story = {
-//   name: "An sx container as Card",
-//   render: function Render() {
-//     return (
-//       <>
-//         <Container sx={cardSX}>
-//           <h3 className="clamp"> Card title </h3>
-//           <div className="card-summary">
-//             <p
-//               className="clamp"
-//               style={{ "--clamp-lines": 4 } as CSSProperties}
-//             >
-//               Card summary, lorem ipsun dolor sit amet indiscliplinctur whatever
-//               pantecrator gloria at adstra et bellum parabus.{" "}
-//             </p>
-//           </div>
-
-//           <Button end={<NorthStarIcon />}>Click me </Button>
-//         </Container>
-//       </>
-//     );
-//   },
-//   decorators: [
-//     (Story) => (
-//       <div className="group">
-//         <Story />
-//       </div>
-//     ),
-//   ],
-// };
-
-// export const StoryE: Story = {
-//   name: "An sx container as Media Card",
-//   render: function Render() {
-//     return (
-//       <>
-//         <Container sx={cardSX}>
-//           <h3 className="clamp"> Plant Portrait </h3>
-//           <Media
-//             ratio="portrait"
-//             alt="Plant portrait"
-//             src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-//           />
-//         </Container>
-//       </>
-//     );
-//   },
-//   decorators: [
-//     (Story) => (
-//       <div className="group">
-//         <Story />
-//       </div>
-//     ),
-//   ],
-// };
-
-// const cardSXLandscape = `
-//   & {
-//       width:min(690px, 66vw);
-//       aspect-ratio: 16/9;
-//   }
-
-//   &:not(:has(img)) {
-//     display:flex;
-//       flex-direction:column;
-//       gap:var(--gap-3);
-//       padding:var(--pxy);
-
-//   }
-//   &:has(img) {
-//       display: grid;
-//       grid-template-areas: stack;
-//   }
-//   &:has(img) > * {
-//       grid-area: stack;
-//   }
-//   &:has(img) > *:first-child {
-//       position: relative;
-//       z-index:var(--z-2);
-//       padding:var(--pxy);
-
-//   }
-
-//   & > .card-summary {
-//       margin-top:auto;
-//   }
-
-//   &:hover {
-//       background: var(--neutral);
-//   }
-
-//   &:hover > button {
-//       transform: scale(1.02);
-//   }
-// `;
-// export const StoryF: Story = {
-//   name: "An sx container as Card (landscape)",
-//   render: function Render() {
-//     return (
-//       <>
-//         <Container sx={cardSXLandscape}>
-//           <h3 className="clamp"> Card title </h3>
-//           <div className="card-summary">
-//             <p
-//               className="clamp"
-//               style={{ "--clamp-lines": 3 } as CSSProperties}
-//             >
-//               Card summary, lorem ipsun dolor sit amet indiscliplinctur whatever
-//               pantecrator gloria at adstra et bellum parabus.{" "}
-//             </p>
-//           </div>
-
-//           <Button end={<NorthStarIcon />}>Click me </Button>
-//         </Container>
-//       </>
-//     );
-//   },
-//   decorators: [
-//     (Story) => (
-//       <div className="group">
-//         <Story />
-//       </div>
-//     ),
-//   ],
-// };
-
-// export const StoryG: Story = {
-//   name: "An sx container as Media Card (landscape)",
-//   render: function Render() {
-//     return (
-//       <>
-//         <Container sx={cardSXLandscape}>
-//           <h3 className="clamp"> Plant Landscape </h3>
-//           <Media
-//             ratio="landscape"
-//             alt="Plant landscape"
-//             src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-//           />
-//         </Container>
-//       </>
-//     );
-//   },
-//   decorators: [
-//     (Story) => (
-//       <div className="group">
-//         <Story />
-//       </div>
-//     ),
-//   ],
-// };
 
 export const StoryE: Story = {
   name: "Advanced Grid",
@@ -498,6 +283,29 @@ export const StoryG: Story = {
           Show input layer
         </Button>
       </>
+    );
+  },
+};
+
+type StoryTailType = StoryObj<typeof TailGroup>;
+
+export const StoryTail: StoryTailType = {
+  name: "Tail",
+  parameters: {
+    layout: "padded",
+  },
+  render: function Render() {
+    return (
+      <div className="pxy">
+        <TailGroup
+          primary={<TextInputUncontrolled />}
+          tail={[
+            <Shape.Circle size={30} />,
+            <Shape.Square size={40} />,
+            <Shape.Triangle size={40} />,
+          ]}
+        />
+      </div>
     );
   },
 };

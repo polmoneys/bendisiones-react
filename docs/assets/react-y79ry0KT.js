@@ -1,0 +1,1 @@
+import{n as e,t}from"./lib-B32lL1Y6.js";export{t as MDXProvider};

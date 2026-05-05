@@ -1,1 +1,0 @@
-const e=e=>Math.max(0,Math.min(1,e));function t(e,t,n){return Math.max(t,Math.min(n,e))}function n(e,t,n){return Number.isNaN(e)?n:Math.max(t,Math.min(n,e))}export{t as n,n as r,e as t};

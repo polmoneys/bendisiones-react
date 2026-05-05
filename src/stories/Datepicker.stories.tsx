@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useState } from "react";
 
+// import { parseDate } from "@internationalized/date";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { GoInfinity as IconLoadingBar } from "react-icons/go";
 
@@ -10,6 +11,7 @@ import { Col, Row } from "../Dumb/Group/Flex";
 import DatePicker from "../Smart-ish/DatePicker";
 import type { Period } from "../Smart-ish/DatePicker/interfaces";
 import Periods from "../Smart-ish/DatePicker/Periods";
+// import DateRangePicker from "../Smart-ish/DatePicker/Picker";
 import Range from "../Smart-ish/DatePicker/Range";
 import useDates from "../Smart-ish/DatePicker/useDates";
 
@@ -60,6 +62,10 @@ const meta = {
     const [customStart, setCustomStart] = useState(startDate);
     const [customEnd, setCustomEnd] = useState(endDate);
 
+    // const [customRange, setCustom] = useState({
+    //   start: parseDate(startDate),
+    //   end: parseDate(endDate),
+    // });
     useEffect(() => {
       setCustomStart(startDate);
       setCustomEnd(endDate);
@@ -141,6 +147,22 @@ const meta = {
               </Range>
             </Suspense>
           )}
+          {/*
+          <br />
+
+          <DateRangePicker
+            placeholder="Publication date"
+            // isDisabled={period != null}
+            value={customRange}
+            onChange={(range) => {
+              if (range?.start === undefined || range?.end === undefined)
+                return;
+              setCustom({
+                start: range.start,
+                end: range.end,
+              });
+            }}
+          />*/}
         </Col>
       </>
     );

@@ -132,29 +132,6 @@ export const DateUtils: Story = {
                 />
               </div>
             </fieldset>
-            {/*<fieldset>
-              <legend>
-                <p>Available options</p>
-              </legend>
-              <p>Choose one of the following dates for your appointment</p>
-              <div className="dates-item">
-                <label>
-                  <input type="radio" name="available-date" /> 1 July 2026
-                </label>
-                <label>
-                  <input type="radio" name="available-date" /> 14 July 2026
-                </label>
-                <label>
-                  <input type="radio" name="available-date" /> 21 July 2026
-                </label>
-                <label>
-                  <input type="radio" name="available-date" /> 12 August 2026
-                </label>
-                <label>
-                  <input type="radio" name="available-date" /> 30 August 2026
-                </label>
-              </div>
-            </fieldset>*/}
           </form>
           <form className="dates dates-wrap">
             <fieldset>
