@@ -40,6 +40,7 @@
         justify-self: center;
         min-width: 0;
     }
+
     &.start {
         justify-self: start;
     }
@@ -53,10 +54,11 @@
     }
 
     &.start:not(.end) {
-        grid-template-columns: max-content minmax(0, 1fr) max-content;
+        grid-template-columns: max-content minmax(0, 1fr);
     }
+
     &.end:not(.start) {
-        grid-template-columns: minmax(0, 1fr) max-content max-content;
+        grid-template-columns: minmax(0, 1fr) max-content;
     }
 
     &:hover:not(:disabled, &.active) {
