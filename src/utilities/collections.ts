@@ -106,3 +106,8 @@ export const arrayMove = <T>(arr: Array<T>, from: number, to: number) => {
   moveMutate(arr, from, to);
   return arr;
 };
+
+export function toArray<T>(value?: T): Array<T> {
+  if (value == null) return [];
+  return Array.isArray(value) ? value : [value];
+}

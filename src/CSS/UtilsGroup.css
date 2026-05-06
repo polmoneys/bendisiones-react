@@ -2,7 +2,7 @@
     --outline: 4px;
 
     isolation: isolate;
-    border: var(--border);
+    /*border: var(--border);*/
     border-radius: var(--border-radius);
     box-shadow: 0 0 0 var(--outline) var(--neutral);
 

@@ -19,10 +19,10 @@ export default function Mua({
   return (
     <Component
       style={{
-        ...(dangerous !== undefined && { ...dangerous }),
-        display: "flex",
-        flexWrap: "wrap",
         gap: "0.2em",
+        display: "flex",
+        ...(dangerous !== undefined && { ...dangerous }),
+        flexWrap: "wrap",
         ...(centered
           ? {
               placeContent: "center",

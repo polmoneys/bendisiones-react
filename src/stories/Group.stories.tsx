@@ -1,10 +1,8 @@
-import { useRef, useState } from "react";
-
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   GoCalendar as CalendarIcon,
   GoNorthStar as NorthStarIcon,
-  GoStack as StackIcon,
+  // GoStack as StackIcon,
 } from "react-icons/go";
 
 import Button from "../Dumb/Button";
@@ -13,17 +11,12 @@ import Group from "../Dumb/Group";
 import Container from "../Dumb/Group/Container";
 import { Row } from "../Dumb/Group/Flex";
 import Grid from "../Dumb/Group/Grid2068";
-import HighlightedText from "../Dumb/Group/Highlight";
 import Kiss from "../Dumb/Group/Kiss";
-import ContainerSize from "../Dumb/Group/Size";
+import Mua from "../Dumb/Group/Kiss";
 import Stack from "../Dumb/Group/Stack";
-import TailGroup from "../Dumb/Group/Tail";
 import TextInput from "../Dumb/InputText";
-import TextInputUncontrolled from "../Dumb/InputText/Uncontrolled";
 import Media from "../Dumb/Media";
 import Shape from "../Dumb/Shape";
-import { parseOwnershipPatterns } from "../utilities/ownership";
-import { clsx } from "../utils";
 
 const meta = {
   title: "Dumb/Group",
@@ -123,7 +116,7 @@ export const StoryD: Story = {
 };
 
 export const StoryE: Story = {
-  name: "Advanced Grid",
+  name: "Breakpoint-aware Grid",
   parameters: {
     layout: "padded",
   },
@@ -169,143 +162,353 @@ export const StoryE: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="group">
+      <div className="pxy">
         <Story />
       </div>
     ),
   ],
 };
 
-export const StoryF: Story = {
-  name: "Container size aware",
+export const StoryKiss: Story = {
+  name: "Kiss makes 2 elements responsive",
   parameters: {
     layout: "padded",
   },
   render: function Render() {
     return (
       <>
-        <ContainerSize>
-          {({ w }) => {
-            console.log({ w });
-            return (
-              <div className="center" style={{ width: "min(750px, 80vw)" }}>
-                <Shape
-                  sides={w > 600 ? 5 : 4}
-                  size={w > 600 ? 100 : undefined}
-                  fill={w > 600 ? undefined : "var(--negative)"}
-                />
-              </div>
-            );
-          }}
-        </ContainerSize>
+        <Row style={{ gap: "var(--gap-5)", flexWrap: "wrap" }}>
+          <div style={{ maxWidth: "120px" }}>
+            <Mua
+              className="pxy"
+              dangerous={{
+                border: "var(--border)",
+                borderRadius: "var(--border-radius)",
+                gap: "var(--gap-5)",
+                height: "fit-content",
+              }}
+            >
+              <p style={{ display: "flex", flexWrap: "wrap" }}>
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+              </p>
+              <p
+                style={{
+                  display: "flex",
+                  backgroundColor: "var(--positive)",
+                  padding: "0.1em 0.3em",
+                  borderRadius: ".2em",
+                }}
+              >
+                North
+              </p>
+            </Mua>
+          </div>
+
+          <div style={{ maxWidth: "140px" }}>
+            <Mua
+              className="pxy"
+              dangerous={{
+                border: "var(--border)",
+                borderRadius: "var(--border-radius)",
+                height: "fit-content",
+                gap: "var(--gap-5)",
+              }}
+            >
+              <p style={{ display: "flex", flexWrap: "wrap" }}>
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+              </p>
+              <p
+                style={{
+                  display: "flex",
+                  backgroundColor: "var(--positive)",
+                  padding: "0.1em 0.3em",
+                  borderRadius: ".2em",
+                }}
+              >
+                North
+              </p>
+            </Mua>
+          </div>
+          <div style={{ maxWidth: "160px" }}>
+            <Mua
+              className="pxy"
+              dangerous={{
+                border: "var(--border)",
+                borderRadius: "var(--border-radius)",
+                height: "fit-content",
+                gap: "var(--gap-5)",
+              }}
+            >
+              <p style={{ display: "flex", flexWrap: "wrap" }}>
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+              </p>
+              <p
+                style={{
+                  display: "flex",
+                  backgroundColor: "var(--positive)",
+                  padding: "0.1em 0.3em",
+                  borderRadius: ".2em",
+                }}
+              >
+                North
+              </p>
+            </Mua>
+          </div>
+          <div style={{ maxWidth: "180px" }}>
+            <Mua
+              className="pxy"
+              dangerous={{
+                border: "var(--border)",
+                borderRadius: "var(--border-radius)",
+                height: "fit-content",
+                gap: "var(--gap-5)",
+              }}
+            >
+              <p style={{ display: "flex", flexWrap: "wrap" }}>
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+              </p>
+              <p
+                style={{
+                  display: "flex",
+                  backgroundColor: "var(--positive)",
+                  padding: "0.1em 0.3em",
+                  borderRadius: ".2em",
+                }}
+              >
+                North
+              </p>
+            </Mua>
+          </div>
+          <div style={{ maxWidth: "200px" }}>
+            <Mua
+              className="pxy"
+              dangerous={{
+                border: "var(--border)",
+                borderRadius: "var(--border-radius)",
+                height: "fit-content",
+                gap: "var(--gap-5)",
+              }}
+            >
+              <p style={{ display: "flex", flexWrap: "wrap" }}>
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+              </p>
+              <p
+                style={{
+                  display: "flex",
+                  backgroundColor: "var(--positive)",
+                  padding: "0.1em 0.3em",
+                  borderRadius: ".2em",
+                }}
+              >
+                North
+              </p>
+            </Mua>
+          </div>
+
+          <div style={{ maxWidth: "220px" }}>
+            <Mua
+              className="pxy"
+              dangerous={{
+                border: "var(--border)",
+                borderRadius: "var(--border-radius)",
+                height: "fit-content",
+                gap: "var(--gap-5)",
+              }}
+            >
+              <p style={{ display: "flex", flexWrap: "wrap" }}>
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+                <NorthStarIcon />
+              </p>
+              <p
+                style={{
+                  display: "flex",
+                  backgroundColor: "var(--positive)",
+                  padding: "0.1em 0.3em",
+                  borderRadius: ".2em",
+                }}
+              >
+                North
+              </p>
+            </Mua>
+          </div>
+
+          <Mua
+            className=" pxy"
+            dangerous={{
+              border: "var(--border)",
+              borderRadius: "var(--border-radius)",
+              height: "fit-content",
+              gap: "var(--gap-5)",
+            }}
+          >
+            <p style={{ display: "flex", flexWrap: "wrap" }}>
+              <NorthStarIcon />
+              <NorthStarIcon />
+              <NorthStarIcon />
+              <NorthStarIcon />
+              <NorthStarIcon />
+              <NorthStarIcon />
+              <NorthStarIcon />
+            </p>
+            <p
+              style={{
+                display: "flex",
+                backgroundColor: "var(--positive)",
+                padding: "0.1em 0.3em",
+                borderRadius: ".2em",
+              }}
+            >
+              North
+            </p>
+          </Mua>
+        </Row>
       </>
     );
   },
   decorators: [
     (Story) => (
-      <div className="group pxy center">
+      <div className="pxy">
         <Story />
       </div>
     ),
   ],
 };
 
-const tests = [
-  "bob:schedule",
-  "bob:meetings next week",
-  "bob's birthday",
-  "bob's and maryam's last reports",
-  "@bob adidas shoes",
-  "my adidas shoes",
-  "bob:schedule alice's report @charlie tasks my notes",
-];
+// type StoryTailType = StoryObj<typeof TailGroup>;
 
-export const StoryG: Story = {
-  name: "Stack layers ",
-  parameters: {
-    layout: "padded",
-  },
+// export const StoryTail: StoryTailType = {
+//   name: "Group with many start / end ",
+//   parameters: {
+//     layout: "padded",
+//   },
+//   render: function Render() {
+//     return (
+//       <div className="pxy">
+//         <TailGroup
+//           start={<Shape.Circle size={30} />}
+//           end={[<Shape.Square size={40} />, <Shape.Triangle size={40} />]}
+//         >
+//           <TextInputUncontrolled />
+//         </TailGroup>
 
-  render: function Render() {
-    const [input, onChange] = useState("");
-    const [showInput, setShow] = useState(false);
+//         <AffixGroup
+//           primary={<TextInputUncontrolled />}
+//           head={<Shape.Circle size={30} />}
+//           tail={[<Button key="1">Clear</Button>, <Button key="2">More</Button>]}
+//         />
+//       </div>
+//     );
+//   },
+// };
 
-    const prevLengthRef = useRef(0);
-    const isDeleting = input.length < prevLengthRef.current;
+// const tests = [
+//   "bob:schedule",
+//   "bob:meetings next week",
+//   "bob's birthday",
+//   "bob's and maryam's last reports",
+//   "@bob adidas shoes",
+//   "my adidas shoes",
+//   "bob:schedule alice's report @charlie tasks my notes",
+// ];
 
-    const parsed = isDeleting ? input : parseOwnershipPatterns(input);
-    console.log({ input, parsed });
+// export const StoryG: Story = {
+//   name: "Stack layers ",
+//   parameters: {
+//     layout: "padded",
+//   },
 
-    return (
-      <>
-        <Stack
-          isInput
-          over={
-            <div
-              style={{
-                pointerEvents: "none",
-                color: "var(--negative)",
-                paddingLeft: "var(--gap-2)",
-              }}
-            >
-              <HighlightedText input={parsed.length > 0 ? parsed : input} />
-            </div>
-          }
-        >
-          <TextInput
-            placeholder="mention people and things"
-            className={clsx(!showInput && "transparent")}
-            id="test"
-            value={input}
-            onChange={(v) => onChange(v)}
-            clear
-          />
-        </Stack>
+//   render: function Render() {
+//     const [input, onChange] = useState("");
+//     const [showInput, setShow] = useState(false);
 
-        <Row wrap style={{ gap: "var(--gap-3)", margin: "var(--gap-4) 0" }}>
-          {tests.map((t, i) => (
-            <Button
-              key={i}
-              onClick={() => {
-                onChange(t);
-                prevLengthRef.current = input.length;
-              }}
-            >
-              {t}{" "}
-            </Button>
-          ))}
-        </Row>
-        <Button
-          start={<StackIcon />}
-          isActive={showInput}
-          onClick={() => setShow((prev) => !prev)}
-        >
-          Show input layer
-        </Button>
-      </>
-    );
-  },
-};
+//     const prevLengthRef = useRef(0);
+//     const isDeleting = input.length < prevLengthRef.current;
 
-type StoryTailType = StoryObj<typeof TailGroup>;
+//     const parsed = isDeleting ? input : parseOwnershipPatterns(input);
+//     console.log({ input, parsed });
 
-export const StoryTail: StoryTailType = {
-  name: "Tail",
-  parameters: {
-    layout: "padded",
-  },
-  render: function Render() {
-    return (
-      <div className="pxy">
-        <TailGroup
-          primary={<TextInputUncontrolled />}
-          tail={[
-            <Shape.Circle size={30} />,
-            <Shape.Square size={40} />,
-            <Shape.Triangle size={40} />,
-          ]}
-        />
-      </div>
-    );
-  },
-};
+//     return (
+//       <>
+//         <Stack
+//           isInput
+//           over={
+//             <div
+//               style={{
+//                 pointerEvents: "none",
+//                 color: "var(--negative)",
+//                 paddingLeft: "var(--gap-2)",
+//               }}
+//             >
+//               <HighlightedText input={parsed.length > 0 ? parsed : input} />
+//             </div>
+//           }
+//         >
+//           <TextInput
+//             placeholder="mention people and things"
+//             className={clsx(!showInput && "transparent")}
+//             id="test"
+//             value={input}
+//             onChange={(v) => onChange(v)}
+//             clear
+//           />
+//         </Stack>
+
+//         <Row wrap style={{ gap: "var(--gap-3)", margin: "var(--gap-4) 0" }}>
+//           {tests.map((t, i) => (
+//             <Button
+//               key={i}
+//               onClick={() => {
+//                 onChange(t);
+//                 prevLengthRef.current = input.length;
+//               }}
+//             >
+//               {t}{" "}
+//             </Button>
+//           ))}
+//         </Row>
+//         <Button
+//           start={<StackIcon />}
+//           isActive={showInput}
+//           onClick={() => setShow((prev) => !prev)}
+//         >
+//           Show input layer
+//         </Button>
+//       </>
+//     );
+//   },
+// };

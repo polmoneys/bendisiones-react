@@ -1,0 +1,48 @@
+.container {
+    --gapObserved: 8px;
+    --startObserved-padding: 0px;
+    --endObserved-padding: 0px;
+
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+
+.primary {
+    width: 100%;
+    min-width: 0;
+}
+
+.primary > * {
+    width: 100%;
+    min-width: 0;
+    padding-inline-start: var(--startObserved-padding) !important;
+    padding-inline-end: var(--endObserved-padding) !important;
+}
+
+.startObserved,
+.endObserved {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--gapObserved);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.startObserved {
+    left: 0;
+}
+
+.endObserved {
+    right: 0;
+}
+
+.item {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    pointer-events: auto;
+}
