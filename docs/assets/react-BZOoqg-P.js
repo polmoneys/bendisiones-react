@@ -1,0 +1,1 @@
+import{n as e,t}from"./lib-CILaZEY3.js";export{t as MDXProvider};
