@@ -1,16 +1,25 @@
 .attach-end {
     display: grid !important;
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-    grid-template-rows: 0 !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr !important;
+    align-items: center !important;
+
     &.fit {
         width: fit-content;
     }
+
     & > * {
-        display: grid !important;
-        grid-column: span 12 !important;
+        /* This forces every child into the first row and first column */
+        grid-area: 1 / 1 !important;
+        display: block;
     }
+
     & > * + * {
-        grid-column: 12/12 !important;
+        justify-self: end !important;
+        pointer-events: none;
+        & > * {
+            pointer-events: auto !important;
+        }
     }
 }
 

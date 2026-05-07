@@ -5,7 +5,7 @@ import { clsx, has } from "../../utils";
 
 import styles from "./index.module.css";
 
-export type GroupProps = {
+export interface GroupProps {
   start?: ReactNode;
   startWidth?: Unit;
   end?: ReactNode;
@@ -16,7 +16,8 @@ export type GroupProps = {
   // dangerous="--end:calc(var(--slot-start) * 1.5);"
   dangerous?: CSSProperties;
   onSelect?: () => void;
-};
+  className?: string;
+}
 
 export default function Group({
   start,
@@ -29,6 +30,7 @@ export default function Group({
   startWidth,
   endWidth,
   gradient,
+  className,
 }: GroupProps) {
   const sizes = {
     start: has(startWidth),
@@ -42,6 +44,7 @@ export default function Group({
         styles.slot,
         has(start) && styles.hasStart,
         has(end) && styles.hasEnd,
+        className,
       )}
       style={{
         ...dangerous,

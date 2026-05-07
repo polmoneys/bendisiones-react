@@ -4,7 +4,6 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { GoHeartFill as IconHeart } from "react-icons/go";
 
 import Button from "../Dumb/Button";
-import Group from "../Dumb/Group";
 import { Row } from "../Dumb/Group/Flex";
 import TextInput from "../Dumb/InputText";
 import { MaskedField } from "../Dumb/InputText/Masked";
@@ -33,29 +32,28 @@ export const Secondary: Story = {
     const [input, setInput] = useState("");
 
     return (
-      <>
-        <Group
-          start={<label htmlFor="test">Search</label>}
-          startWidth="100px"
-          endWidth="40px"
-          end={
-            <Button
-              isIcon
-              aria-label="Save search"
-              dangerous={{ paddingLeft: "11px" }}
-            >
-              <IconHeart size={18} />
-            </Button>
-          }
-        >
+      <Row
+        style={{
+          gap: "var(--gap-2)",
+          alignItems: "center",
+        }}
+      >
+        <label htmlFor="test">Search</label>
+
+        <div className="attach-end">
           <TextInput
             {...args}
             id="test"
             value={input}
             onChange={(v) => setInput(v)}
+            style={{ paddingRight: "49px" }}
           />
-        </Group>
-      </>
+
+          <Button isIcon aria-label="Save search">
+            <IconHeart size={18} />
+          </Button>
+        </div>
+      </Row>
     );
   },
 };

@@ -104,7 +104,11 @@ export default function OptionsList({
       }
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className={clsx(styles.results, containerClassName)}
+      className={clsx(
+        styles.results,
+        containerClassName,
+        filteredOptions.length === 0 && styles.empty,
+      )}
       aria-label={`${query} options`}
     >
       {filteredOptions.map((opt, idx) => {

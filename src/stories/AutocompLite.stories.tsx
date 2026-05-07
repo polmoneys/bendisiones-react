@@ -4,7 +4,7 @@ import {
   GoChevronUp as IconChevronUp,
 } from "react-icons/go";
 
-import Group from "../Dumb/Group";
+import { Col } from "../Dumb/Group/Flex";
 import AutocompLite from "../Inspired/AutocompLite";
 import Chips from "../Inspired/AutocompLite/Chips";
 import type { AutocompLiteOption } from "../Inspired/AutocompLite/interfaces";
@@ -227,7 +227,12 @@ export const Destinations: Story = {
     });
 
     return (
-      <>
+      <Col
+        style={{
+          gap: "var(--gap-3)",
+          width: "100%",
+        }}
+      >
         {(liveMessage ?? "").trim().length > 0 && (
           <div className="offscreen">{liveMessage}</div>
         )}
@@ -237,7 +242,9 @@ export const Destinations: Story = {
           onRemove={(option) => toggleOption(option)}
           limit={3}
         />
-        <br />
+
+        <label htmlFor="destinations-autcompLite">Where to, friend ?</label>
+
         <AutocompLite
           placeholder="Destinations"
           id="destinations-autcompLite"
@@ -251,33 +258,32 @@ export const Destinations: Story = {
         >
           {({ input }) => {
             return (
-              <Group
-                start={
-                  <label htmlFor="destinations-autcompLite">
-                    Where to, friend ?
-                  </label>
-                }
-                startWidth={"200px"}
-                endWidth={"40px"}
-                end={
-                  showPopover ? (
+              <div className="attach-end">
+                {input}
+                <div
+                  style={{
+                    transform: showPopover
+                      ? "translate(calc(var(--gap-3) * -1),2px)"
+                      : "translate(calc(var(--gap-3) * -1),4px)",
+                  }}
+                >
+                  {showPopover ? (
                     <IconChevronUp size={28} />
                   ) : (
                     <IconChevronDown size={28} />
-                  )
-                }
-              >
-                {input}
-              </Group>
+                  )}
+                </div>
+              </div>
             );
           }}
         </AutocompLite>
+
         {filteredOptions.length === 0 ? (
           <div>
             <p>No destinations match</p>
           </div>
         ) : null}
-      </>
+      </Col>
     );
   },
 };

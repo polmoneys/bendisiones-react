@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 export interface RecursiveItem<T = unknown> {
   id: string | number;
-  children?: RecursiveItem<T>[];
+  children?: Array<RecursiveItem<T>>;
   data?: T;
 }
 
@@ -17,7 +17,7 @@ type RenderItem<T> = {
 };
 
 export interface RecursiveProps<T = unknown> {
-  items: RecursiveItem<T>[];
+  items: Array<RecursiveItem<T>>;
   multiple?: boolean;
   selectedIds?: Set<string | number>;
   expandedIds?: Set<string | number>;

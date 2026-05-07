@@ -5,7 +5,7 @@ import { repeatGradient } from "../../utilities/gradients";
 
 import styles from "./index.module.css";
 
-interface RangeMultiProps {
+interface RangeStartEndProps {
   min: number;
   max: number;
   showRuler?: boolean;
@@ -23,7 +23,7 @@ interface RangeMultiProps {
   Otherwise uncontrolled and uses initialMin/initialMax (or min/max fallbacks).
  */
 
-export default function RangeMulti({
+export default function Range({
   min,
   max,
   initialMin,
@@ -33,7 +33,7 @@ export default function RangeMulti({
   onChange,
   id,
   showRuler = false,
-}: RangeMultiProps) {
+}: RangeStartEndProps) {
   const isControlled = valueMin !== undefined && valueMax !== undefined;
 
   // internal state 4 uncontrolled

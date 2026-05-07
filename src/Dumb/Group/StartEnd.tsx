@@ -7,7 +7,7 @@ import styles from "./StartEnd.module.css";
 
 /*
 
-<TailGroup
+<StartEnd
   start={<Shape.Circle size={30} />}
   end={[<Shape.Square size={40} />, <Shape.Triangle size={40} />]}
 >

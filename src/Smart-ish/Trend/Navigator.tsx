@@ -1,6 +1,6 @@
 import { type ReactNode, useMemo } from "react";
 
-import RangeMulti from "../../Dumb/RangePeriod";
+import Range from "../../Dumb/Range";
 import { clampBoundary } from "../../utilities/clamp";
 
 import type { DataPoint, Series } from "./interfaces";
@@ -314,7 +314,7 @@ export default function SlidingWindow({
 
   return (
     <div>
-      <RangeMulti
+      <Range
         id={id}
         min={min}
         max={max}
