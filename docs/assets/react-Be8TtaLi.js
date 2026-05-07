@@ -1,0 +1,1 @@
+import{n as e,t}from"./lib-D4sViduf.js";export{t as MDXProvider};
