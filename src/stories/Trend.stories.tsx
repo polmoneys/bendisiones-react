@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 // import Button from "../Dumb/Button";
-import Trend from "../Dumb/Trend";
-import SlidingWindow from "../Dumb/Trend/Navigator";
+import Trend from "../Smart-ish/Trend";
+import SlidingWindow from "../Smart-ish/Trend/Navigator";
+import useResizeObserver from "../utilities/useResizeObserver";
 
 const meta = {
-  title: "Dumb/Trend",
+  title: "Smart-ish/Trend",
   component: Trend,
   parameters: {
     layout: "centered",
@@ -21,7 +22,7 @@ const meta = {
     dotRadius: { control: { type: "range", min: 2, max: 8, step: 1 } },
     pointMode: {
       control: { type: "radio" },
-      options: ["none", "all", "extrema"],
+      options: ["none", "all"],
     },
     trendMode: {
       control: { type: "radio" },
@@ -49,12 +50,10 @@ export const EmptyState: Story = {
     trendMode: "none",
   },
   render: (args) => (
-    <div style={{ padding: "20px" }}>
-      <h3 style={{ marginBottom: "10px", fontSize: "14px", color: "#666" }}>
-        No Data Available
-      </h3>
-      <Trend {...args} />
-    </div>
+    <Trend
+      {...args}
+      emptyState={<div className="group pxy">No data to show</div>}
+    />
   ),
 };
 
@@ -80,100 +79,48 @@ export const DefaultState: Story = {
     ],
     width: 300,
     height: 60,
-    pointMode: "extrema",
-    trendMode: "none",
+    showPointLabels: "none",
+    showLegend: true,
+    showTooltip: true,
   },
-  render: (args) => (
-    <div style={{ padding: "20px" }}>
-      <Trend {...args} />
-    </div>
-  ),
-};
-export const DefaultState2: Story = {
-  name: "Trends",
-  args: {
-    series: [
-      {
-        id: "aapl",
-        label: "AAPL",
-        data: Array.from({ length: 30 }, (_, i) => {
-          const v = 150 + Math.sin(i / 5) * 15 + Math.random() * 8;
-          return { value: Number(v.toFixed(2)), label: v.toFixed(2) };
-        }),
-        color: "#a855f7",
-        showArea: false,
-        strokeWidth: 2,
-      },
-      {
-        id: "googl",
-        label: "GOOGL",
-        data: Array.from({ length: 30 }, (_, i) => {
-          const v = 140 + Math.cos(i / 6) * 12 + Math.random() * 6;
-          return { value: Number(v.toFixed(2)), label: v.toFixed(2) };
-        }),
-        color: "#3b82f6",
-        showArea: false,
-        strokeWidth: 2,
-      },
-    ],
-    width: 300,
-    height: 60,
-    // show markers for all points so labels align with visible dots
-    pointMode: "all",
-    trendMode: "none",
-    // show labels for every point that has a label (we've added labels for all)
-    showPointLabels: "extrema",
-  },
-  render: (args) => (
-    <div style={{ padding: "20px" }}>
-      <Trend {...args} />
-    </div>
-  ),
+  render: (args) => <Trend {...args} />,
 };
 
 export const TrendVisualization: Story = {
-  name: "Trend Indicators",
+  name: "Trend direction",
   args: {
     data: [
-      50,
-      50,
-      50, // flat segment
-      52,
-      54, // up
-      54,
-      54, // flat
-      53,
-      53, // flat
-      55,
-      55,
-      55, // flat
-      53,
-      50,
-      48, // down
+      { value: 50 },
+      { value: 50 },
+      { value: 50, label: "flat" }, // plateau middle -> won't be center extremum
+      { value: 52, label: "small up" },
+      { value: 54, label: "rally" }, // will likely be a peak depending on neighbor values
+      { value: 54 },
+      { value: 54 },
+      { value: 53 },
+      { value: 53 },
+      { value: 55, label: "higher" },
+      { value: 55 },
+      { value: 55 },
+      { value: 53, label: "dip" },
+      { value: 50, label: "fall" },
+      { value: 48, label: "valley" }, // valley extremum
     ],
-    // v2 usage:
-    pointMode: "extrema",
     trendMode: "both",
     width: 480,
     height: 100,
-    showArea: false,
+    showArea: true,
     strokeWidth: 2,
     dotRadius: 5,
-    // optional: override colors to emphasize
     upColor: "var(--positive)",
     downColor: "var(--negative)",
     flatColor: "var(--neutral)",
     peakColor: "yellow",
     valleyColor: "black",
-    showLegend: true,
   },
   render: (args) => (
     <div style={{ padding: "20px" }}>
-      <h3 style={{ marginBottom: "10px", fontSize: "14px", color: "#666" }}>
-        Trend Direction Highlighting
-      </h3>
       <Trend {...args} />
-
       <div
         style={{
           marginTop: 12,
@@ -218,37 +165,8 @@ export const TrendVisualization: Story = {
   ),
 };
 
-export const CompactInline: Story = {
-  name: "Compact Inline",
-  args: {
-    data: [3, 7, 4, 9, 6, 11, 8, 13],
-    width: 120,
-    height: 30,
-    color: "#06b6d4",
-    fillColor: "rgba(6, 182, 212, 0.15)",
-    strokeWidth: 2,
-    // minimal overlay
-    pointMode: "none",
-    trendMode: "none",
-  },
-  render: (args) => (
-    <div
-      style={{
-        padding: "20px",
-        display: "flex",
-        alignItems: "center",
-        gap: "15px",
-      }}
-    >
-      <span style={{ fontSize: "14px", color: "#666" }}>Revenue:</span>
-      <Trend {...args} />
-      <span style={{ fontSize: "16px", fontWeight: "bold" }}>$1.2M</span>
-    </div>
-  ),
-};
-
 export const StockPortfolio: Story = {
-  name: "Stock Portfolio (5 Assets)",
+  name: "Trends ",
   args: {
     series: [
       {
@@ -310,41 +228,13 @@ export const StockPortfolio: Story = {
     width: 700,
     height: 160,
     showLegend: true,
-    // show markers for points, but no extra trend overlay
-    pointMode: "all",
-    trendMode: "none",
+    showPointLabels: "none",
+    pointMode: "none",
   },
   render: (args) => (
-    <div
-      style={{ padding: "25px", background: "#0f172a", borderRadius: "12px" }}
-    >
-      <div
-        style={{
-          marginBottom: "20px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-        }}
-      >
-        <div>
-          <h3 style={{ fontSize: "20px", color: "#fff", marginBottom: "5px" }}>
-            Portfolio Performance
-          </h3>
-          <p style={{ fontSize: "13px", color: "#64748b" }}>
-            Last 30 trading days
-          </p>
-        </div>
-        <div style={{ textAlign: "right" }}>
-          <div
-            style={{ fontSize: "28px", color: "#10b981", fontWeight: "bold" }}
-          >
-            +12.4%
-          </div>
-          <div style={{ fontSize: "12px", color: "#64748b" }}>Total return</div>
-        </div>
-      </div>
+    <div>
       <Trend {...args} />
-      <div
+      {/*<div
         style={{
           marginTop: "20px",
           display: "grid",
@@ -356,9 +246,9 @@ export const StockPortfolio: Story = {
           <div
             key={ticker}
             style={{
-              padding: "10px",
-              background: "#1e293b",
-              borderRadius: "6px",
+              boxShadow: "var(--shadow)",
+              padding: "var(--gap-3)",
+              borderRadius: "var(--border-radius)",
               textAlign: "center",
             }}
           >
@@ -384,7 +274,35 @@ export const StockPortfolio: Story = {
             </div>
           </div>
         ))}
-      </div>
+      </div>*/}
+    </div>
+  ),
+};
+
+export const CompactInline: Story = {
+  name: "Compact Inline",
+  args: {
+    data: [3, 7, 4, 9, 6, 11, 8, 13],
+    width: 120,
+    height: 30,
+    color: "#06b6d4",
+    fillColor: "rgba(6, 182, 212, 0.15)",
+    strokeWidth: 2,
+    // minimal overlay
+    pointMode: "none",
+    showPointLabels: "none",
+  },
+  render: (args) => (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "baseline",
+        gap: "var(--gap-3)",
+      }}
+    >
+      <p style={{ fontSize: "14px", color: "#666" }}>Revenue:</p>
+      <Trend {...args} />
+      <p style={{ fontWeight: "var(--font-bold)" }}>$1.2M</p>
     </div>
   ),
 };
@@ -392,58 +310,11 @@ export const StockPortfolio: Story = {
 const now = Date.now();
 const day = 24 * 60 * 60 * 1000;
 
-export const PointLabels: Story = {
-  name: "Point Labels (extrema by default)",
-  args: {
-    data: [
-      { value: 50 },
-      { value: 50 },
-      { value: 50, label: "flat" }, // plateau middle -> won't be center extremum
-      { value: 52, label: "small up" },
-      { value: 54, label: "rally" }, // will likely be a peak depending on neighbor values
-      { value: 54 },
-      { value: 54 },
-      { value: 53 },
-      { value: 53 },
-      { value: 55, label: "higher" },
-      { value: 55 },
-      { value: 55 },
-      { value: 53, label: "dip" },
-      { value: 50, label: "fall" },
-      { value: 48, label: "valley" }, // valley extremum
-    ],
-    width: 480,
-    height: 100,
-    pointMode: "all",
-    trendMode: "both",
-    showArea: false,
-    strokeWidth: 2,
-    dotRadius: 5,
-    // NOTE: default for showPointLabels is "extrema" — you'll see labels only at extrema
-    // You can change this in controls to "all" to show labels for any point that has a label.
-    showPointLabels: "all",
-    upColor: "var(--positive)",
-    downColor: "var(--negative)",
-    flatColor: "var(--neutral)",
-    peakColor: "yellow",
-    valleyColor: "black",
-  },
-  render: (args) => (
-    <div style={{ padding: "20px" }}>
-      <h3 style={{ marginBottom: "10px", fontSize: "14px", color: "#666" }}>
-        Labels: extrema shown by default
-      </h3>
-      <Trend {...args} />
-      <p style={{ marginTop: 12, fontSize: 13, color: "#666" }}>
-        Toggle <code>showPointLabels</code> in controls to test{" "}
-        <code>"all"</code> or <code>"none"</code>.
-      </p>
-    </div>
-  ),
-};
-
 export const SlidingA: StoryNavigator = {
   name: "Sliding",
+  parameters: {
+    layout: "fullscreen",
+  },
   render: function Render() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [stretch, setStretch] = useState(true);
@@ -486,9 +357,11 @@ export const SlidingA: StoryNavigator = {
       min: domainMin + 1 * day,
       max: domainMax - 1 * day,
     });
+    const ref = useRef<HTMLDivElement | null>(null);
+    const { width } = useResizeObserver(ref);
 
     return (
-      <div style={{ padding: 20 }}>
+      <div style={{ width: "100%" }}>
         <SlidingWindow
           id="trend-range-multi"
           min={domainMin}
@@ -499,24 +372,35 @@ export const SlidingA: StoryNavigator = {
           showRuler={false}
           series={[seriesA, seriesB]}
           minPoints={6}
+          width={width ?? 0}
           stretchToFit={stretch}
         >
           {({ stretchedSeries }) => (
-            <div style={{ background: "#fff", padding: 12, borderRadius: 8 }}>
-              <Trend
-                series={stretchedSeries ?? []}
-                width={700}
-                height={160}
-                pointMode="all"
-                trendMode="none"
-                showArea={false}
-                strokeWidth={2}
-                dotRadius={4}
-                visibleStartPercent={0}
-                visibleEndPercent={100}
-                showPointLabels="all"
-              />
-            </div>
+            <>
+              <div
+                style={{
+                  width: "100%",
+                  background: "#fff",
+                  padding: 12,
+                  borderRadius: "var(--border-radius)",
+                }}
+                ref={ref}
+              >
+                <Trend
+                  series={stretchedSeries ?? []}
+                  width={width}
+                  height={160}
+                  pointMode="all"
+                  trendMode="none"
+                  showArea={false}
+                  strokeWidth={2}
+                  dotRadius={4}
+                  visibleStartPercent={0}
+                  visibleEndPercent={100}
+                  showPointLabels="none"
+                />
+              </div>
+            </>
           )}
         </SlidingWindow>
         {/*<br/>

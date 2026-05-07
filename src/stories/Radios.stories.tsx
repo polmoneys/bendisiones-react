@@ -102,6 +102,7 @@ export const Story: Story = {
                   alignItems: "center",
                   gap: "var(--gap-2)",
                   padding: "var(--gap-1) var(--gap-2)",
+                  borderRadius: "var(--border-radius)",
                 }}
               >
                 <b>Option 2</b>
@@ -219,7 +220,6 @@ export const StoryB: Story = {
                   minWidth: "calc(var(--min-height) * 2)",
                   aspectRatio: "2.4/3",
                   backgroundColor: "var(--neutral)",
-                  border: "var(--border)",
                   borderRadius: "var(--border-radius)",
                   boxShadow: "var(--shadow)",
                 }}
@@ -253,7 +253,6 @@ export const StoryB: Story = {
                   minWidth: "calc(var(--min-height) * 2)",
                   aspectRatio: "2.4/3",
                   backgroundColor: "var(--neutral)",
-                  border: "var(--border)",
                   borderRadius: "var(--border-radius)",
                   boxShadow: "var(--shadow)",
                 }}
@@ -287,7 +286,6 @@ export const StoryB: Story = {
                   minWidth: "calc(var(--min-height) * 2)",
                   aspectRatio: "2.4/3",
                   backgroundColor: "var(--neutral)",
-                  border: "var(--border)",
                   borderRadius: "var(--border-radius)",
                   boxShadow: "var(--shadow)",
                 }}
@@ -321,7 +319,6 @@ export const StoryB: Story = {
                   minWidth: "calc(var(--min-height) * 2)",
                   aspectRatio: "2.4/3",
                   backgroundColor: "var(--neutral)",
-                  border: "var(--border)",
                   borderRadius: "var(--border-radius)",
                   boxShadow: "var(--shadow)",
                 }}

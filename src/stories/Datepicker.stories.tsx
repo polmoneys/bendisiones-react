@@ -6,14 +6,14 @@ import { GoInfinity as IconLoadingBar } from "react-icons/go";
 
 import Button from "../Dumb/Button";
 import Checkbox from "../Dumb/Checkbox";
+import DatePicker from "../Dumb/DatePicker";
+import type { Period } from "../Dumb/DatePicker/interfaces";
+import Periods from "../Dumb/DatePicker/Periods";
+// import DateRangePicker from "../Smart-ish/DatePicker/Picker";
+import Range from "../Dumb/DatePicker/Range";
+import useDates from "../Dumb/DatePicker/useDates";
 import Group from "../Dumb/Group";
 import { Col, Row } from "../Dumb/Group/Flex";
-import DatePicker from "../Smart-ish/DatePicker";
-import type { Period } from "../Smart-ish/DatePicker/interfaces";
-import Periods from "../Smart-ish/DatePicker/Periods";
-// import DateRangePicker from "../Smart-ish/DatePicker/Picker";
-import Range from "../Smart-ish/DatePicker/Range";
-import useDates from "../Smart-ish/DatePicker/useDates";
 
 const periods: Period[] = [
   { id: "oneDay", label: "1D" },

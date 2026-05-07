@@ -1,9 +1,10 @@
-import { useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
 
+import RangeMulti from "../../Dumb/RangePeriod";
 import { clampBoundary } from "../../utilities/clamp";
-import RangeMulti from "../RangePeriod";
 
-import type { DataPoint, Series } from "./";
+import type { DataPoint, Series } from "./interfaces";
+import Trend from ".";
 
 export interface SlidingWindowProps {
   id: string;
@@ -15,10 +16,12 @@ export interface SlidingWindowProps {
   initialMax?: number;
   onChange?: (min: number, max: number) => void;
   showRuler?: boolean;
-  series?: Series[];
-  data?: DataPoint[];
+  series?: Array<Series>;
+  data?: Array<DataPoint>;
   minPoints?: number;
-
+  showOverview?: boolean;
+  overviewHeight?: number;
+  width: number;
   /**
    * When true the visible subset of each series is sliced and passed
    * back to children as `stretchedSeries`. Use this to have the visible points
@@ -36,8 +39,8 @@ export interface SlidingWindowProps {
      * filtered/sliced data corresponding to the visible window. Otherwise it's
      * the original series (shallow-copied).
      */
-    stretchedSeries: Series[];
-  }) => React.ReactNode;
+    stretchedSeries: Array<Series>;
+  }) => ReactNode;
 }
 
 export default function SlidingWindow({
@@ -55,6 +58,9 @@ export default function SlidingWindow({
   minPoints = 5,
   stretchToFit = false,
   children,
+  showOverview = true,
+  overviewHeight = 34,
+  width,
 }: SlidingWindowProps) {
   const seriesList: Series[] = useMemo(() => {
     if (series && series.length > 0) return series;
@@ -319,6 +325,7 @@ export default function SlidingWindow({
         onChange={handleChange}
         showRuler={showRuler}
       />
+
       {children({
         visibleStartPercent: Math.max(0, Math.min(100, startPct)),
         visibleEndPercent: Math.max(0, Math.min(100, endPct)),
@@ -326,6 +333,77 @@ export default function SlidingWindow({
         valueMax: adjustedMax,
         stretchedSeries,
       })}
+
+      {showOverview && seriesList.length > 0 && (
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            marginTop: "1.6em",
+          }}
+        >
+          <div style={{ opacity: 0.38, pointerEvents: "none" }}>
+            <Trend
+              series={seriesList}
+              width={width}
+              height={overviewHeight}
+              pointMode="none"
+              trendMode="none"
+              showArea={false}
+              showLegend={false}
+              showTooltip={false}
+              showPointLabels="none"
+            />
+          </div>
+
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              pointerEvents: "none",
+              background: `linear-gradient(
+                      to right,
+                      rgba(15, 23, 42, 0.10) 0%,
+                      rgba(15, 23, 42, 0.10) ${startPct}%,
+                      rgba(255, 255, 255, 0.22) ${startPct}%,
+                      rgba(255, 255, 255, 0.22) ${endPct}%,
+                      rgba(15, 23, 42, 0.10) ${endPct}%,
+                      rgba(15, 23, 42, 0.10) 100%
+                    )`,
+              boxShadow: "var(--shadow)",
+              borderRadius: "var(--border-radius)",
+            }}
+          />
+
+          <p
+            style={{
+              position: "absolute",
+              left: `${startPct}%`,
+              top: -18,
+              transform: "translateX(-50%)",
+              fontSize: 10,
+              color: "#64748b",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Start
+          </p>
+
+          <p
+            style={{
+              position: "absolute",
+              left: `${endPct}%`,
+              top: -18,
+              transform: "translateX(-50%)",
+              fontSize: 10,
+              color: "#64748b",
+              whiteSpace: "nowrap",
+            }}
+          >
+            End
+          </p>
+        </div>
+      )}
     </div>
   );
 }

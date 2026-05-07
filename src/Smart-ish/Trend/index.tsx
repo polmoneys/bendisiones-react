@@ -1,51 +1,8 @@
-import { useMemo } from "react";
+import { type CSSProperties, useMemo, useState } from "react";
 
+import type { HoveredPoint, TrendProps } from "./interfaces";
+import TrendLegend from "./Legend";
 import { dpValue, generatePath, processTrendData } from "./utils";
-
-export type DataPoint =
-  | number
-  | { value: number; label?: string; timestamp?: number };
-
-export type Series = {
-  id: string;
-  data: Array<DataPoint>;
-  label?: string;
-  color?: string;
-  fillColor?: string;
-  showArea?: boolean;
-  strokeWidth?: number;
-};
-
-export interface TrendProps {
-  data?: Array<DataPoint>;
-  series?: Array<Series>;
-  width?: number;
-  height?: number;
-  color?: string;
-  fillColor?: string;
-
-  pointMode?: "none" | "all" | "extrema";
-  trendMode?: "none" | "segments" | "dots" | "both";
-
-  showArea?: boolean;
-  strokeWidth?: number;
-  dotRadius?: number;
-
-  showLegend?: boolean;
-  stackedArea?: boolean;
-
-  visibleStartPercent?: number;
-  visibleEndPercent?: number;
-  visibleStartTs?: number;
-  visibleEndTs?: number;
-
-  upColor?: string;
-  downColor?: string;
-  flatColor?: string;
-  peakColor?: string | undefined;
-  valleyColor?: string | undefined;
-  showPointLabels?: "none" | "extrema" | "all";
-}
 
 export default function Trend({
   data,
@@ -54,7 +11,6 @@ export default function Trend({
   height = 50,
   color = "#3b82f6",
   fillColor = "rgba(59, 130, 246, 0.1)",
-  // v2
   pointMode = "all",
   trendMode = "none",
   showArea = true,
@@ -71,9 +27,14 @@ export default function Trend({
   flatColor = "#94a3b8",
   peakColor,
   valleyColor,
-  // new prop, default to "extrema" (auto-show only extrema labels)
-  showPointLabels = "extrema",
+  showPointLabels = "all",
+  emptyState,
+  showTooltip = false,
 }: TrendProps) {
+  const [hoveredPoint, setHoveredPoint] = useState<HoveredPoint | null>(null);
+  const [hiddenSeriesIds, setHiddenSeriesIds] = useState<Set<string>>(
+    () => new Set(),
+  );
   const legendHeight = showLegend ? 30 : 0;
   const chartHeight = Math.max(20, height - legendHeight);
 
@@ -143,9 +104,24 @@ export default function Trend({
   const minPct = Math.min(startPct, endPct);
   const maxPct = Math.max(startPct, endPct);
 
-  // Compute visible series by timestamp window OR percent window
+  const legendItems = useMemo(() => {
+    if (!showLegend) return [];
+
+    return processedSeries.map((s, i) => ({
+      id: s.id,
+      label:
+        s.label ?? (processedSeries.length === 1 ? "Trend" : `Series ${i + 1}`),
+      color: s.color ?? color,
+      active: !hiddenSeriesIds.has(s.id),
+    }));
+  }, [showLegend, processedSeries, color, hiddenSeriesIds]);
+
+  const visibleProcessedSeries = useMemo(() => {
+    return processedSeries.filter((s) => !hiddenSeriesIds.has(s.id));
+  }, [processedSeries, hiddenSeriesIds]);
+
   const visibleSeries = useMemo(() => {
-    return processedSeries.map((s) => {
+    return visibleProcessedSeries.map((s) => {
       if (visibleStartTs !== undefined && visibleEndTs !== undefined) {
         const minTs = Math.min(visibleStartTs, visibleEndTs);
         const maxTs = Math.max(visibleStartTs, visibleEndTs);
@@ -156,27 +132,40 @@ export default function Trend({
         );
         return { ...s, points: filtered };
       }
+
       if (minPct === 0 && maxPct === 100) return s;
+
       const filtered = s.points.filter(
         (p) => p.percentile >= minPct && p.percentile <= maxPct,
       );
       return { ...s, points: filtered };
     });
-  }, [processedSeries, visibleStartTs, visibleEndTs, minPct, maxPct]);
+  }, [visibleProcessedSeries, visibleStartTs, visibleEndTs, minPct, maxPct]);
+
+  const toggleSeries = (id: string) => {
+    setHiddenSeriesIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   const hasVisiblePoints = visibleSeries.some(
     (s) => s.points && s.points.length > 0,
   );
 
   if (processedSeries.length === 0 || !hasVisiblePoints) {
-    return (
+    return emptyState !== undefined ? (
+      emptyState
+    ) : (
       <svg width={width} height={height}>
         <text
           x={width / 2}
           y={height / 2}
           textAnchor="middle"
-          fill="#999"
-          fontSize="12"
+          fill="var(--black)"
+          fontSize="var(--font-md)"
         >
           No data
         </text>
@@ -185,8 +174,13 @@ export default function Trend({
   }
 
   return (
-    <div>
-      <svg width={width} height={height} style={{ overflow: "visible" }}>
+    <div style={{ width, position: "relative" }}>
+      <svg
+        width="100%"
+        preserveAspectRatio="none"
+        height={height}
+        style={{ overflow: "visible", display: "block" }}
+      >
         {visibleSeries.map((s) => {
           const linePath = generatePath(s.points, false, chartHeight);
           const areaPath = generatePath(s.points, true, chartHeight);
@@ -219,15 +213,10 @@ export default function Trend({
                 ]
               : [];
 
-          // dots: show depending on pointMode
           const dots =
             pointMode === "none"
               ? []
               : s.points.flatMap((point) => {
-                  const isExt = point.isExtremum !== "none";
-                  if (pointMode === "extrema" && !isExt) return [];
-
-                  // compute fallbacks prefer series color when variant undefined
                   const seriesColor = s.color ?? color;
                   const peakFill = peakColor ?? seriesColor;
                   const valleyFill = valleyColor ?? seriesColor;
@@ -235,27 +224,25 @@ export default function Trend({
                   const downFill = downColor ?? seriesColor;
                   const flatFill = flatColor ?? seriesColor;
 
-                  // decide fill color:
-                  // extrema (peak/valley) use peak/valley fill (fallback to series color)
-                  // otherwise, if trendMode is 'none' or 'segments' -> default to series color
-                  // if trendMode includes dot-coloring ('dots' or 'both') -> color by trend
                   let fill: string;
                   if (point.isExtremum === "peak") fill = peakFill;
                   else if (point.isExtremum === "valley") fill = valleyFill;
                   else {
                     if (trendMode === "none" || trendMode === "segments")
                       fill = seriesColor;
-                    else
+                    else {
                       fill =
                         point.trend === "up"
                           ? upFill
                           : point.trend === "down"
                             ? downFill
                             : flatFill;
+                    }
                   }
 
                   const r =
                     point.isExtremum !== "none" ? dotRadius + 1 : dotRadius;
+
                   return [
                     <circle
                       key={`dot-${s.id}-${point.index}`}
@@ -265,6 +252,18 @@ export default function Trend({
                       fill={fill}
                       stroke="white"
                       strokeWidth={1.25}
+                      onMouseEnter={() =>
+                        setHoveredPoint({
+                          x: point.x,
+                          y: point.y,
+                          value: point.value,
+                          label: point.label,
+                          seriesLabel: s.label ?? "Trend",
+                          seriesId: s.id,
+                          color: seriesColor,
+                        })
+                      }
+                      onMouseLeave={() => setHoveredPoint(null)}
                     />,
                   ];
                 });
@@ -302,26 +301,18 @@ export default function Trend({
                 })
               : [];
 
-          // labels: controlled by showPointLabels prop ("none" | "extrema" | "all")
+          // labels: controlled by showPointLabels prop ("none" |  "all")
           const labels = s.points.flatMap((point) => {
-            if (!point.label) return [];
-
-            // decide whether we should render based on showPointLabels
             if (showPointLabels === "none") return [];
-            if (showPointLabels === "extrema" && point.isExtremum === "none")
-              return [];
 
-            // choose offset: extremums and 'up' trends -> place above; 'down' -> place below; flat -> above
-            const labelAbove =
-              point.isExtremum !== "none" ||
-              point.trend === "up" ||
-              point.trend === "flat";
+            const text = point.label ?? String(point.value);
+            // choose offset: 'up' trends -> place above; 'down' -> place below; flat -> above
+            const labelAbove = point.trend === "up" || point.trend === "flat";
             const verticalOffset = labelAbove
               ? -(dotRadius + 10)
               : dotRadius + 14;
             const labelY = point.y + verticalOffset;
 
-            // text styling: small, centered, with a white "halo" stroke for readability
             return [
               <text
                 key={`label-${s.id}-${point.index}`}
@@ -330,14 +321,14 @@ export default function Trend({
                 fontSize={10}
                 textAnchor="middle"
                 style={{
-                  paintOrder: "stroke" as React.CSSProperties["paintOrder"],
+                  paintOrder: "stroke" as CSSProperties["paintOrder"],
                 }}
                 stroke="#fff"
                 strokeWidth={3}
                 fill={s.color ?? color}
                 dominantBaseline="central"
               >
-                {point.label}
+                {text}
               </text>,
             ];
           });
@@ -352,31 +343,49 @@ export default function Trend({
             </g>
           );
         })}
-
-        {showLegend && (
-          <g transform={`translate(0, ${chartHeight + 10})`}>
-            {processedSeries.flatMap((s, i) => {
-              if (!s?.label) return [];
-              const x = i * 100 + 10;
-              return [
-                <g key={`legend-${s.id}`}>
-                  <line
-                    x1={x}
-                    y1={10}
-                    x2={x + 20}
-                    y2={10}
-                    stroke={s.color}
-                    strokeWidth={2}
-                  />
-                  <text x={x + 25} y={14} fontSize="10" fill="#666">
-                    {s?.label ?? "-"}
-                  </text>
-                </g>,
-              ];
-            })}
-          </g>
-        )}
       </svg>
+
+      {showLegend && legendItems.length > 0 && (
+        <TrendLegend
+          items={legendItems}
+          onChange={toggleSeries}
+          style={{ marginTop: 12 }}
+        />
+      )}
+
+      {showTooltip && hoveredPoint && (
+        <div
+          style={{
+            position: "absolute",
+            left: hoveredPoint.x,
+            top: hoveredPoint.y,
+            transform: "translate(-50%, -115%)",
+            pointerEvents: "none",
+            zIndex: 10,
+            background: hoveredPoint.color,
+            border: "1px solid rgba(255,255,255,0.35)",
+            color: "white",
+            borderRadius: 8,
+            padding: "8px 10px",
+            boxShadow: "var(--shadow)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {hoveredPoint.seriesLabel && (
+            <p style={{ fontWeight: "var(--font-weight)", marginBottom: 2 }}>
+              {hoveredPoint.seriesLabel}
+            </p>
+          )}
+          {hoveredPoint.label && (
+            <p style={{ opacity: 0.9, marginBottom: 2 }}>
+              {hoveredPoint.label}
+            </p>
+          )}
+          <p>
+            Value: <strong>{hoveredPoint.value}</strong>
+          </p>
+        </div>
+      )}
     </div>
   );
 }

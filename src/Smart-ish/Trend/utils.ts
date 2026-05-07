@@ -1,4 +1,4 @@
-import type { DataPoint } from ".";
+import type { DataPoint } from "./interfaces";
 
 type ProcessedPoint = {
   x: number;

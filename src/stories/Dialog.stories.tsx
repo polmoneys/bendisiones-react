@@ -4,11 +4,11 @@ import { GoX as IconX } from "react-icons/go";
 // import useURLLite from "../Inspired/Dialog/useURLLite";
 // import { callAll } from "../utils";
 import Button from "../Dumb/Button";
+import Dialog from "../Dumb/Dialog";
+import ActionSheet from "../Dumb/Dialog/ActionSheet";
+import Tray from "../Dumb/Dialog/Tray";
 import { Row } from "../Dumb/Group/Flex";
 import Shape from "../Dumb/Shape";
-import Dialog from "../Smart-ish/Dialog";
-import ActionSheet from "../Smart-ish/Dialog/ActionSheet";
-import Tray from "../Smart-ish/Dialog/Tray";
 import useURL from "../utilities/useURL";
 
 const meta = {
