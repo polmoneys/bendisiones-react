@@ -1,37 +1,7 @@
 **Work in progress** [Quick demo](https://polmoneys.github.io/bendisiones-react/?path=/docs/code--docs)
 
 My work involves complex UI in React, some patterns bring me joy & 🍀.
-Presented as `Dumb (n)`, `Smart-ish(6)` and `Inspired (3)`.
-
-Latest addition `useAnchor`:
-
-```tsx
-const { id, anchorName, placement, positionArea } = props;
-
-const { anchorProps, Popover } = useAnchor({
-  id,
-  anchorName,
-  placement,
-  positionArea,
-});
-
-return (
-  <>
-    <Button {...anchorProps}>
-      <IconHeartFill />
-    </Button>
-
-    <Popover className="neutral mxy" role="dialog">
-      <p style={{ padding: 12 }}>I am a popover.</p>
-      <p style={{ padding: 12 }}>
-        placement: <strong>{String(placement)}</strong>
-        <br />
-        positionArea: <strong>{String(positionArea)}</strong>
-      </p>
-    </Popover>
-  </>
-);
-```
+Presented as `Dumb (n)`, `Smart-ish(n)` and `Inspired (3)`.
 
 `Arigato gozaimas` to [React Aria](https://react-spectrum.adobe.com/react-aria/FocusRing.html), [Tanstack-query](https://tanstack.com/query/docs) and
 [Nuqs](https://github.com/47ng/nuqs) for being such a joy to work with.
