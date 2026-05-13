@@ -20,7 +20,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Secondary: Story = {
-  name: "Controlled",
+  name: "Playground",
   args: {
     id: "input-story",
     name: "input",

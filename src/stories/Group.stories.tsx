@@ -9,7 +9,7 @@ import Button from "../Dumb/Button";
 import Checkbox from "../Dumb/Checkbox";
 import Group from "../Dumb/Group";
 import Container from "../Dumb/Group/Container";
-import { Row } from "../Dumb/Group/Flex";
+import { Col, Row } from "../Dumb/Group/Flex";
 import Grid from "../Dumb/Group/Grid2068";
 import Kiss from "../Dumb/Group/Kiss";
 import Mua from "../Dumb/Group/Kiss";
@@ -30,143 +30,88 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const StoryA: Story = {
-  name: "A group with Start Slot",
-  args: {
-    children: "4 SIDES",
-    dangerous: {
-      alignItems: "center",
-      gap: "var(--gap-2)",
-      padding: "var(--gap-1) var(--gap-2)",
-    },
-    startWidth: "42px",
-    start: <Shape.Square size={42} fill={"var(--neutral)"} />,
-  },
-  decorators: [
-    (Story) => (
-      <div className="group pxy">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-export const StoryB: Story = {
-  name: "A group with End Slot",
-  args: {
-    children: "May 2026",
-    endWidth: "42px",
-    start: <CalendarIcon />,
-  },
-  decorators: [
-    (Story) => (
-      <div className="group pxy">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-export const StoryC: Story = {
-  name: "A group with Start and End Slot",
-  args: {
-    children: (
-      <TextInput
-        id="test"
-        value={""}
-        onChange={(value) => console.log({ value })}
-      />
-    ),
-    endWidth: "40px",
-    startWidth: "69px",
-    start: <label htmlFor="test">Search</label>,
-    end: (
-      <Button isIcon dangerous={{ paddingLeft: "11px" }}>
-        <NorthStarIcon size={18} />
-      </Button>
-    ),
-  },
-  decorators: [
-    (Story) => (
-      <div className="group pxy">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
 export const StoryD: Story = {
-  name: "Another group with Start Slot",
-  args: {
-    dangerous: {
-      gap: "var(--gap-1)",
-      alignItems: "center",
-    },
-    children: <label>I Agree</label>,
-    startWidth: "var(--min-height)",
-    start: <Checkbox />,
-  },
-  decorators: [
-    (Story) => (
-      <div className="group pxy">
-        <Story />
-      </div>
-    ),
-  ],
-};
+  name: "Playground",
 
-export const StoryE: Story = {
-  name: "Breakpoint-aware Grid",
-  parameters: {
-    layout: "padded",
-  },
   render: function Render() {
     return (
-      <>
-        <Grid
-          padding={{ xs: 0, sm: "var(--gap-2)" }}
-          gap={{ xs: "var(--gap-1)", md: "var(--gap-4)" }}
-          gridTemplateColumns={{
-            xs: "1fr",
-            md: "1fr 1fr",
-            xl: "1fr 1fr 1fr 1fr",
+      <Col
+        style={{
+          gap: "var(--gap-4)",
+        }}
+      >
+        <Group
+          className="group"
+          dangerous={{
+            alignItems: "center",
+            gap: "var(--gap-2)",
+            padding: "var(--gap-1) var(--gap-2)",
+            width: "fit-content",
           }}
-          className="cover-center"
+          start={<Shape.Square size={42} fill={"var(--neutral)"} />}
+          startWidth="42px"
         >
-          <Media
-            ratio="landscape"
-            alt="Plant Landscape"
-            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          4 SIDES
+        </Group>
+        <Group
+          className="group"
+          dangerous={{
+            alignItems: "center",
+            width: "fit-content",
+            padding: "var(--gap-1) var(--gap-2)",
+          }}
+          start={
+            <label htmlFor="test" style={{ marginRight: "var(--gap-2)" }}>
+              Search
+            </label>
+          }
+          end={
+            <Button isIcon dangerous={{ paddingLeft: "11px" }}>
+              <NorthStarIcon size={18} />
+            </Button>
+          }
+          startWidth="69px"
+          endWidth="40px"
+        >
+          <TextInput
+            id="test"
+            value={""}
+            style={{ width: "100%" }}
+            onChange={(value) => console.log({ value })}
           />
+        </Group>
 
-          <Media
-            ratio="landscape"
-            alt="Plant Landscape"
-            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          />
+        <Group
+          className="group"
+          dangerous={{
+            gap: "var(--gap-1)",
+            alignItems: "center",
+            padding: "var(--gap-1) var(--gap-2)",
+            width: "fit-content",
+          }}
+          start={<Checkbox />}
+          startWidth="var(--min-height)"
+        >
+          <label>I Agree</label>
+        </Group>
 
-          <Media
-            ratio="landscape"
-            alt="Plant Landscape"
-            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          />
-
-          <Media
-            ratio="landscape"
-            alt="Plant Landscape"
-            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          />
-        </Grid>
-      </>
+        <Group
+          dangerous={{
+            gap: "var(--gap-1)",
+            width: "fit-content",
+            alignItems: "center",
+            padding: "var(--gap-1) var(--gap-2)",
+          }}
+          className="group"
+          start={<CalendarIcon />}
+          startWidth="var(--min-height)"
+          endWidth="42px"
+        >
+          May 2026
+        </Group>
+      </Col>
     );
   },
-  decorators: [
-    (Story) => (
-      <div className="pxy">
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export const StoryKiss: Story = {
@@ -397,6 +342,60 @@ export const StoryKiss: Story = {
             </p>
           </Mua>
         </Row>
+      </>
+    );
+  },
+  decorators: [
+    (Story) => (
+      <div className="pxy">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+export const StoryE: Story = {
+  name: "Breakpoint-aware Grid",
+  parameters: {
+    layout: "padded",
+  },
+  render: function Render() {
+    return (
+      <>
+        <Grid
+          padding={{ xs: 0, sm: "var(--gap-2)" }}
+          gap={{ xs: "var(--gap-1)", md: "var(--gap-4)" }}
+          gridTemplateColumns={{
+            xs: "1fr",
+            md: "1fr 1fr",
+            xl: "1fr 1fr 1fr 1fr",
+          }}
+          className="cover-center"
+        >
+          <Media
+            ratio="landscape"
+            alt="Plant Landscape"
+            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+
+          <Media
+            ratio="landscape"
+            alt="Plant Landscape"
+            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+
+          <Media
+            ratio="landscape"
+            alt="Plant Landscape"
+            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+
+          <Media
+            ratio="landscape"
+            alt="Plant Landscape"
+            src="https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          />
+        </Grid>
       </>
     );
   },

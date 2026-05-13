@@ -34,7 +34,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        padding: var(--px);
     }
 
     &.hasStart > *:first-child,

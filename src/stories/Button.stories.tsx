@@ -4,7 +4,7 @@ import { fn } from "storybook/test";
 
 import Button from "../Dumb/Button";
 import getHitAreaClasses from "../Dumb/Button/HitArea";
-import { Row } from "../Dumb/Group/Flex";
+import { Col, Row } from "../Dumb/Group/Flex";
 
 const meta = {
   title: "Dumb/Button",
@@ -18,45 +18,35 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const StoryA: Story = {
-  name: "A button with start & end ",
-  args: {
-    children: "Button",
-    start: <IconNorthStar />,
-    end: <IconNorthStar />,
+export const Story: Story = {
+  name: "Playground",
+  parameters: {
+    layout: "centered",
   },
-};
-
-export const StoryB: Story = {
-  name: "A button with start ",
   args: {
-    children: "North",
-    start: <IconNorthStar />,
+    children: <></>,
   },
-};
+  render: function Render() {
+    return (
+      <>
+        <Col style={{ gap: "var(--gap-2)" }}>
+          <Button start={<IconNorthStar />}>North</Button>
+          <Button end={<IconNorthStar />}>North</Button>
+          <Button end={<IconNorthStar />} start={<IconNorthStar />}>
+            North
+          </Button>
 
-export const StoryC: Story = {
-  name: "A button with end ",
-  args: {
-    children: "North",
-    end: <IconNorthStar />,
-  },
-};
-
-export const StoryD: Story = {
-  name: "A button that is toggled ",
-  args: {
-    children: "North",
-    isActive: true,
-  },
-};
-
-export const StoryE: Story = {
-  name: "An IconButton",
-  args: {
-    "aria-label": "Search",
-    children: <IconNorthStar />,
-    isIcon: true,
+          <Row style={{ gap: "var(--gap-2)" }}>
+            <Button isActive ria-label="North" isIcon>
+              <IconNorthStar />
+            </Button>
+            <Button aria-label="North" isIcon>
+              <IconNorthStar />
+            </Button>
+          </Row>
+        </Col>
+      </>
+    );
   },
 };
 

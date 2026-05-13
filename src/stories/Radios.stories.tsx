@@ -21,7 +21,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Story: Story = {
-  name: "A set of radios",
+  name: "Playground",
   args: {
     id: "",
     name: "",

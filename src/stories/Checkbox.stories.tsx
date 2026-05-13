@@ -15,7 +15,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const StoryA: Story = {
-  name: "A checkbox",
+  name: "Playground",
   args: {
     checked: true,
   },
@@ -36,7 +36,7 @@ export const StoryA: Story = {
 };
 
 export const StoryB: Story = {
-  name: "An intermediate checkbox",
+  name: "Intermediate",
   args: {
     checked: "mixed",
   },
