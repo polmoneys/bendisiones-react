@@ -26,8 +26,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-function DemoFrame({ children }: { children: ReactNode }) {
-  return (
+export const Money: Story = {
+  name: "Playground",
+  render: () => (
     <div
       style={{
         display: "grid",
@@ -37,15 +38,6 @@ function DemoFrame({ children }: { children: ReactNode }) {
         fontFamily: "system-ui, sans-serif",
       }}
     >
-      {children}
-    </div>
-  );
-}
-
-export const Money: Story = {
-  name: "Money",
-  render: () => (
-    <DemoFrame>
       <NumberFormat value={1234.56} preset="money" currency="EUR">
         {(parts) => (
           <span
@@ -90,14 +82,7 @@ export const Money: Story = {
           </span>
         )}
       </NumberFormat>
-    </DemoFrame>
-  ),
-};
 
-export const Fixed: Story = {
-  name: "Fixed",
-  render: () => (
-    <DemoFrame>
       <NumberFormat value={1234.567} preset="fixed" digits={2}>
         {(parts) => (
           <span style={{ display: "inline-flex" }}>
@@ -123,14 +108,7 @@ export const Fixed: Story = {
           </span>
         )}
       </NumberFormat>
-    </DemoFrame>
-  ),
-};
 
-export const Compact: Story = {
-  name: "Compact",
-  render: () => (
-    <DemoFrame>
       <NumberFormat value={1534000} preset="compact">
         {(parts) => (
           <span
@@ -163,6 +141,6 @@ export const Compact: Story = {
           </span>
         )}
       </NumberFormat>
-    </DemoFrame>
+    </div>
   ),
 };
