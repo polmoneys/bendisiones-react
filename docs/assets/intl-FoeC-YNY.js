@@ -1,0 +1,1 @@
+var e={type:`conjunction`,style:`long`},t=`en`;function n(n,r=e,i=t){return new Intl.ListFormat(i,r).format([...n].map(e=>e.toString()))}function r(e){return typeof e==`number`?new Date(e):e}function i(e,t){return e.find(e=>e.type===t)?.value??null}function a(e,t,n){let r=0;for(let i of e)if(i.type===t){if(r===n)return i.value;r++}return null}export{r as i,n,a as r,i as t};
