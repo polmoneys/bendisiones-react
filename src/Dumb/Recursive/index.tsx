@@ -1,10 +1,6 @@
-import {
-  GoChevronDown as IconChevronDown,
-  GoChevronUp as IconChevron,
-} from "react-icons/go";
-
 import { clsx } from "../../utils";
 import Button from "../Button";
+import ChevronsIcon from "../Icon/ChevronsIcon";
 
 import type { RecursiveProps } from "./interfaces";
 
@@ -58,11 +54,7 @@ export default function Recursive<T = unknown>({
                   }}
                   aria-label={isExpanded ? "Collapse" : "Expand"}
                 >
-                  {isExpanded ? (
-                    <IconChevronDown size={28} />
-                  ) : (
-                    <IconChevron size={28} />
-                  )}
+                  <ChevronsIcon status={isExpanded ? "active" : "idle"} />
                 </Button>
               ) : null,
             })}

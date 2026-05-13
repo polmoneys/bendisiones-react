@@ -12,7 +12,7 @@ import styles from "./StartEnd.module.css";
   end={[<Shape.Square size={40} />, <Shape.Triangle size={40} />]}
 >
   <TextInputUncontrolled />
-</TailGroup>
+</StartEnd>
 
 */
 

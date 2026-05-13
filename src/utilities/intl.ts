@@ -19,6 +19,76 @@ export function formatSelectedKeys(
   );
 }
 
+export function toDate(value: Date | number) {
+  return typeof value === "number" ? new Date(value) : value;
+}
+
+export function first(
+  parts: Array<Intl.DateTimeFormatPart>,
+  type: Intl.DateTimeFormatPartTypes,
+): string | null {
+  return parts.find((p) => p.type === type)?.value ?? null;
+}
+
+export function nth(
+  parts: Array<Intl.DateTimeFormatPart>,
+  type: Intl.DateTimeFormatPartTypes,
+  index: number,
+): string | null {
+  let i = 0;
+
+  for (const p of parts) {
+    if (p.type !== type) continue;
+    if (i === index) return p.value;
+    i++;
+  }
+
+  return null;
+}
+
+export function getRelativeUnitMs(unit: Intl.RelativeTimeFormatUnit): number {
+  switch (unit) {
+    case "second":
+      return 1_000;
+    case "minute":
+      return 60_000;
+    case "hour":
+      return 3_600_000;
+    case "day":
+      return 86_400_000;
+    case "week":
+      return 604_800_000;
+    case "month":
+      return 2_629_746_000;
+    case "quarter":
+      return 7_889_238_000;
+    case "year":
+      return 31_556_952_000;
+    default:
+      return 0;
+  }
+}
+
+export function formatRelative(
+  date: Date,
+  locale: string,
+  unit: Intl.RelativeTimeFormatUnit,
+  rounding: "round" | "floor" | "ceil" = "round",
+): string {
+  const diff = date.getTime() - Date.now();
+  const raw = diff / getRelativeUnitMs(unit);
+
+  const amount =
+    rounding === "floor"
+      ? Math.floor(raw)
+      : rounding === "ceil"
+        ? Math.ceil(raw)
+        : Math.round(raw);
+
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  return rtf.format(amount, unit);
+}
+
 /*
   Usage:
   const value = 1234.567;
@@ -94,48 +164,6 @@ export function formatDate(
 
 /*
 
-const formatter = new Intl.DateTimeFormat('en-US', {
-  dateStyle: 'long',
-  timeStyle: 'short',
-});
-
-formatter.formatToParts(new Date('2026-04-07T16:45:00Z'));
-// → [
-//     { type: 'month',     value: 'April' },
-//     { type: 'literal',   value: ' '     },
-//     { type: 'day',       value: '7'     },
-//     { type: 'literal',   value: ', '    },
-//     { type: 'year',      value: '2026'  },
-//     { type: 'literal',   value: ' at '  },
-//     { type: 'hour',      value: '4'     },
-//     { type: 'literal',   value: ':'     },
-//     { type: 'minute',    value: '45'    },
-//     { type: 'literal',   value: ' '     },
-//     { type: 'dayPeriod', value: 'PM'    },
-//   ]
-//
-//
-
-
-
-const date = new Date('2026-05-01T00:00:00Z');
-const diffInMs = date - new Date();
-const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24));
-
-const relative = new Intl.RelativeTimeFormat('en-US', { numeric: 'auto' });
-relative.format(diffInDays, 'day');
-// → "in 24 days" (or however far away May 1st is)
-//
-
-const relative = new Intl.RelativeTimeFormat('en-US', { numeric: 'always' });
-
-relative.formatToParts(-3, 'month');
-// → [
-//     { type: 'integer', value: '3', unit: 'month' },
-//     { type: 'literal', value: ' months ago' },
-//   ]
-
-
 const duration = new Intl.DurationFormat('en-US', {
   style: 'long', // 'long' | 'short' | 'narrow' | 'digital'
 });
@@ -175,8 +203,6 @@ const formatter = new Intl.NumberFormat(undefined, {
 formatter.format(123456.789);
 
 // formatToParts()
-
-
 
 // Works, but slow:
 items.sort((a, b) => a.localeCompare(b));

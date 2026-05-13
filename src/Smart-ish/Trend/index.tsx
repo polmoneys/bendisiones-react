@@ -2,6 +2,7 @@ import { type CSSProperties, useMemo, useState } from "react";
 
 import type { HoveredPoint, TrendProps } from "./interfaces";
 import TrendLegend from "./Legend";
+import TrendTooltip from "./Tooltip";
 import { dpValue, generatePath, processTrendData } from "./utils";
 
 export default function Trend({
@@ -353,39 +354,7 @@ export default function Trend({
         />
       )}
 
-      {showTooltip && hoveredPoint && (
-        <div
-          style={{
-            position: "absolute",
-            left: hoveredPoint.x,
-            top: hoveredPoint.y,
-            transform: "translate(-50%, -115%)",
-            pointerEvents: "none",
-            zIndex: 10,
-            background: hoveredPoint.color,
-            border: "1px solid rgba(255,255,255,0.35)",
-            color: "white",
-            borderRadius: 8,
-            padding: "8px 10px",
-            boxShadow: "var(--shadow)",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {hoveredPoint.seriesLabel && (
-            <p style={{ fontWeight: "var(--font-weight)", marginBottom: 2 }}>
-              {hoveredPoint.seriesLabel}
-            </p>
-          )}
-          {hoveredPoint.label && (
-            <p style={{ opacity: 0.9, marginBottom: 2 }}>
-              {hoveredPoint.label}
-            </p>
-          )}
-          <p>
-            Value: <strong>{hoveredPoint.value}</strong>
-          </p>
-        </div>
-      )}
+      {showTooltip && hoveredPoint && <TrendTooltip point={hoveredPoint} />}
     </div>
   );
 }

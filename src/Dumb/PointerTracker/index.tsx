@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 
 import { clsx, has } from "../../utils";
 
-import styles from "./Tracker.module.css";
+import styles from "./index.module.css";
 
 interface PointerTrackerProps extends ComponentProps<"div"> {
   children: ReactNode;
@@ -26,11 +26,11 @@ export default function PointerTracker({
   const rafRef = useRef<number | null>(null);
   const latestPos = useRef<{ x: number; y: number } | null>(null);
 
-  const canUseDOM =
+  const isClient =
     typeof window !== "undefined" && typeof document !== "undefined";
 
   useEffect(() => {
-    if (!canUseDOM) return;
+    if (!isClient) return;
 
     function scheduleUpdate(x: number, y: number) {
       latestPos.current = { x: x + offset.x, y: y + offset.y };
@@ -87,9 +87,9 @@ export default function PointerTracker({
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [offset.x, offset.y, canUseDOM]);
+  }, [offset.x, offset.y, isClient]);
 
-  if (!canUseDOM) return null;
+  if (!isClient) return null;
 
   return createPortal(
     <div

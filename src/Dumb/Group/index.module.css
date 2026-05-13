@@ -152,16 +152,3 @@
 .stack > *[aria-hidden="true"] {
     visibility: hidden !important;
 }
-
-.tokens {
-    display: flex;
-}
-.token {
-    /* allow punctuation/space tokens to keep layout */
-    white-space: pre-wrap;
-    display: inline-flex;
-
-    & + .token {
-        margin-left: var(--gap-1);
-    }
-}

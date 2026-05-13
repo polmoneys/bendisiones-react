@@ -361,7 +361,7 @@ export const SlidingA: StoryNavigator = {
     const { width } = useResizeObserver(ref);
 
     return (
-      <div style={{ width: "100%" }}>
+      <div style={{ width: "100%", padding: "var(--gap-4)" }}>
         <SlidingWindow
           id="trend-range-multi"
           min={domainMin}
@@ -381,7 +381,7 @@ export const SlidingA: StoryNavigator = {
                 style={{
                   width: "100%",
                   background: "#fff",
-                  padding: 12,
+                  padding: "var(--spacing-3)",
                   borderRadius: "var(--border-radius)",
                 }}
                 ref={ref}
@@ -398,6 +398,7 @@ export const SlidingA: StoryNavigator = {
                   visibleStartPercent={0}
                   visibleEndPercent={100}
                   showPointLabels="none"
+                  showTooltip
                 />
               </div>
             </>

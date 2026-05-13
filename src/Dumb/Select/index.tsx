@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { GoChevronDown as IconChevronDown } from "react-icons/go";
+import ChevronsIcon from "../Icon/ChevronsIcon";
 
 import Ring from "../Ring";
 

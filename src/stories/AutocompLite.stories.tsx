@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-  GoChevronDown as IconChevronDown,
-  GoChevronUp as IconChevronUp,
-} from "react-icons/go";
 
 import { Col } from "../Dumb/Group/Flex";
+import ChevronsIcon from "../Dumb/Icon/ChevronsIcon";
 import AutocompLite from "../Inspired/AutocompLite";
 import Chips from "../Inspired/AutocompLite/Chips";
 import type { AutocompLiteOption } from "../Inspired/AutocompLite/interfaces";
@@ -267,11 +264,7 @@ export const Destinations: Story = {
                       : "translate(calc(var(--gap-3) * -1),4px)",
                   }}
                 >
-                  {showPopover ? (
-                    <IconChevronUp size={28} />
-                  ) : (
-                    <IconChevronDown size={28} />
-                  )}
+                  <ChevronsIcon status={showPopover ? "active" : "idle"} />
                 </div>
               </div>
             );
