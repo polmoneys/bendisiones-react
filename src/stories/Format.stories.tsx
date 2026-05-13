@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo, useState } from "react";
+import { type ReactNode } from "react";
 
 import type { Meta, StoryObj } from "@storybook/react";
 
@@ -6,10 +6,10 @@ import {
   CompactSuffix,
   CurrencySymbol,
   DecimalSeparator,
-  DoubleDecimal,
+  FixedDecimal,
   Fraction,
-  Integer,
   NumberFormat,
+  WholeNumber,
 } from "../Dumb/Font/Number";
 
 const meta = {
@@ -33,7 +33,7 @@ function DemoFrame({ children }: { children: ReactNode }) {
         display: "grid",
         gap: 12,
         padding: 24,
-        minWidth: 320,
+        minWidth: 340,
         fontFamily: "system-ui, sans-serif",
       }}
     >
@@ -42,57 +42,46 @@ function DemoFrame({ children }: { children: ReactNode }) {
   );
 }
 
-export const DecimalDefault: Story = {
-  name: "Decimal / default",
-  render: () => (
-    <DemoFrame>
-      <NumberFormat value={1234.567}>
-        {(parts) => <DoubleDecimal parts={parts} />}
-      </NumberFormat>
-    </DemoFrame>
-  ),
-};
-
-export const MoneyEUR: Story = {
-  name: "Money (EUR)",
+export const Money: Story = {
+  name: "Money",
   render: () => (
     <DemoFrame>
       <NumberFormat value={1234.56} preset="money" currency="EUR">
         {(parts) => (
           <span
-            className="money"
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-            }}
+            style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}
           >
             <CurrencySymbol parts={parts} />
-            <Integer parts={parts} />
+            <WholeNumber parts={parts} />
             <DecimalSeparator parts={parts} />
             <Fraction parts={parts} />
           </span>
         )}
       </NumberFormat>
-    </DemoFrame>
-  ),
-};
 
-export const MoneyUSDStyled: Story = {
-  name: "Money with styled parts",
-  render: () => (
-    <DemoFrame>
+      <NumberFormat value={-2450.5} preset="money" currency="EUR">
+        {(parts) => (
+          <span
+            style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}
+          >
+            <span style={{ color: "crimson", display: "inline-flex", gap: 4 }}>
+              <CurrencySymbol parts={parts} />
+              <WholeNumber parts={parts} />
+              <DecimalSeparator parts={parts} />
+              <Fraction parts={parts} />
+            </span>
+          </span>
+        )}
+      </NumberFormat>
+
       <NumberFormat value={9876543.21} preset="money" currency="USD">
         {(parts) => (
           <span
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-              gap: "var(--gap-1)",
-            }}
+            style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}
           >
             <CurrencySymbol parts={parts} />
             <span style={{ fontWeight: 700 }}>
-              <Integer parts={parts} />
+              <WholeNumber parts={parts} />
             </span>
             <span style={{ opacity: 0.65 }}>
               <DecimalSeparator parts={parts} />
@@ -105,122 +94,32 @@ export const MoneyUSDStyled: Story = {
   ),
 };
 
-export const CompactAmount: Story = {
-  name: "Amount / compact",
+export const Fixed: Story = {
+  name: "Fixed",
   render: () => (
     <DemoFrame>
-      <NumberFormat value={1534000} preset="amount">
+      <NumberFormat value={1234.567} preset="fixed" digits={2}>
         {(parts) => (
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-            }}
-          >
-            <Integer parts={parts} />
-            <CompactSuffix parts={parts} />
+          <span style={{ display: "inline-flex" }}>
+            <FixedDecimal parts={parts} />
           </span>
         )}
       </NumberFormat>
-    </DemoFrame>
-  ),
-};
 
-export const PreciseAmountLong: Story = {
-  name: "Precise amount / long",
-  render: () => (
-    <DemoFrame>
-      <NumberFormat value={1534000} preset="preciseAmount">
+      <NumberFormat value={12.5} preset="fixed" digits={1}>
         {(parts) => (
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-              gap: "var(--gap-1)",
-            }}
-          >
-            <Integer parts={parts} />
-            <CompactSuffix parts={parts} />
+          <span style={{ display: "inline-flex" }}>
+            <FixedDecimal parts={parts} />
           </span>
         )}
       </NumberFormat>
-    </DemoFrame>
-  ),
-};
 
-export const DoubleDecimalFixed: Story = {
-  name: "Double decimal",
-  render: () => (
-    <DemoFrame>
-      <NumberFormat value={12} preset="doubleDecimal">
-        {(parts) => <DoubleDecimal parts={parts} />}
-      </NumberFormat>
-    </DemoFrame>
-  ),
-};
-
-export const NegativeMoney: Story = {
-  name: "Negative money",
-  render: () => (
-    <DemoFrame>
-      <NumberFormat value={-2450.5} preset="money" currency="EUR">
+      <NumberFormat value={1234567.89} preset="fixed" digits={3}>
         {(parts) => (
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-              gap: "var(--gap-1)",
-            }}
-          >
-            <span style={{ color: "crimson" }}>
-              <CurrencySymbol parts={parts} />
-              <Integer parts={parts} />
-              <DecimalSeparator parts={parts} />
-              <Fraction parts={parts} />
-            </span>
-          </span>
-        )}
-      </NumberFormat>
-    </DemoFrame>
-  ),
-};
-
-export const ZeroAndTinyValues: Story = {
-  name: "Zero and tiny values",
-  render: () => (
-    <DemoFrame>
-      <NumberFormat value={0} preset="money" currency="EUR">
-        {(parts) => <DoubleDecimal parts={parts} />}
-      </NumberFormat>
-
-      <NumberFormat value={0.0042} preset="doubleDecimal">
-        {(parts) => <DoubleDecimal parts={parts} />}
-      </NumberFormat>
-    </DemoFrame>
-  ),
-};
-
-export const FrenchLocale: Story = {
-  name: "German locale",
-  render: () => (
-    <DemoFrame>
-      <NumberFormat
-        locale={"us-US"}
-        value={1234.56}
-        preset="money"
-        currency="USD"
-      >
-        {(parts) => (
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-            }}
-          >
-            <Integer parts={parts} />
+          <span style={{ display: "inline-flex" }}>
+            <WholeNumber parts={parts} />
             <DecimalSeparator parts={parts} />
             <Fraction parts={parts} />
-            <CurrencySymbol parts={parts} />
           </span>
         )}
       </NumberFormat>
@@ -228,72 +127,39 @@ export const FrenchLocale: Story = {
   ),
 };
 
-export const InteractiveAmount: Story = {
-  name: "Interactive amount",
-  render: function Render() {
-    const [value, setValue] = useState(1534000);
-
-    const formatted = useMemo(() => value, [value]);
-
-    return (
-      <DemoFrame>
-        <label style={{ display: "grid", gap: 8 }}>
-          <span>Value</span>
-          <input
-            type="range"
-            min={0}
-            max={10000000}
-            step={1000}
-            value={value}
-            onChange={(e) => setValue(Number(e.target.value))}
-          />
-        </label>
-
-        <NumberFormat value={formatted} preset="amount">
-          {(parts) => (
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "baseline",
-                gap: "var(--gap-1)",
-              }}
-            >
-              <Integer parts={parts} />
-              <CompactSuffix parts={parts} />
-            </span>
-          )}
-        </NumberFormat>
-      </DemoFrame>
-    );
-  },
-};
-
-export const FullCustomComposition: Story = {
-  name: "Full custom composition",
+export const Compact: Story = {
+  name: "Compact",
   render: () => (
     <DemoFrame>
-      <NumberFormat value={1234567.89} preset="money" currency="EUR">
+      <NumberFormat value={1534000} preset="compact">
         {(parts) => (
           <span
-            style={{
-              display: "inline-flex",
-              alignItems: "baseline",
-              gap: 4,
-              padding: "6px 10px",
-              border: "1px solid #ddd",
-              borderRadius: 999,
-            }}
+            style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}
           >
-            <CurrencySymbol parts={parts} />
-            <span
-              style={{ fontVariantNumeric: "tabular-nums", fontWeight: 600 }}
-            >
-              <Integer parts={parts} />
-            </span>
-            <span style={{ opacity: 0.55 }}>
-              <DecimalSeparator parts={parts} />
-              <Fraction parts={parts} />
-            </span>
+            <WholeNumber parts={parts} />
+            <CompactSuffix parts={parts} />
+          </span>
+        )}
+      </NumberFormat>
+
+      <NumberFormat value={1534000} preset="compact" compactDisplay="long">
+        {(parts) => (
+          <span
+            style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}
+          >
+            <WholeNumber parts={parts} />
+            <CompactSuffix parts={parts} />
+          </span>
+        )}
+      </NumberFormat>
+
+      <NumberFormat value={9999500} preset="compact">
+        {(parts) => (
+          <span
+            style={{ display: "inline-flex", alignItems: "baseline", gap: 4 }}
+          >
+            <WholeNumber parts={parts} />
+            <CompactSuffix parts={parts} />
           </span>
         )}
       </NumberFormat>

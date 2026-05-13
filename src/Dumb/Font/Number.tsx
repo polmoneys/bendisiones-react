@@ -1,36 +1,8 @@
 import { type ReactNode } from "react";
 
-/*
-
-<NumberFormat value={1234.56} preset="money" currency="EUR">
-  {(parts) => (
-    <span>
-      <CurrencySymbol parts={parts} />
-      <Integer parts={parts} />
-      <DecimalSeparator parts={parts} />
-      <Fraction parts={parts} />
-    </span>
-  )}
-</NumberFormat>
-
-<NumberFormat value={1534000} preset="amount">
-  {(parts) => (
-    <span>
-      <Integer parts={parts} />
-      <CompactSuffix parts={parts} />
-    </span>
-  )}
-</NumberFormat>
-
-*/
-
 type NumberValue = number | bigint;
 
-export type NumberPreset =
-  | "money"
-  | "amount"
-  | "preciseAmount"
-  | "doubleDecimal";
+export type NumberPreset = "money" | "compact" | "fixed";
 
 type BaseProps = {
   value: NumberValue;
@@ -38,14 +10,26 @@ type BaseProps = {
   className?: string;
   fallback?: ReactNode;
   children?: (parts: Intl.NumberFormatPart[]) => ReactNode;
+  options?: Intl.NumberFormatOptions;
 };
 
 export type NumberFormatProps =
-  | (BaseProps & { preset: "money"; currency: string })
-  | (BaseProps & { preset: "amount" })
-  | (BaseProps & { preset: "preciseAmount" })
-  | (BaseProps & { preset: "doubleDecimal" })
-  | (BaseProps & { preset?: undefined; options?: Intl.NumberFormatOptions });
+  | (BaseProps & {
+      preset: "money";
+      currency: string;
+      currencyDisplay?: Intl.NumberFormatOptions["currencyDisplay"];
+    })
+  | (BaseProps & {
+      preset: "compact";
+      compactDisplay?: "short" | "long";
+    })
+  | (BaseProps & {
+      preset: "fixed";
+      digits?: number;
+    })
+  | (BaseProps & {
+      preset?: undefined;
+    });
 
 function resolveOptions(props: NumberFormatProps): Intl.NumberFormatOptions {
   switch (props.preset) {
@@ -53,52 +37,54 @@ function resolveOptions(props: NumberFormatProps): Intl.NumberFormatOptions {
       return {
         style: "currency",
         currency: props.currency,
+        currencyDisplay: props.currencyDisplay,
+        ...props.options,
       };
-    case "amount":
+
+    case "compact":
       return {
         notation: "compact",
-        compactDisplay: "short",
+        compactDisplay: props.compactDisplay ?? "short",
         maximumFractionDigits: 1,
+        ...props.options,
       };
-    case "preciseAmount":
+
+    case "fixed": {
+      const digits = props.digits ?? 2;
       return {
-        notation: "compact",
-        compactDisplay: "long",
-        maximumFractionDigits: 2,
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits,
+        ...props.options,
       };
-    case "doubleDecimal":
-      return {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      };
+    }
+
     default:
       return props.options ?? {};
   }
 }
 
 export function NumberFormat(props: NumberFormatProps) {
-  const { value, locale, children, className } = props;
+  const { value, locale, children, className, fallback } = props;
 
-  const formatter = new Intl.NumberFormat(locale, resolveOptions(props));
-  const parts = formatter.formatToParts(value);
+  let formatter: Intl.NumberFormat;
+  try {
+    formatter = new Intl.NumberFormat(locale, resolveOptions(props));
+  } catch {
+    return <>{fallback ?? null}</>;
+  }
+
+  let parts: Intl.NumberFormatPart[];
+  try {
+    parts = formatter.formatToParts(value);
+  } catch {
+    return <>{fallback ?? null}</>;
+  }
+
   if (children) {
     return <>{children(parts)}</>;
   }
+
   return <span className={className}>{formatter.format(value)}</span>;
-}
-
-function pick(
-  parts: Intl.NumberFormatPart[],
-  type: Intl.NumberFormatPartTypes,
-) {
-  return parts.filter((p) => p.type === type);
-}
-
-function first(
-  parts: Intl.NumberFormatPart[],
-  type: Intl.NumberFormatPartTypes,
-) {
-  return parts.find((p) => p.type === type);
 }
 
 type PartsProps = {
@@ -106,23 +92,50 @@ type PartsProps = {
   className?: string;
 };
 
+function renderParts(
+  parts: Intl.NumberFormatPart[],
+  className?: string,
+  types?: Intl.NumberFormatPartTypes[],
+) {
+  const allowed = types ? new Set(types) : null;
+
+  return parts
+    .filter((part) => (allowed ? allowed.has(part.type) : true))
+    .map((part, index) => (
+      <span key={`${part.type}-${index}`} className={className}>
+        {part.value}
+      </span>
+    ));
+}
+
+function first(
+  parts: Intl.NumberFormatPart[],
+  types: Intl.NumberFormatPartTypes | Intl.NumberFormatPartTypes[],
+) {
+  const list = Array.isArray(types) ? types : [types];
+  return parts.find((part) => list.includes(part.type));
+}
+
+export function NumberParts({ parts, className }: PartsProps) {
+  return <>{renderParts(parts, className)}</>;
+}
+
 export function CurrencySymbol({ parts, className }: PartsProps) {
   const part = first(parts, "currency");
   return part ? <span className={className}>{part.value}</span> : null;
 }
 
-export function Integer({ parts, className }: PartsProps) {
-  const values = pick(parts, "integer")
-    .map((p) => p.value)
-    .join("");
-  return <span className={className}>{values}</span>;
+export function Sign({ parts, className }: PartsProps) {
+  const part = first(parts, ["minusSign", "plusSign"]);
+  return part ? <span className={className}>{part.value}</span> : null;
 }
 
-export function Fraction({ parts, className }: PartsProps) {
-  const values = pick(parts, "fraction")
-    .map((p) => p.value)
-    .join("");
-  return values ? <span className={className}>{values}</span> : null;
+export function Integer({ parts, className }: PartsProps) {
+  return <>{renderParts(parts, className, ["integer"])}</>;
+}
+
+export function GroupSeparator({ parts, className }: PartsProps) {
+  return <>{renderParts(parts, className, ["group"])}</>;
 }
 
 export function DecimalSeparator({ parts, className }: PartsProps) {
@@ -130,17 +143,8 @@ export function DecimalSeparator({ parts, className }: PartsProps) {
   return part ? <span className={className}>{part.value}</span> : null;
 }
 
-export function GroupSeparator({ parts, className }: PartsProps) {
-  const groups = pick(parts, "group");
-  return (
-    <>
-      {groups.map((g, i) => (
-        <span key={i} className={className}>
-          {g.value}
-        </span>
-      ))}
-    </>
-  );
+export function Fraction({ parts, className }: PartsProps) {
+  return <>{renderParts(parts, className, ["fraction"])}</>;
 }
 
 export function CompactSuffix({ parts, className }: PartsProps) {
@@ -148,17 +152,30 @@ export function CompactSuffix({ parts, className }: PartsProps) {
   return part ? <span className={className}>{part.value}</span> : null;
 }
 
-export function Sign({ parts, className }: PartsProps) {
-  const part = first(parts, "minusSign") || first(parts, "plusSign");
-  return part ? <span className={className}>{part.value}</span> : null;
+export function WholeNumber({ parts, className }: PartsProps) {
+  return (
+    <>
+      {renderParts(parts, className, [
+        "minusSign",
+        "plusSign",
+        "integer",
+        "group",
+      ])}
+    </>
+  );
 }
 
-export function DoubleDecimal({ parts, className }: PartsProps) {
+export function FixedDecimal({ parts, className }: PartsProps) {
   return (
-    <span className={className}>
-      <Integer parts={parts} />
-      <DecimalSeparator parts={parts} />
-      <Fraction parts={parts} />
-    </span>
+    <>
+      {renderParts(parts, className, [
+        "minusSign",
+        "plusSign",
+        "integer",
+        "group",
+        "decimal",
+        "fraction",
+      ])}
+    </>
   );
 }

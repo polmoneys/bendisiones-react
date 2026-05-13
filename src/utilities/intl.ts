@@ -46,49 +46,6 @@ export function nth(
   return null;
 }
 
-export function getRelativeUnitMs(unit: Intl.RelativeTimeFormatUnit): number {
-  switch (unit) {
-    case "second":
-      return 1_000;
-    case "minute":
-      return 60_000;
-    case "hour":
-      return 3_600_000;
-    case "day":
-      return 86_400_000;
-    case "week":
-      return 604_800_000;
-    case "month":
-      return 2_629_746_000;
-    case "quarter":
-      return 7_889_238_000;
-    case "year":
-      return 31_556_952_000;
-    default:
-      return 0;
-  }
-}
-
-export function formatRelative(
-  date: Date,
-  locale: string,
-  unit: Intl.RelativeTimeFormatUnit,
-  rounding: "round" | "floor" | "ceil" = "round",
-): string {
-  const diff = date.getTime() - Date.now();
-  const raw = diff / getRelativeUnitMs(unit);
-
-  const amount =
-    rounding === "floor"
-      ? Math.floor(raw)
-      : rounding === "ceil"
-        ? Math.ceil(raw)
-        : Math.round(raw);
-
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
-  return rtf.format(amount, unit);
-}
-
 /*
   Usage:
   const value = 1234.567;

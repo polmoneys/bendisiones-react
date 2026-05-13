@@ -1,123 +1,97 @@
 import type { ReactNode } from "react";
 
-import { first, formatRelative, nth, toDate } from "../../utilities/intl";
+import { first, nth, toDate } from "../../utilities/intl";
 
 export type TimePreset =
   | "time"
   | "time12"
   | "date"
-  | "datetime"
+  | "dateShort"
+  | "dateLong"
+  | "dateSlashes"
+  | "monthYear"
   | "weekday"
-  | "relative";
+  | "weekdayShort"
+  | "dateWithWeekday";
 
-type BaseProps = {
+type TimeFormatProps = {
   value: Date | number;
   locale?: string;
-};
-
-type FormatProps = BaseProps & {
-  preset?: Exclude<TimePreset, "relative">;
+  preset?: TimePreset;
   options?: Intl.DateTimeFormatOptions;
   children?: (parts: Array<Intl.DateTimeFormatPart>) => ReactNode;
-
-  unit?: never;
-  rounding?: never;
 };
 
-type RelativeProps = BaseProps & {
-  preset: "relative";
-  unit?: Intl.RelativeTimeFormatUnit;
-  rounding?: "round" | "floor" | "ceil";
-};
-
-export type TimeFormatProps = FormatProps | RelativeProps;
-
-type DatePartsProps = {
-  parts: Array<Intl.DateTimeFormatPart>;
-};
-
-type DatePartsIndexProps = DatePartsProps & {
-  index?: number;
-};
-
-type TimeFormatState =
-  | {
-      kind: "relative";
-      text: string;
-    }
-  | {
-      kind: "format";
-      parts: Array<Intl.DateTimeFormatPart>;
-      text: string;
-    };
+const PRESETS = {
+  time: { hour: "2-digit", minute: "2-digit" },
+  time12: { hour: "numeric", minute: "2-digit", hour12: true },
+  date: { year: "numeric", month: "short", day: "numeric" },
+  dateShort: {
+    month: "short",
+    day: "numeric",
+  },
+  dateLong: {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  },
+  dateSlashes: {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  },
+  monthYear: {
+    year: "numeric",
+    month: "long",
+  },
+  dateWithWeekday: {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  },
+  weekday: { weekday: "long" },
+  weekdayShort: {
+    weekday: "short",
+  },
+} satisfies Record<TimePreset, Intl.DateTimeFormatOptions>;
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useTimeFormat(props: TimeFormatProps): TimeFormatState {
-  const locale = props.locale ?? "en-US";
-
-  if (props.preset === "relative") {
-    const date = toDate(props.value);
-    return {
-      kind: "relative",
-      text: formatRelative(date, locale, props.unit ?? "day", props.rounding),
-    };
-  }
-
-  const date = toDate(props.value);
-
-  const presets: Record<
-    Exclude<TimePreset, "relative">,
-    Intl.DateTimeFormatOptions
-  > = {
-    time: { hour: "2-digit", minute: "2-digit" },
-    time12: { hour: "numeric", minute: "2-digit", hour12: true },
-    date: { year: "numeric", month: "short", day: "numeric" },
-    datetime: {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    },
-    weekday: { weekday: "long" },
-  };
-
-  const formatter = new Intl.DateTimeFormat(
-    locale,
-    props.options ?? presets[props.preset ?? "time"],
-  );
-
+export function useTimeFormat({
+  value,
+  locale = "en-US",
+  preset = "time",
+  options,
+}: TimeFormatProps) {
+  const date = toDate(value);
+  const formatter = new Intl.DateTimeFormat(locale, options ?? PRESETS[preset]);
   const parts = formatter.formatToParts(date);
 
   return {
-    kind: "format",
     parts,
     text: formatter.format(date),
   };
 }
 
-export default function TimeFormat(props: TimeFormatProps) {
-  const state = useTimeFormat(props);
+export default function TimeFormat({ children, ...props }: TimeFormatProps) {
+  const { parts, text } = useTimeFormat(props);
 
-  if (state.kind === "relative") {
-    return <>{state.text}</>;
-  }
-
-  if ("children" in props && props.children) {
-    return <>{props.children(state.parts)}</>;
-  }
-
-  return <>{state.text}</>;
+  return <>{children ? children(parts) : text}</>;
 }
 
-// part factory
+type PartProps = {
+  parts: Array<Intl.DateTimeFormatPart>;
+  className?: string;
+};
+
 function createPart(type: Exclude<Intl.DateTimeFormatPartTypes, "literal">) {
-  return function Part({ parts }: DatePartsProps) {
-    return <>{first(parts, type)}</>;
+  return function Part({ parts, className }: PartProps) {
+    const value = first(parts, type);
+    if (value == null) return null;
+
+    return <span className={className}>{value}</span>;
   };
 }
 
-// primitives
 export const Hour = createPart("hour");
 export const Minute = createPart("minute");
 export const Second = createPart("second");
@@ -127,7 +101,15 @@ export const Month = createPart("month");
 export const Day = createPart("day");
 export const Year = createPart("year");
 
-export const Literal = ({ parts, index = 0 }: DatePartsIndexProps) => {
-  const val = nth(parts, "literal", index);
-  return val === null ? null : <>{val}</>;
+type LiteralProps = {
+  parts: Array<Intl.DateTimeFormatPart>;
+  index?: number;
+  className?: string;
+};
+
+export const Literal = ({ parts, index = 0, className }: LiteralProps) => {
+  const value = nth(parts, "literal", index);
+  if (value == null) return null;
+
+  return <span className={className}>{value}</span>;
 };

@@ -17,9 +17,17 @@
     color: currentColor;
 }
 
+.positive-color {
+    color: var(--positive) !important;
+}
+
 .negative {
     background-color: var(--negative) !important;
     color: currentColor;
+}
+
+.negative-color {
+    color: var(--positive) !important;
 }
 
 .info {
@@ -27,8 +35,16 @@
     color: currentColor;
 }
 
+.info-color {
+    color: var(--positive) !important;
+}
+
 .neutral {
     background-color: var(--neutral) !important;
+}
+
+.neutral-color {
+    color: var(--neutral) !important;
 }
 
 .transparent {
