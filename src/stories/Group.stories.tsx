@@ -14,7 +14,10 @@ import Grid from "../Dumb/Group/Grid2068";
 import Kiss from "../Dumb/Group/Kiss";
 import Mua from "../Dumb/Group/Kiss";
 import Stack from "../Dumb/Group/Stack";
+import StartEnd from "../Dumb/Group/StartEnd";
+// import StartEndObserved from "../Dumb/Group/StartEndObserved";
 import TextInput from "../Dumb/InputText";
+import TextInputUncontrolled from "../Dumb/InputText/Uncontrolled";
 import Media from "../Dumb/Media";
 import Shape from "../Dumb/Shape";
 
@@ -41,24 +44,26 @@ export const StoryD: Story = {
         }}
       >
         <Group
-          className="group"
           dangerous={{
             alignItems: "center",
             gap: "var(--gap-2)",
             padding: "var(--gap-1) var(--gap-2)",
             width: "fit-content",
+            border: "var(--border)",
+            borderRadius: "var(--border-radius)",
           }}
-          start={<Shape.Square size={42} fill={"var(--neutral)"} />}
+          start={<Shape.Square size={42} />}
           startWidth="42px"
         >
           4 SIDES
         </Group>
         <Group
-          className="group"
           dangerous={{
             alignItems: "center",
             width: "fit-content",
             padding: "var(--gap-1) var(--gap-2)",
+            border: "var(--border)",
+            borderRadius: "var(--border-radius)",
           }}
           start={
             <label htmlFor="test" style={{ marginRight: "var(--gap-2)" }}>
@@ -82,12 +87,13 @@ export const StoryD: Story = {
         </Group>
 
         <Group
-          className="group"
           dangerous={{
             gap: "var(--gap-1)",
             alignItems: "center",
             padding: "var(--gap-1) var(--gap-2)",
             width: "fit-content",
+            border: "var(--border)",
+            borderRadius: "var(--border-radius)",
           }}
           start={<Checkbox />}
           startWidth="var(--min-height)"
@@ -101,14 +107,66 @@ export const StoryD: Story = {
             width: "fit-content",
             alignItems: "center",
             padding: "var(--gap-1) var(--gap-2)",
+            border: "var(--border)",
+            borderRadius: "var(--border-radius)",
           }}
-          className="group"
-          start={<CalendarIcon />}
+          start={
+            <CalendarIcon
+              style={{ transform: "translateX(calc(var(--gap-1) * -1))" }}
+            />
+          }
           startWidth="var(--min-height)"
           endWidth="42px"
         >
           May 2026
         </Group>
+      </Col>
+    );
+  },
+};
+
+type StoryTailType = StoryObj<typeof StartEnd>;
+
+export const StoryTail: StoryTailType = {
+  name: "Element with start/end overlays",
+  parameters: {
+    layout: "centered",
+  },
+  render: function Render() {
+    return (
+      <Col style={{ gap: "var(--gap-2)" }}>
+        <StartEnd
+          start={<Shape.Circle size={30} />}
+          end={[
+            <Button isIcon isText key="square-1">
+              <Shape.Square size={30} />
+            </Button>,
+            <Button isIcon isText key="square-2">
+              <Shape sides={5} size={30} />
+            </Button>,
+          ]}
+        >
+          <TextInputUncontrolled placeholder="Look at my padding..." />
+        </StartEnd>
+        {/*
+        <StartEndObserved
+          startObserved={
+            <Shape.Circle
+              size={30}
+              style={{ margin: "0 var(--gap-1)!important" }}
+            />
+          }
+          endObserved={[
+            <Button isIcon isText key="square-1">
+              <Shape.Square size={30} />
+            </Button>,
+            <Button isIcon isText key="square-2">
+              <Shape sides={5} size={30} />
+            </Button>,
+          ]}
+        >
+          <TextInputUncontrolled placeholder="Look at my padding..." />
+        </StartEndObserved>*/}
       </Col>
     );
   },
@@ -407,33 +465,6 @@ export const StoryE: Story = {
     ),
   ],
 };
-
-// type StoryTailType = StoryObj<typeof TailGroup>;
-
-// export const StoryTail: StoryTailType = {
-//   name: "Group with many start / end ",
-//   parameters: {
-//     layout: "padded",
-//   },
-//   render: function Render() {
-//     return (
-//       <div className="pxy">
-//         <TailGroup
-//           start={<Shape.Circle size={30} />}
-//           end={[<Shape.Square size={40} />, <Shape.Triangle size={40} />]}
-//         >
-//           <TextInputUncontrolled />
-//         </TailGroup>
-
-//         <AffixGroup
-//           primary={<TextInputUncontrolled />}
-//           head={<Shape.Circle size={30} />}
-//           tail={[<Button key="1">Clear</Button>, <Button key="2">More</Button>]}
-//         />
-//       </div>
-//     );
-//   },
-// };
 
 // const tests = [
 //   "bob:schedule",

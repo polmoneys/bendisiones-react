@@ -19,33 +19,6 @@ export function formatSelectedKeys(
   );
 }
 
-export function toDate(value: Date | number) {
-  return typeof value === "number" ? new Date(value) : value;
-}
-
-export function first(
-  parts: Array<Intl.DateTimeFormatPart>,
-  type: Intl.DateTimeFormatPartTypes,
-): string | null {
-  return parts.find((p) => p.type === type)?.value ?? null;
-}
-
-export function nth(
-  parts: Array<Intl.DateTimeFormatPart>,
-  type: Intl.DateTimeFormatPartTypes,
-  index: number,
-): string | null {
-  let i = 0;
-
-  for (const p of parts) {
-    if (p.type !== type) continue;
-    if (i === index) return p.value;
-    i++;
-  }
-
-  return null;
-}
-
 /*
   Usage:
   const value = 1234.567;

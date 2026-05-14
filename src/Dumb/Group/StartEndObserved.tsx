@@ -33,7 +33,7 @@ export default function StartEndObserved({
   children,
   startObserved,
   endObserved,
-  gap = 8,
+  gap = 2,
 }: StartEndProps) {
   const startObservedItems = toArray(startObserved);
   const endObservedItems = toArray(endObserved);

@@ -1,5 +1,5 @@
 .container {
-    --gapObserved: 8px;
+    --gapObserved: 2px;
     --startObserved-padding: 0px;
     --endObserved-padding: 0px;
 
@@ -30,6 +30,7 @@
     gap: var(--gapObserved);
     z-index: 1;
     pointer-events: none;
+    padding: 0 var(--gap-1);
 }
 
 .startObserved {

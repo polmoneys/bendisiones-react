@@ -45,8 +45,8 @@ export default function StartEnd({
   children,
   start,
   end,
-  slotSize = 40,
-  gap = 8,
+  slotSize = 44,
+  gap = 2,
 }: StartEndProps) {
   const startItems = toArray<StartEnd>(start);
   const endItems = toArray<StartEnd>(end);
