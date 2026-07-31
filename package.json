@@ -27,7 +27,7 @@
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^10.0.2",
     "resize-observer-polyfill": "^1.5.1",
-    "write-excel-file": "^2.3.10"
+    "write-excel-file": "^4.1.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.0",
@@ -42,7 +42,7 @@
     "@vitejs/plugin-react": "^5.1.1",
     "@vitest/browser-playwright": "^4.0.17",
     "@vitest/coverage-v8": "^4.0.17",
-    "eslint": "^9.39.1",
+    "eslint": "^10.8.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-simple-import-sort": "^12.1.1",
@@ -51,7 +51,7 @@
     "playwright": "^1.57.0",
     "storybook": "^10.1.11",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.46.4",
+    "typescript-eslint": "^8.65.0",
     "vite": "npm:rolldown-vite@7.2.5",
     "vitest": "^4.0.17"
   },
