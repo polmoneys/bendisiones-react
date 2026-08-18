@@ -1,6 +1,5 @@
 import type { ComponentProps } from "react";
 import { GoChevronDown as IconChevronDown } from "react-icons/go";
-import ChevronsIcon from "../Icon/ChevronsIcon";
 
 import Ring from "../Ring";
 
@@ -35,7 +34,7 @@ export default function Select({
       style={{
         display: "flex",
         alignItems: "center",
-        flexDirection: "column",
+        flexDirection: "row",
       }}
     >
       <Ring>
@@ -49,8 +48,14 @@ export default function Select({
         </select>
       </Ring>
 
-      <div style={{ position: "relative", zIndex: 99 }}>
-        <IconChevronDown size={33} transform="translate(-44px,3px)" />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 99,
+          transform: "translate(-38px, 6px)",
+        }}
+      >
+        <IconChevronDown size={33} />
       </div>
     </label>
   );

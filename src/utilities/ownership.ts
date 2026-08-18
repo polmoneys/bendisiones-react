@@ -17,8 +17,6 @@ export function parseOwnershipPatterns(input: string): OwnershipMatches {
   const results: OwnershipMatches = [];
   const acceptedRanges: Array<{ start: number; end: number }> = [];
 
-  // const WHO_WHITELIST = new Set(["all", "everybody", "active"]);
-
   function normalizeOwners(ownerChunk: string) {
     const parts = ownerChunk
       .split(/\s*(?:and|&|,|or)\s*/i)

@@ -345,8 +345,9 @@ input[type="password"] {
 }
 
 select:not(.dates select) {
+    min-width: 120px;
     padding: 0 44px 0 var(--gap-2);
-    min-height: var(--min-width);
+    min-height: var(--min-height);
 
     &::-ms-expand {
         display: none;

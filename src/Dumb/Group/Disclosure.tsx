@@ -41,12 +41,9 @@ export default function Disclosure(props: DisclosureProps) {
   const detailsRef = useRef<HTMLDetailsElement | null>(null);
   const open = useDetailsOpen(detailsRef);
 
-  console.log({ open });
   return (
     <div>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <span>{open ? "Expanded" : "Collapsed"}</span>
-
         <button
           type="button"
           onClick={() => {

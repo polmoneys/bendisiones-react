@@ -12,7 +12,7 @@ import Shape from "../Dumb/Shape";
 import useURL from "../utilities/useURL";
 
 const meta = {
-  title: "Smart-ish/Windows",
+  title: "Dumb/Windows",
   component: Dialog,
   parameters: {
     layout: "centered",

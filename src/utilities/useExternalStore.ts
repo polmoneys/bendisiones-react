@@ -7,8 +7,6 @@ import {
   useSyncExternalStore,
 } from "react";
 
-// https://chatgpt.com/c/69bd06d1-8ac4-832d-9c27-219040807325
-
 type Subscribe = (onStoreChange: () => void) => () => void;
 
 export function createExternalStore<T>(options: {
